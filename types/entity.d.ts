@@ -29,6 +29,23 @@ declare interface INavigation {
   path: string;
   urlPath: string;
   label: string;
+  title: string;
   level: "root" | "group" | "link";
   levelOrder: number;
+  filterIds: string[];
+  parent?: INavigation;
+  childrenList?: INavigation[];
+}
+
+declare interface ICategory {
+  uid: string;
+  name: string;
+}
+
+declare interface IFilterOption {
+  uid: string;
+  name: string;
+  level: "filter" | "option";
+  parentUid?: string;
+  options?: IFilterOption[];
 }

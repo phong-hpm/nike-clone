@@ -4,10 +4,16 @@ import classNames from "classnames";
 // icons
 import LogoNike from "./LogoNike";
 import LogoJordan from "./LogoJordan";
+import Cart from "./Cart";
+import Favourite from "./Favourite";
+import Search from "./Search";
 
 const icons = {
   "logo-nike": LogoNike,
   "logo-jordan": LogoJordan,
+  cart: Cart,
+  search: Search,
+  favourite: Favourite,
 };
 
 export interface IconSvgProps extends SVGProps<SVGSVGElement> {

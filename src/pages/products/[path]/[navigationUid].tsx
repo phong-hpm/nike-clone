@@ -9,6 +9,7 @@ import MainLayout from "../../../components/layouts/MainLayout";
 import Breadcrumbs from "../../../components/main/Breadcrumbs";
 import ProductHeader from "../../../components/main/ProductHeader";
 import ProductCard from "../../../components/main/ProductCard";
+import Filters from "./Filters";
 
 const productQuery = gql`
   query ($whereAnd: [products_bool_exp!], $offset: Int = 0) {
@@ -27,30 +28,49 @@ const productQuery = gql`
   }
 `;
 
-const Home: NextPage<{ navigations: INavigation[]; filterIds: string[] }> = ({
-  navigations,
+export interface HomeProps {
+  filterIds: string[];
+  navigation: INavigation;
+  navigationList: INavigation[];
+  categoryList: ICategory[];
+  filterOptions: IFilterOption[];
+}
+
+const Home: NextPage<HomeProps> = ({
+  navigationList,
   filterIds,
+  navigation,
+  categoryList,
+  filterOptions,
 }) => {
-  const { data, loading, fetchMore, refetch } = useQuery<{ products?: IProduct[] }>(productQuery, {
+  const { data, fetchMore, refetch } = useQuery<{ products?: IProduct[] }>(productQuery, {
     variables: { whereAnd: filterIds.map((id) => ({ filters: { _regex: id } })) },
   });
 
-  const stateRef = useRef({ offset: 0, fetching: true });
+  const stateRef = useRef({ offset: 0, productCount: 0, fetching: true });
   const spinnerRef = useRef<HTMLDivElement | null>(null);
 
-  const [navigating, setNavigating] = useState(true);
+  const [canLoadMore, setCanLoadMore] = useState(true);
+  const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
-    refetch().then(() => setNavigating(false));
+    setFetching(true);
+    refetch().then(() => setFetching(false));
   }, [refetch, filterIds]);
 
   useEffect(() => {
-    stateRef.current.fetching = loading;
+    stateRef.current.fetching = fetching;
     stateRef.current.offset = data?.products?.length || 0;
-  }, [loading, data?.products]);
+  }, [fetching, data?.products]);
 
   useEffect(() => {
-    if (loading || !spinnerRef.current) return;
+    setCanLoadMore((data?.products?.length || 0) < stateRef.current.productCount);
+  }, [data?.products]);
+
+  useEffect(() => {
+    // when no more data to load, stop the observer
+    if (!canLoadMore) return;
+    if (fetching || !spinnerRef.current) return;
     const snipperEl = spinnerRef.current;
 
     const observer = new IntersectionObserver(
@@ -64,34 +84,49 @@ const Home: NextPage<{ navigations: INavigation[]; filterIds: string[] }> = ({
           fetchMore({ variables: { offset: stateRef.current.offset } });
         }
       },
-      { rootMargin: "200px" }
+      { rootMargin: "300px" }
     );
 
     observer.observe(snipperEl);
     return () => observer.unobserve(snipperEl);
-  }, [loading, fetchMore]);
+  }, [canLoadMore, fetching, fetchMore]);
 
   return (
-    <MainLayout navigations={navigations} onNavigation={() => setNavigating(true)}>
-      <Breadcrumbs />
-      <ProductHeader filterIds={filterIds} navigating={navigating} />
+    <MainLayout navigationList={navigationList}>
+      <Breadcrumbs navigation={navigation} />
+      <ProductHeader
+        title={navigation.title || ""}
+        filterIds={filterIds}
+        setProductCount={(count) => {
+          stateRef.current.productCount = count;
+          count && setCanLoadMore((data?.products?.length || 0) < count);
+        }}
+      />
 
-      <div className="grow-1 flex py-[16px]">
+      <div className="grow-1 flex">
         {/* Filters */}
-        <div className="page-spacing !pr-0 shrink-0 basis-[260px] bg-blue-100">Filters</div>
+        <div className="shrink-0 basis-[260px]">
+          <Filters
+            filterIds={filterIds}
+            categoryList={categoryList || []}
+            filterOptions={filterOptions}
+          />
+        </div>
 
-        <div className="page-spacing grow-1 shrink-1 w-full">
+        <div className="page-spacing grow-1 shrink-1 w-full py-4">
           {/* Product List */}
           <div className="grid grid-cols-3 gap-4">
             {(data?.products || []).map((product) => (
-              <ProductCard key={product.uid} loading={navigating} product={product} />
+              <ProductCard key={product.uid} loading={fetching} product={product} />
             ))}
           </div>
 
-          {/* loadmore */}
-          <div ref={spinnerRef} className="flex justify-center py-10">
-            <div className="spinner" />
-          </div>
+          {/* load more */}
+          {canLoadMore && (
+            <div ref={spinnerRef} className="flex justify-center py-10">
+              <div className="spinner" />
+            </div>
+          )}
         </div>
       </div>
     </MainLayout>
@@ -99,33 +134,97 @@ const Home: NextPage<{ navigations: INavigation[]; filterIds: string[] }> = ({
 };
 
 export const getServerSideProps: GetServerSideProps = async (req) => {
-  const { navigationUid } = req.query;
+  const { path, navigationUid } = req.query;
 
-  const { data } = await apolloClient.query({
+  const navigationFields = `
+    uid
+    label
+    title
+    path
+    level
+    levelOrder: level_order
+    urlPath: url_path
+    filterIds: filter_ids
+  `;
+
+  const { data } = await apolloClient.query<{
+    navigation: INavigation;
+    navigationList: INavigation[];
+    categoryList: ICategory[];
+    filterOptions: IFilterOption[];
+  }>({
     query: gql`
       query {
-        navigations_by_pk(uid: "${navigationUid}") {
-          filterIds: filter_ids
+        navigation: navigations_by_pk(uid: "${navigationUid}") {
+          ${navigationFields}
+
+          parent: navigation {
+            ${navigationFields}
+
+            parent: navigation {
+              ${navigationFields}
+            }
+          }
         }
 
-        navigations {
+        navigationList: navigations (where: {level: {_eq: "root"}}, order_by: {level_order: asc}) {
+          ${navigationFields}
+
+          childrenList: navigations (order_by: {level_order: asc}) {
+            ${navigationFields}
+
+            childrenList: navigations (order_by: {level_order: asc}) {
+              ${navigationFields}
+            }
+          }
+        }
+
+        categoryList: categories (
+  	      where: {navigations_categories: {navigation_uid: {_eq: "${navigationUid}"}}}
+  	      #order_by: {name: asc}
+        ) {
           uid
-          parentUid: parent_uid
-          path
-          label
+          name
+        }
+
+        filterOptions: filter_options (
+          where: { navigations_filter_options: {navigation_uid: {_eq: "${navigationUid}"}} }
+        ) {
+          uid
+          name
           level
-          levelOrder: level_order
-          urlPath: url_path
-          filterIds: filter_ids
+          parentUid: parent_uid
         }
       }
     `,
   });
 
+  // [path] was wrong, trying to correct it
+  if (`${path}/${navigationUid}` !== data.navigation?.urlPath) {
+    return {
+      redirect: {
+        destination: "/products/" + data.navigation?.urlPath,
+        permanent: true,
+      },
+    };
+  }
+
+  const filterOptions = (data.filterOptions || [])
+    .filter((item) => item.level === "filter")
+    .map((filter) => {
+      const options = (data.filterOptions || []).filter(
+        (item) => item.level === "option" && item.parentUid === filter.uid
+      );
+      return { ...filter, options };
+    });
+
   return {
     props: {
-      filterIds: data.navigations_by_pk?.filterIds || [],
-      navigations: data.navigations || [],
+      filterIds: data.navigation?.filterIds || [],
+      navigation: data.navigation || {},
+      navigationList: data.navigationList || [],
+      categoryList: data.categoryList || [],
+      filterOptions,
     },
   };
 };

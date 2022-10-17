@@ -1,5 +1,9 @@
 import { FC, useMemo, useState } from "react";
 
+// custom hooks
+import useNavigation from "../../../hooks/useNavigation";
+import AutoSquare from "../../commons/AutoSquare";
+
 // components
 import ProductColorList from "./ProductColorList";
 
@@ -7,7 +11,7 @@ import ProductColorList from "./ProductColorList";
 import ProductPrice from "./ProductPrice";
 
 export interface ProductCardProps {
-  loading?: boolean;
+  loading: boolean;
   product: IProduct;
 }
 
@@ -16,6 +20,8 @@ const LABELS: Record<string, string> = {
 };
 
 const ProductCard: FC<ProductCardProps> = ({ loading, product }) => {
+  const { navigating } = useNavigation();
+
   const [mouseEntered, setMouseEntered] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
 
@@ -29,17 +35,19 @@ const ProductCard: FC<ProductCardProps> = ({ loading, product }) => {
   return (
     <div className="relative">
       {/* loading overlay */}
-      {loading && <div className="absolute z-10 top-0 left-0 w-full h-full bg-white/[0.7]" />}
+      {(navigating || loading) && (
+        <div className="absolute z-10 top-0 left-0 w-full h-full bg-white/[0.7]" />
+      )}
 
       <div
         className="flex flex-col cursor-pointer"
-        onMouseEnter={() => setMouseEntered(true)}
+        onMouseEnter={() => colourCount > 1 && setMouseEntered(true)}
         onMouseLeave={() => setMouseEntered(false)}
       >
         {/* image */}
-        <div className="w-full bg-neutral-100 mb-4">
-          <img src={selectedImage || product.images.squarishURL} alt="" />
-        </div>
+        <AutoSquare className="w-full bg-neutral-100 mb-4">
+          <img className="w-full h-full" src={selectedImage || product.images.squarishURL} alt="" />
+        </AutoSquare>
 
         <div className="min-h-[185px]">
           {/* thumb: hover */}

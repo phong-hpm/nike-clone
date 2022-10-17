@@ -1,4 +1,51 @@
+#body {
+  transition: filter 0.2s;
+}
+
 .page-spacing {
   padding-left: 48px;
   padding-right: 48px;
+}
+
+.filter-colour-white {
+  border: solid 1px #e5e5e5;
+}
+.filter-colour-black {
+  background-color: #000;
+}
+.filter-colour-blue {
+  background-color: #1790c8;
+}
+.filter-colour-brown {
+  background-color: #825d41;
+}
+.filter-colour-green {
+  background-color: #7bba3c;
+}
+.filter-colour-grey {
+  background-color: #808080;
+}
+.filter-colour-orange {
+  background-color: #f36b26;
+}
+.filter-colour-pink {
+  background-color: #f0728f;
+}
+.filter-colour-purple {
+  background-color: #8d429f;
+}
+.filter-colour-red {
+  background-color: #e7352b;
+}
+.filter-colour-white {
+  background-color: #ffffff;
+}
+.filter-colour-yellow {
+  background-color: #fed533;
+}
+.filter-colour-multi-colour {
+  background: radial-gradient(#ffffff 20%, transparent 20%),
+    radial-gradient(#ffffff 20%, transparent 20%), #000;
+  background-position: 0 0, 8px 8px;
+  background-size: 15px 15px;
 }
