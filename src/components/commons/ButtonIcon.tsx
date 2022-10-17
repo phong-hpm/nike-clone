@@ -2,7 +2,7 @@ import React, { FC } from "react";
 
 export interface ButtonIconProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-const ButtonIcon: FC<ButtonIconProps> = ({ className, ...props }) => {
+export const ButtonIcon: FC<ButtonIconProps> = ({ className, ...props }) => {
   return (
     <button
       {...props}
@@ -14,5 +14,3 @@ const ButtonIcon: FC<ButtonIconProps> = ({ className, ...props }) => {
     />
   );
 };
-
-export default ButtonIcon;

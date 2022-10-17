@@ -2,13 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { useQuery, gql } from "@apollo/client";
 
-import { apolloClient } from "../../_app";
+// utils
+import { apolloClient } from "@root/utils";
 
 // components
-import MainLayout from "../../../components/layouts/MainLayout";
-import Breadcrumbs from "../../../components/main/Breadcrumbs";
-import ProductHeader from "../../../components/main/ProductHeader";
-import ProductCard from "../../../components/main/ProductCard";
+import { MainLayout } from "@root/components/layouts";
+import { Breadcrumbs, ProductHeader, ProductCard } from "@root/components/features";
 import Filters from "./Filters";
 
 const productQuery = gql`
@@ -180,8 +179,7 @@ export const getServerSideProps: GetServerSideProps = async (req) => {
         }
 
         categoryList: categories (
-  	      where: {navigations_categories: {navigation_uid: {_eq: "${navigationUid}"}}}
-  	      #order_by: {name: asc}
+          where: {navigations_categories: {navigation_uid: {_eq: "${navigationUid}"}}}
         ) {
           uid
           name

@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 // components
-import { IconSvg } from "../../commons";
+import { IconSvg } from "@root/components/commons";
 
 const HeaderSub: FC = () => {
   return (

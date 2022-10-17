@@ -20,7 +20,7 @@ export interface IconSvgProps extends SVGProps<SVGSVGElement> {
   icon: keyof typeof icons;
 }
 
-const IconSvg: FC<IconSvgProps> = ({ icon, className, ...props }) => {
+export const IconSvg: FC<IconSvgProps> = ({ icon, className, ...props }) => {
   const fillClass = useMemo(() => {
     if (className?.includes("fill-")) return "";
     return "fill-gray-dark-400";
@@ -37,5 +37,3 @@ const IconSvg: FC<IconSvgProps> = ({ icon, className, ...props }) => {
     ...props,
   });
 };
-
-export default IconSvg;

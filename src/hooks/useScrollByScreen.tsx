@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-const useScrollByScreen = () => {
+export const useScrollByScreen = () => {
   const [targetEl, setTargetEl] = useState<HTMLElement | null>(null);
 
   const triggerUpdate = useCallback(() => {
@@ -22,5 +22,3 @@ const useScrollByScreen = () => {
 
   return { setTargetEl, triggerUpdate };
 };
-
-export default useScrollByScreen;

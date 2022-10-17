@@ -1,7 +1,10 @@
 import { FC, useState } from "react";
 
+// components
+import { Checkbox } from "@root/components/commons";
+
 // custom hooks
-import useResize from "../../../../hooks/useResize";
+import { useResize } from "@root/hooks";
 
 const MAX_OPTIONS = 4;
 
@@ -68,19 +71,13 @@ const FilterOptions: FC<FilterOptionsProps> = ({ filterIds, filterOption }) => {
   const renderOptionsList = (options: IFilterOption[] = []) => {
     const max = isMore ? options.length : MAX_OPTIONS;
 
-    return options.slice(0, max).map((option) => (
-      <div key={option.uid} className="flex items-center py-1 hover:text-gray-main">
-        <input
-          type="checkbox"
-          id={option.uid}
-          className="w-5 h-5 cursor-pointer"
-          defaultChecked={filterIds.includes(option.uid)}
-        />
-        <label htmlFor={option.uid} className="cursor-pointer w-full pl-1.5 select-none">
-          {option.name}
-        </label>
-      </div>
-    ));
+    return options.slice(0, max).map((option) => {
+      return (
+        <div key={option.uid} className="py-1 hover:text-gray-main">
+          <Checkbox defaultChecked={filterIds.includes(option.uid)} label={option.name} />
+        </div>
+      );
+    });
   };
 
   const isSpecialFilter = filterOption.name === "Size" || filterOption.name === "Colour";

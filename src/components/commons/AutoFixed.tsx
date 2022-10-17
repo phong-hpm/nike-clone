@@ -33,7 +33,7 @@ export interface AutoFixedProps {
   children: ReactElement;
 }
 
-const AutoFixed: FC<AutoFixedProps> = ({ extendTop = 0, autoHide, children }) => {
+export const AutoFixed: FC<AutoFixedProps> = ({ extendTop = 0, autoHide, children }) => {
   const stateRef = useRef({ containerTop: 0, containerHeight: 0, lastWindowScrollY: 0 });
   const containerRef = useRef<HTMLDivElement | null>(null);
   const targetRef = useRef<HTMLElement | null>(null);
@@ -114,5 +114,3 @@ const AutoFixed: FC<AutoFixedProps> = ({ extendTop = 0, autoHide, children }) =>
 
   return <div ref={containerRef}>{portal || target}</div>;
 };
-
-export default AutoFixed;

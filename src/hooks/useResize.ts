@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useResize = () => {
+export const useResize = () => {
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const [targetEl, setTargetEl] = useState<HTMLElement | null>(null);
@@ -19,5 +19,3 @@ const useResize = () => {
 
   return { setTargetEl, width, height };
 };
-
-export default useResize;

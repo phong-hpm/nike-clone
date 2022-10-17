@@ -6,7 +6,7 @@ export interface AutoSquareProps extends HTMLAttributes<HTMLDivElement> {}
  * [AutoSquare] always keep itself to be square,
  * when it's width was changed, it's height will be update automatically
  */
-const AutoSquare: FC<AutoSquareProps> = (props) => {
+export const AutoSquare: FC<AutoSquareProps> = (props) => {
   const divRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -25,5 +25,3 @@ const AutoSquare: FC<AutoSquareProps> = (props) => {
 
   return <div ref={divRef} {...props} />;
 };
-
-export default AutoSquare;

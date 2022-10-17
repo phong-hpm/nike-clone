@@ -1,9 +1,11 @@
 import { useQuery, gql } from "@apollo/client";
 import { FC, useEffect, useMemo } from "react";
 
+// components
+import { AutoFixed } from "@root/components/commons";
+
 // custom hooks
-import useNavigation from "../../hooks/useNavigation";
-import AutoFixed from "../commons/AutoFixed";
+import { useNavigation } from "@root/hooks";
 
 const productAggregateQuery = gql`
   query ($whereAnd: [products_bool_exp!]) {
@@ -21,7 +23,7 @@ export interface ProductHeaderProps {
   setProductCount: (total: number) => void;
 }
 
-const ProductHeader: FC<ProductHeaderProps> = ({ title, filterIds, setProductCount }) => {
+export const ProductHeader: FC<ProductHeaderProps> = ({ title, filterIds, setProductCount }) => {
   const { data, refetch } = useQuery<{ products_aggregate: IAggregate }>(productAggregateQuery, {
     variables: { whereAnd: filterIds.map((id) => ({ filters: { _regex: id } })) },
   });
@@ -58,5 +60,3 @@ const ProductHeader: FC<ProductHeaderProps> = ({ title, filterIds, setProductCou
     </div>
   );
 };
-
-export default ProductHeader;

@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 // constance
-import { CurrencySymbolMap } from "../../../constance";
+import { CurrencySymbolMap } from "@root/constance";
 
 export interface ProductPriceProps {
   price: IProduct["price"];

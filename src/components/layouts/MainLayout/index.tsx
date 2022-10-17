@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 
 // components
-import NavigationProvider from "../../main/NavigationContext";
+import { NavigationProvider } from "@root/components/features";
 import Header from "./Header";
 import HeaderSub from "./HeaderSub";
 
@@ -10,7 +10,7 @@ export interface MainLayoutProps {
   children: ReactNode;
 }
 
-const MainLayout: FC<MainLayoutProps> = ({ navigationList, children }) => {
+export const MainLayout: FC<MainLayoutProps> = ({ navigationList, children }) => {
   return (
     <NavigationProvider>
       <div className="flex flex-col">
@@ -25,5 +25,3 @@ const MainLayout: FC<MainLayoutProps> = ({ navigationList, children }) => {
     </NavigationProvider>
   );
 };
-
-export default MainLayout;

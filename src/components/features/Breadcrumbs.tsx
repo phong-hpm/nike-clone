@@ -5,7 +5,7 @@ export interface BreadcrumbsProps {
   navigation: INavigation;
 }
 
-const Breadcrumbs: FC<BreadcrumbsProps> = ({ navigation }) => {
+export const Breadcrumbs: FC<BreadcrumbsProps> = ({ navigation }) => {
   const groupNav = useMemo(() => navigation.parent, [navigation]);
 
   if (navigation.level !== "link") return <></>;
@@ -28,5 +28,3 @@ const Breadcrumbs: FC<BreadcrumbsProps> = ({ navigation }) => {
     </div>
   );
 };
-
-export default Breadcrumbs;

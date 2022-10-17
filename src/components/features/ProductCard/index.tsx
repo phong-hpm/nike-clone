@@ -1,14 +1,12 @@
 import { FC, useMemo, useState } from "react";
 
-// custom hooks
-import useNavigation from "../../../hooks/useNavigation";
-import AutoSquare from "../../commons/AutoSquare";
-
 // components
+import { AutoSquare } from "@root/components/commons";
 import ProductColorList from "./ProductColorList";
-
-// components
 import ProductPrice from "./ProductPrice";
+
+// custom hooks
+import { useNavigation } from "@root/hooks";
 
 export interface ProductCardProps {
   loading: boolean;
@@ -19,7 +17,7 @@ const LABELS: Record<string, string> = {
   JUST_IN: "Just In",
 };
 
-const ProductCard: FC<ProductCardProps> = ({ loading, product }) => {
+export const ProductCard: FC<ProductCardProps> = ({ loading, product }) => {
   const { navigating } = useNavigation();
 
   const [mouseEntered, setMouseEntered] = useState(false);
@@ -78,5 +76,3 @@ const ProductCard: FC<ProductCardProps> = ({ loading, product }) => {
     </div>
   );
 };
-
-export default ProductCard;

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 // custom hooks
-import useNavigation from "../../../hooks/useNavigation";
+import { useNavigation } from "@root/hooks";
 
 export interface NavigationProps {
   navigationList: INavigation[];

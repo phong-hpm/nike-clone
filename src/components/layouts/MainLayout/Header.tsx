@@ -1,12 +1,8 @@
 import { FC } from "react";
 
 // components
-import { IconSvg } from "../../commons";
+import { IconSvg, ButtonIcon, AutoFixed } from "@root/components/commons";
 import Navigation from "./Navigation";
-import ButtonIcon from "../../commons/ButtonIcon";
-
-// components
-import AutoFixed from "../../commons/AutoFixed";
 
 export interface HeaderProps {
   navigationList: INavigation[];

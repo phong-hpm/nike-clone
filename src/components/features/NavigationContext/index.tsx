@@ -14,7 +14,7 @@ export interface NavigationProviderProps {
   children: ReactNode;
 }
 
-const NavigationProvider: FC<NavigationProviderProps> = ({ children }) => {
+export const NavigationProvider: FC<NavigationProviderProps> = ({ children }) => {
   const [navigating, setNavigating] = useState(false);
 
   const values = useMemo(() => {
@@ -26,5 +26,3 @@ const NavigationProvider: FC<NavigationProviderProps> = ({ children }) => {
 
   return <NavigationContext.Provider value={values}>{children}</NavigationContext.Provider>;
 };
-
-export default NavigationProvider;

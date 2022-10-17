@@ -1,11 +1,9 @@
 import { useContext } from "react";
 
 // context
-import { NavigationContext } from "../components/main/NavigationContext";
+import { NavigationContext } from "@root/components/features";
 
-const useNavigation = () => {
+export const useNavigation = () => {
   const context = useContext(NavigationContext);
   return context;
 };
-
-export default useNavigation;

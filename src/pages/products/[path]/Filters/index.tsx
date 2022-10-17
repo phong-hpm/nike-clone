@@ -1,10 +1,10 @@
 import { FC, useEffect } from "react";
 
 // components
-import AutoFixed from "../../../../components/commons/AutoFixed";
+import { AutoFixed } from "@root/components/commons";
 
 // custom hooks
-import useScrollByScreen from "../../../../hooks/useScrollByScreen";
+import { useScrollByScreen } from "@root/hooks";
 
 // components
 import FilterOptions from "./FilterOptions";
