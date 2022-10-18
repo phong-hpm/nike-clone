@@ -1,0 +1,14 @@
+query ($offset: Int = 0, $limit: Int = 21, $whereAnd: [products_bool_exp!]) {
+  productList: products(where: { _and: $whereAnd }, limit: $limit, offset: $offset) {
+    uid
+    title
+    subTitle: sub_title
+    label
+    price
+    images
+    productAnotherColors: product_another_colors
+    inStock: in_stock
+    bestSeller: best_seller
+    comingSoon: coming_soon
+  }
+}

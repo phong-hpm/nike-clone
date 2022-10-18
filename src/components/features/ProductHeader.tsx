@@ -1,47 +1,14 @@
-import { useQuery, gql } from "@apollo/client";
-import { FC, useEffect, useMemo } from "react";
+import { FC } from "react";
 
 // components
 import { AutoFixed } from "@root/components/commons";
 
-// custom hooks
-import { useNavigation } from "@root/hooks";
-
-const productAggregateQuery = gql`
-  query ($whereAnd: [products_bool_exp!]) {
-    products_aggregate(where: { _and: $whereAnd }) {
-      aggregate {
-        count
-      }
-    }
-  }
-`;
-
 export interface ProductHeaderProps {
   title: string;
-  filterIds: string[];
-  setProductCount: (total: number) => void;
+  productCount: number;
 }
 
-export const ProductHeader: FC<ProductHeaderProps> = ({ title, filterIds, setProductCount }) => {
-  const { data, refetch } = useQuery<{ products_aggregate: IAggregate }>(productAggregateQuery, {
-    variables: { whereAnd: filterIds.map((id) => ({ filters: { _regex: id } })) },
-  });
-
-  const { navigating } = useNavigation();
-
-  const productCount = useMemo(() => {
-    return navigating ? 0 : data?.products_aggregate.aggregate.count || 0;
-  }, [navigating, data?.products_aggregate]);
-
-  useEffect(() => {
-    setProductCount(productCount);
-  }, [productCount, setProductCount]);
-
-  useEffect(() => {
-    refetch();
-  }, [refetch, filterIds]);
-
+export const ProductHeader: FC<ProductHeaderProps> = ({ title, productCount }) => {
   return (
     <div className="h-12">
       <AutoFixed>

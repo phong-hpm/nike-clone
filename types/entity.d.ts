@@ -32,7 +32,7 @@ declare interface INavigation {
   title: string;
   level: "root" | "group" | "link";
   levelOrder: number;
-  filterIds: string[];
+  filterIdList: string[];
   parent?: INavigation;
   childrenList?: INavigation[];
 }
@@ -48,4 +48,8 @@ declare interface IFilterOption {
   level: "filter" | "option";
   parentUid?: string;
   options?: IFilterOption[];
+}
+
+declare interface IAggregate {
+  count: number;
 }

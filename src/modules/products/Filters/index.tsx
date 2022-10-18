@@ -11,11 +11,11 @@ import FilterOptions from "./FilterOptions";
 
 export interface FiltersProps {
   categoryList: ICategory[];
-  filterOptions: IFilterOption[];
-  filterIds: string[];
+  filterOptionList: IFilterOption[];
+  filterIdList: string[];
 }
 
-const Filters: FC<FiltersProps> = ({ filterIds, categoryList, filterOptions }) => {
+const Filters: FC<FiltersProps> = ({ filterIdList, categoryList, filterOptionList }) => {
   const { setTargetEl, triggerUpdate } = useScrollByScreen();
 
   useEffect(() => {
@@ -38,8 +38,10 @@ const Filters: FC<FiltersProps> = ({ filterIds, categoryList, filterOptions }) =
           </div>
 
           <div className="py-5">
-            {filterOptions.map((filter) => {
-              return <FilterOptions key={filter.uid} filterIds={filterIds} filterOption={filter} />;
+            {filterOptionList.map((filter) => {
+              return (
+                <FilterOptions key={filter.uid} filterIdList={filterIdList} filterOption={filter} />
+              );
             })}
           </div>
         </div>

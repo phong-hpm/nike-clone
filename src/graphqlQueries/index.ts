@@ -1,0 +1,17 @@
+import NAVIGATION_DEEP from "./NAVIGATION_DEEP.gql";
+import NAVIGATION_LIST_DEEP from "./NAVIGATION_LIST_DEEP.gql";
+import CATEGORY_LIST from "./CATEGORY_LIST.gql";
+import FILTER_OPTION_LIST from "./FILTER_OPTION_LIST.gql";
+import PRODUCT_LIST from "./PRODUCT_LIST.gql";
+import PRODUCT_AGGREGATE from "./PRODUCT_AGGREGATE.gql";
+
+const graphqlQueries = {
+  NAVIGATION_DEEP,
+  NAVIGATION_LIST_DEEP,
+  CATEGORY_LIST,
+  FILTER_OPTION_LIST,
+  PRODUCT_LIST,
+  PRODUCT_AGGREGATE,
+};
+
+export default graphqlQueries;

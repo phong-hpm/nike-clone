@@ -1,0 +1,34 @@
+query {
+  navigationList: navigations(where: { level: { _eq: "root" } }, order_by: { level_order: asc }) {
+    uid
+    label
+    title
+    path
+    level
+    levelOrder: level_order
+    urlPath: url_path
+    filterIdList: filter_ids
+
+    childrenList: navigations(order_by: { level_order: asc }) {
+      uid
+      label
+      title
+      path
+      level
+      levelOrder: level_order
+      urlPath: url_path
+      filterIdList: filter_ids
+
+      childrenList: navigations(order_by: { level_order: asc }) {
+        uid
+        label
+        title
+        path
+        level
+        levelOrder: level_order
+        urlPath: url_path
+        filterIdList: filter_ids
+      }
+    }
+  }
+}

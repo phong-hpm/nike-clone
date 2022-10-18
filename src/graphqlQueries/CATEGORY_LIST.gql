@@ -1,0 +1,8 @@
+query ($navigationUid: uuid!) {
+  categoryList: categories(
+    where: { navigations_categories: { navigation_uid: { _eq: $navigationUid } } }
+  ) {
+    uid
+    name
+  }
+}

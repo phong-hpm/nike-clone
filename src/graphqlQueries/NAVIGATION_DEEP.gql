@@ -1,0 +1,34 @@
+query ($uid: uuid!) {
+  navigation: navigations_by_pk(uid: $uid) {
+    uid
+    label
+    title
+    path
+    level
+    levelOrder: level_order
+    urlPath: url_path
+    filterIdList: filter_ids
+
+    parent: navigation {
+      uid
+      label
+      title
+      path
+      level
+      levelOrder: level_order
+      urlPath: url_path
+      filterIdList: filter_ids
+
+      parent: navigation {
+        uid
+        label
+        title
+        path
+        level
+        levelOrder: level_order
+        urlPath: url_path
+        filterIdList: filter_ids
+      }
+    }
+  }
+}

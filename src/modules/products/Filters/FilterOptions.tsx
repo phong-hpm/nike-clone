@@ -10,10 +10,10 @@ const MAX_OPTIONS = 4;
 
 export interface FilterOptionsProps {
   filterOption: IFilterOption;
-  filterIds: string[];
+  filterIdList: string[];
 }
 
-const FilterOptions: FC<FilterOptionsProps> = ({ filterIds, filterOption }) => {
+const FilterOptions: FC<FilterOptionsProps> = ({ filterIdList, filterOption }) => {
   const [isExpand, setExpand] = useState(true);
   const [isMore, setMore] = useState(false);
 
@@ -74,7 +74,7 @@ const FilterOptions: FC<FilterOptionsProps> = ({ filterIds, filterOption }) => {
     return options.slice(0, max).map((option) => {
       return (
         <div key={option.uid} className="py-1 hover:text-gray-main">
-          <Checkbox defaultChecked={filterIds.includes(option.uid)} label={option.name} />
+          <Checkbox defaultChecked={filterIdList.includes(option.uid)} label={option.name} />
         </div>
       );
     });
