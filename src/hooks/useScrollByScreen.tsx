@@ -9,6 +9,7 @@ export const useScrollByScreen = () => {
 
     targetEl.style.height = `${window.innerHeight - top}px`;
     targetEl.style.overflowX = `auto`;
+    targetEl.classList.add("custom-scroll-bar");
   }, [targetEl]);
 
   useEffect(() => {

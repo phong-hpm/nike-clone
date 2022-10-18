@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 
 // components
-import { Checkbox } from "@root/components/commons";
+import { Checkbox, IconSvg } from "@root/components/commons";
 
 // custom hooks
 import { useResize } from "@root/hooks";
@@ -89,7 +89,7 @@ const FilterOptions: FC<FilterOptionsProps> = ({ filterIdList, filterOption }) =
         onClick={() => setExpand(!isExpand)}
       >
         <p className="py-3 font-medium select-none">{filterOption.name}</p>
-        <div className={mapClasses("icon-arrow", isExpand ? "arrow-down" : "arrow-up")} />
+        <IconSvg icon="arrow" className={mapClasses(isExpand ? "arrow-down" : "arrow-up")} />
       </div>
 
       <div className={mapClasses("font-light transition-padding", isExpand && "pb-5")}>

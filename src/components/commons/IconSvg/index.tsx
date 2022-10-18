@@ -7,6 +7,8 @@ import LogoJordan from "./LogoJordan";
 import Cart from "./Cart";
 import Favourite from "./Favourite";
 import Search from "./Search";
+import Filter from "./Filter";
+import Arrow from "./Arrow";
 
 const icons = {
   "logo-nike": LogoNike,
@@ -14,6 +16,8 @@ const icons = {
   cart: Cart,
   search: Search,
   favourite: Favourite,
+  filter: Filter,
+  arrow: Arrow,
 };
 
 export interface IconSvgProps extends SVGProps<SVGSVGElement> {

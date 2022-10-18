@@ -8,6 +8,7 @@ import { ProductCard } from "@root/components/features";
 // graphqlQueries
 import graphqlQueries from "@root/graphqlQueries";
 import { useNavigation } from "@root/hooks";
+import { useRouter } from "next/router";
 
 export interface ProductListProps {
   productCount: number;
@@ -17,11 +18,18 @@ export interface ProductListProps {
 
 const PRODUCT_LIST = 21;
 
+const orderBy: Record<string, Record<string, string>> = {
+  "price-asc": { current_price: "asc" },
+  "price-desc": { current_price: "desc" },
+  newest: { update_time: "desc" },
+};
+
 const ProductList: NextPage<ProductListProps> = ({
   productCount,
   filterIdList,
   initialProductList,
 }) => {
+  const router = useRouter();
   // NOTE: [data] will not be reset although we navigating to another page
   const [_, { data, fetchMore, refetch }] = useLazyQuery<{ productList?: IProduct[] }>(
     graphqlQueries.PRODUCT_LIST,
@@ -29,7 +37,8 @@ const ProductList: NextPage<ProductListProps> = ({
       variables: {
         limit: PRODUCT_LIST,
         offset: PRODUCT_LIST,
-        whereAnd: filterIdList.map((id) => ({ filters: { _regex: id } })),
+        _and: filterIdList.map((id) => ({ filters: { _regex: id } })),
+        order_by: orderBy[router.query.order as string],
       },
     }
   );

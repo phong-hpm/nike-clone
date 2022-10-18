@@ -16,12 +16,7 @@ const FIXED_CONTAINER_ID = "fixed-container";
 const createFixedContainerElement = () => {
   const fixedContainer = document.createElement("div");
   fixedContainer.id = FIXED_CONTAINER_ID;
-  fixedContainer.classList.add("is-fixed");
-  fixedContainer.style.position = "fixed";
-  fixedContainer.style.zIndex = "1000";
-  fixedContainer.style.top = "0px";
-  fixedContainer.style.left = "0px";
-  fixedContainer.style.width = "100%";
+  fixedContainer.classList.add("is-fixed", "fixed", "z-100", "top-0", "left-0", "w-full");
 
   // add an fixed wrapper element in root DOM
   document.body.append(fixedContainer);

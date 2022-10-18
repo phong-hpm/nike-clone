@@ -12,7 +12,7 @@ const NavigationGroupList: FC<NavigationGroupListProps> = ({ isShow, navigationL
   return (
     <div
       className={mapClasses(
-        "absolute z-50 top-full left-0 flex justify-center w-full bg-white",
+        "absolute z-900 top-full left-0 flex justify-center w-full bg-white",
         isShow && "transition-padding pt-4"
       )}
     >

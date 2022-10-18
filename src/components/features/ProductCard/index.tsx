@@ -15,6 +15,14 @@ export interface ProductCardProps {
 
 const LABELS: Record<string, string> = {
   JUST_IN: "Just In",
+  SOLD_OUT: "Sold Out",
+  BEST_SELLER: "Best Seller",
+  COMING_SOON: "Coming Soon",
+  CUSTOMIZABLE: "Customizable",
+  IN_STOCK: "In Stock",
+  SNKRS: "SNKRS",
+  SNKRS_COMING_SOON: "SNKRS Coming Soon",
+  nikePlusExclusive: "Nike Plus Exclusive",
 };
 
 export const ProductCard: FC<ProductCardProps> = ({ loading, product }) => {

@@ -41,7 +41,7 @@ const Navigation: FC<NavigationProps> = ({ navigationList }) => {
             {/* backgdrop */}
             <div
               className={mapClasses(
-                "absolute z-40 top-full left-0 right-0",
+                "absolute z-900 top-full left-0 right-0",
                 "h-screen bg-black/[0.5] pointer-events-none hidden",
                 isHovered && "!block"
               )}

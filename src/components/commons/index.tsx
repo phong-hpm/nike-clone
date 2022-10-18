@@ -3,3 +3,4 @@ export * from "./AutoFixed";
 export * from "./AutoSquare";
 export * from "./ButtonIcon";
 export * from "./Checkbox";
+export * from "./Menu";

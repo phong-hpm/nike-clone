@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 
 // utils
@@ -33,20 +34,25 @@ const Home: NextPage<HomeProps> = ({
   productCount,
   productList,
 }) => {
+  const [isShowFilterBar, setShowFilterBar] = useState(true);
+
   return (
-    <MainLayout navigationList={navigationList}>
+    <MainLayout title={navigation.title} navigationList={navigationList}>
       <Breadcrumbs navigation={navigation} />
-      <ProductHeader title={navigation.title || ""} productCount={productCount} />
+      <ProductHeader
+        title={navigation.title || ""}
+        productCount={productCount}
+        onClickFilter={() => setShowFilterBar(!isShowFilterBar)}
+      />
 
       <div className="grow-1 flex">
         {/* Filters */}
-        <div className="shrink-0 basis-[260px]">
-          <Filters
-            filterIdList={filterIdList}
-            categoryList={categoryList || []}
-            filterOptionList={filterOptionList}
-          />
-        </div>
+        <Filters
+          isShow={isShowFilterBar}
+          filterIdList={filterIdList}
+          categoryList={categoryList || []}
+          filterOptionList={filterOptionList}
+        />
 
         <div className="page-spacing grow-1 shrink-1 w-full py-4">
           <ProductList
@@ -61,7 +67,14 @@ const Home: NextPage<HomeProps> = ({
 };
 
 export const getServerSideProps: GetServerSideProps = async (req) => {
-  const [path, navigationUid] = (req.query?.slug || []) as string[];
+  const { order, slug = [] } = req.query;
+  const [path, navigationUid] = slug as string[];
+
+  const orderBy: Record<string, string> = {};
+
+  if (order === "price-asc") orderBy["current_price"] = "asc";
+  if (order === "price-desc") orderBy["current_price"] = "desc";
+  if (order === "newest") orderBy["update_time"] = "desc";
 
   const getNavigation = async () => {
     const { data } = await apolloClient.query<{ navigation: INavigation }>({
@@ -109,7 +122,10 @@ export const getServerSideProps: GetServerSideProps = async (req) => {
   const getProductList = async () => {
     const { data } = await apolloClient.query<{ productList: IProduct[] }>({
       query: graphqlQueries.PRODUCT_LIST,
-      variables: { whereAnd: filterIdList.map((id) => ({ filters: { _regex: id } })) },
+      variables: {
+        _and: filterIdList.map((id) => ({ filters: { _regex: id } })),
+        order_by: orderBy,
+      },
     });
     return data.productList || [];
   };
