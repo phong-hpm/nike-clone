@@ -1,0 +1,7 @@
+query ($uid: uuid!) {
+  productDetail: product_detail_by_pk(uid: $uid) {
+    uid
+    products
+    relatedProducts: related_products
+  }
+}

@@ -27,7 +27,7 @@ export const ProductHeader: FC<ProductHeaderProps> = ({ title, productCount, onC
       <AutoFixed>
         <div className="flex items-center bg-white h-12">
           <div className="page-spacing grow flex justify-between">
-            <h1 className="font-medium text-3xl is-fixed:!text-lg">
+            <h1 className="font-medium text-2xl is-fixed:!text-lg">
               {title} {!!productCount && `(${productCount})`}
             </h1>
             <div className="flex items-center">

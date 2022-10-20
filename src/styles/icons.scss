@@ -1,15 +1,17 @@
 .icon-arrow {
   position: relative;
-  display: inline-block;
+  display: block;
+  border-color: #000;
 
   &::before,
   &::after {
     content: " ";
     position: absolute;
-    top: 50%;
+    top: 45%;
     width: 10px;
     height: 2px;
-    border: 1px solid #000000;
+    border: 1px solid;
+    border-color: inherit;
     border-radius: 5px;
   }
 
@@ -28,8 +30,18 @@
     transition: transform 0.3s;
   }
 
+  &.arrow-right {
+    transform: rotate(90deg);
+    transition: transform 0.3s;
+  }
+
   &.arrow-down {
     transform: rotateX(180deg);
+    transition: transform 0.3s;
+  }
+
+  &.arrow-left {
+    transform: rotate(-90deg);
     transition: transform 0.3s;
   }
 }

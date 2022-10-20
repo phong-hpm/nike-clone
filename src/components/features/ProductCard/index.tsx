@@ -1,17 +1,12 @@
 import { FC, useMemo, useState } from "react";
 
 // components
-import { AutoSquare } from "@root/components/commons";
+import { AutoSquare, ImageCustom } from "@root/components/commons";
 import ProductColorList from "./ProductColorList";
 import ProductPrice from "./ProductPrice";
 
 // custom hooks
 import { useNavigation } from "@root/hooks";
-
-export interface ProductCardProps {
-  loading: boolean;
-  product: IProduct;
-}
 
 const LABELS: Record<string, string> = {
   JUST_IN: "Just In",
@@ -25,7 +20,21 @@ const LABELS: Record<string, string> = {
   nikePlusExclusive: "Nike Plus Exclusive",
 };
 
-export const ProductCard: FC<ProductCardProps> = ({ loading, product }) => {
+export interface ProductCardProps {
+  loading?: boolean;
+  isFlexibleHeight?: boolean;
+  product: IProduct;
+  imageClass?: string;
+  onClick: () => void;
+}
+
+export const ProductCard: FC<ProductCardProps> = ({
+  loading,
+  isFlexibleHeight,
+  product,
+  imageClass,
+  onClick,
+}) => {
   const { navigating } = useNavigation();
 
   const [mouseEntered, setMouseEntered] = useState(false);
@@ -49,17 +58,25 @@ export const ProductCard: FC<ProductCardProps> = ({ loading, product }) => {
         className="flex flex-col cursor-pointer"
         onMouseEnter={() => colourCount > 1 && setMouseEntered(true)}
         onMouseLeave={() => setMouseEntered(false)}
+        onClick={onClick}
       >
         {/* image */}
-        <AutoSquare className="w-full bg-neutral-100 mb-4">
-          <img className="w-full h-full" src={selectedImage || product.images.squarishURL} alt="" />
+        <AutoSquare className="w-full mb-4">
+          <ImageCustom
+            className={mapClasses("w-full h-full bg-neutral-100", imageClass)}
+            sizes="33vw"
+            src={selectedImage || product.images?.squarishURL}
+          />
         </AutoSquare>
 
-        <div className="min-h-[185px]">
+        <div className={mapClasses(!isFlexibleHeight && "min-h-[185px]")}>
           {/* thumb: hover */}
           <div className={mapClasses(mouseEntered ? "slide-down-margin mb-3" : "mb-0")}>
             {mouseEntered && (
-              <ProductColorList list={product.productAnotherColors} onHover={setSelectedImage} />
+              <ProductColorList
+                list={product.productAnotherColors || []}
+                onHover={setSelectedImage}
+              />
             )}
           </div>
 

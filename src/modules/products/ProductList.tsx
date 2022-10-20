@@ -106,7 +106,12 @@ const ProductList: NextPage<ProductListProps> = ({
       {/* Product List */}
       <div className="grid grid-cols-3 gap-4">
         {displayProductList.map((product) => (
-          <ProductCard key={product.uid} loading={navigating} product={product} />
+          <ProductCard
+            key={product.uid}
+            loading={navigating}
+            product={product}
+            onClick={() => router.push("/product-detail/CU4495-010", undefined, { shallow: true })}
+          />
         ))}
       </div>
 

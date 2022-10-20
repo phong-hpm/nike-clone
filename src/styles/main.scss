@@ -12,6 +12,11 @@ a {
   text-decoration: none;
 }
 
+img,
+video {
+  width: 100%;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -43,7 +48,13 @@ a {
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+// Import Swiper styles
+@import "swiper/css";
+@import "swiper/css/pagination";
+
 @import "./animations";
 @import "./commons";
 @import "./custom";
 @import "./icons";
+@import "./icons-nike";
+@import "./nike";

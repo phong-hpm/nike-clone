@@ -1,1 +1,1 @@
-import "./mapClasses";
+import "./functions";

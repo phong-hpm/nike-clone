@@ -4,3 +4,7 @@ export * from "./AutoSquare";
 export * from "./ButtonIcon";
 export * from "./Checkbox";
 export * from "./Menu";
+export * from "./ImageCustom";
+export * from "./Modal";
+export * from "./Modal/ModalHeader";
+export * from "./Modal/ModalBody";

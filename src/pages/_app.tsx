@@ -6,6 +6,7 @@ import { apolloClient } from "@root/utils";
 
 import "@root/globals";
 import "@root/styles/main.scss";
+import { useEffect } from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

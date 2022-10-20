@@ -5,6 +5,9 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      container: {
+        center: true,
+      },
       colors: {
         "gray-main": "#757575",
         "gray-light": "#cccccc",
@@ -12,6 +15,37 @@ module.exports = {
       spacing: {
         15: "3.75rem",
         65: "16.25rem",
+        94: "23.5rem",
+        360: "90rem",
+      },
+      minWidth: {
+        xl: "36rem",
+        "2xl": "42rem",
+        "3xl": "48rem",
+        "4xl": "56rem",
+        "5xl": "64rem",
+        "6xl": "72rem",
+        "7xl": "80rem",
+        "8xl": "88rem",
+        "4/6": "66.666667%",
+        "5/6": "83.333333%",
+      },
+      maxWidth: {
+        xl: "36rem",
+        "2xl": "42rem",
+        "3xl": "48rem",
+        "4xl": "56rem",
+        "5xl": "64rem",
+        "6xl": "72rem",
+        "7xl": "80rem",
+        "7.5xl": "84rem",
+        "8xl": "88rem",
+        "4/6": "66.666667%",
+        "5/6": "83.333333%",
+      },
+      maxHeight: {
+        "4/6": "66.666667%",
+        "5/6": "83.333333%",
       },
       zIndex: {
         1000: "1000", // AutoFixed
@@ -44,6 +78,7 @@ module.exports = {
   },
   plugins: [
     function ({ addVariant }) {
+      addVariant("is-fixed", ".is-fixed &");
       addVariant("is-fixed", ".is-fixed &");
     },
   ],

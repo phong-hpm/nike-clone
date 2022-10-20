@@ -4,6 +4,7 @@ import CATEGORY_LIST from "./CATEGORY_LIST.gql";
 import FILTER_OPTION_LIST from "./FILTER_OPTION_LIST.gql";
 import PRODUCT_LIST from "./PRODUCT_LIST.gql";
 import PRODUCT_AGGREGATE from "./PRODUCT_AGGREGATE.gql";
+import PRODUCT_DETAIL from "./PRODUCT_DETAIL.gql";
 
 const graphqlQueries = {
   NAVIGATION_DEEP,
@@ -12,6 +13,7 @@ const graphqlQueries = {
   FILTER_OPTION_LIST,
   PRODUCT_LIST,
   PRODUCT_AGGREGATE,
+  PRODUCT_DETAIL,
 };
 
 export default graphqlQueries;
