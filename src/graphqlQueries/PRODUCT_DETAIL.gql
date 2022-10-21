@@ -1,5 +1,5 @@
-query ($uid: uuid!) {
-  productDetail: product_detail_by_pk(uid: $uid) {
+query ($productUid: String!) {
+  productDetail: product_detail_by_pk(uid: $productUid) {
     uid
     products
     relatedProducts: related_products

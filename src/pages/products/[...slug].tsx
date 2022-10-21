@@ -2,170 +2,135 @@ import { useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 
 // utils
-import { apolloClient } from "@root/utils";
+import { apolloClient, mapPageUrl } from "@root/utils";
 
 // components
 import { MainLayout } from "@root/components/layouts";
-import { Breadcrumbs, ProductHeader } from "@root/components/features";
 
 // modules
 import Filters from "@root/modules/products/Filters";
+import ProductBreadcrumbs from "@root/modules/products/ProductBreadcrumbs";
+import ProductHeader from "@root/modules/products/ProductHeader";
 import ProductList from "@root/modules/products/ProductList";
+import ProductsProvider from "@root/modules/products/ProductsContext";
 
 // graphqlQueries
 import graphqlQueries from "@root/graphqlQueries";
 
-export interface HomeProps {
+export interface ProductsProps {
   filterIdList: string[];
   navigation: INavigation;
   navigationList: INavigation[];
   categoryList: ICategory[];
   filterOptionList: IFilterOption[];
   productCount: number;
-  productList: IProduct[];
 }
 
-const Home: NextPage<HomeProps> = ({
+const Products: NextPage<ProductsProps> = ({
   navigationList,
-  filterIdList,
+  filterIdList: filterIdListProp,
   navigation,
   categoryList,
   filterOptionList,
-  productCount,
-  productList,
 }) => {
   const [isShowFilterBar, setShowFilterBar] = useState(true);
+  const [filterIdList, setFilterIdList] = useState<string[]>(filterIdListProp);
+
+  // [handleNavigate] will be fired immediately after user click [NavigationLink]
+  const handleNavigate = (navigation: INavigation) => {
+    // Because in the same path [/products], nextjs will not re-mount all component
+    // By managing [filterIdList] right here, we can update [filterIdList] immediately without waiting for [getServerSideProps]
+
+    // After load page, when user click [NavigationLink]
+    // - while nextjs is waiting for [getServerSideProps], we update [filterIdList],
+    //     [ProductList] will update data when [filterIdList] was changed
+    setFilterIdList(navigation.filterIdList);
+  };
 
   return (
-    <MainLayout title={navigation.title} navigationList={navigationList}>
-      <Breadcrumbs navigation={navigation} />
-      <ProductHeader
-        title={navigation.title || ""}
-        productCount={productCount}
-        onClickFilter={() => setShowFilterBar(!isShowFilterBar)}
-      />
+    <MainLayout
+      title={navigation.title}
+      navigationList={navigationList}
+      onNavigate={handleNavigate}
+    >
+      <ProductsProvider
+        filterIdList={filterIdList}
+        navigation={navigation}
+        categoryList={categoryList}
+        filterOptionList={filterOptionList}
+      >
+        <ProductBreadcrumbs />
 
-      <div className="grow-1 flex">
-        {/* Filters */}
-        <Filters
-          isShow={isShowFilterBar}
-          filterIdList={filterIdList}
-          categoryList={categoryList || []}
-          filterOptionList={filterOptionList}
-        />
+        <ProductHeader onClickFilter={() => setShowFilterBar(!isShowFilterBar)} />
 
-        <div className="page-spacing grow-1 shrink-1 w-full py-4">
-          <ProductList
-            productCount={productCount}
-            filterIdList={filterIdList}
-            initialProductList={productList}
-          />
+        <div className="grow-1 flex">
+          {/* Filters */}
+          <Filters isShow={isShowFilterBar} />
+
+          <div className="page-spacing grow-1 shrink-1 w-full py-4">
+            <ProductList />
+          </div>
         </div>
-      </div>
+      </ProductsProvider>
     </MainLayout>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async (req) => {
-  const { order, slug = [] } = req.query;
-  const [path, navigationUid] = slug as string[];
-
-  const orderBy: Record<string, string> = {};
-
-  if (order === "price-asc") orderBy["current_price"] = "asc";
-  if (order === "price-desc") orderBy["current_price"] = "desc";
-  if (order === "newest") orderBy["update_time"] = "desc";
-
-  const getNavigation = async () => {
-    const { data } = await apolloClient.query<{ navigation: INavigation }>({
-      query: graphqlQueries.NAVIGATION_DEEP,
-      variables: { uid: navigationUid },
-    });
-    return data.navigation || {};
-  };
-  const getNavigationList = async () => {
-    const { data } = await apolloClient.query<{ navigationList: INavigation[] }>({
-      query: graphqlQueries.NAVIGATION_LIST_DEEP,
-    });
-    return data.navigationList || [];
-  };
-  const getCategoryList = async () => {
-    const { data } = await apolloClient.query<{ categoryList: ICategory[] }>({
-      query: graphqlQueries.CATEGORY_LIST,
-      variables: { navigationUid },
-    });
-    return data.categoryList || [];
-  };
-  const getFilterOptionList = async () => {
-    const { data } = await apolloClient.query<{ filterOptionList: IFilterOption[] }>({
-      query: graphqlQueries.FILTER_OPTION_LIST,
-      variables: { navigationUid },
-    });
-    return data.filterOptionList || [];
-  };
+  const { slug = [] } = req.query;
+  const [path, navigationUid, filterString = ""] = slug as string[];
+  const filterIdList: string[] = filterString.split(",");
 
   const [navigation, navigationList, categoryList, filterOptionList] = await Promise.all([
-    getNavigation(),
-    getNavigationList(),
-    getCategoryList(),
-    getFilterOptionList(),
+    api.getNavigation(navigationUid),
+    api.getNavigationList(),
+    api.getCategoryList(navigationUid),
+    api.getFilterOptionList(navigationUid),
   ]);
-  const filterIdList = navigation.filterIdList || [];
-
-  const getProductAggregate = async () => {
-    const { data } = await apolloClient.query<{ productsAggregate: { aggregate: IAggregate } }>({
-      query: graphqlQueries.PRODUCT_AGGREGATE,
-      variables: { whereAnd: filterIdList.map((id) => ({ filters: { _regex: id } })) },
-    });
-    return data.productsAggregate.aggregate || [];
-  };
-  const getProductList = async () => {
-    const { data } = await apolloClient.query<{ productList: IProduct[] }>({
-      query: graphqlQueries.PRODUCT_LIST,
-      variables: {
-        _and: filterIdList.map((id) => ({ filters: { _regex: id } })),
-        order_by: orderBy,
-      },
-    });
-    return data.productList || [];
-  };
-
-  const [productAggregate, productList] = await Promise.all([
-    getProductAggregate(),
-    getProductList(),
-  ]);
-  const productCount = productAggregate.count;
 
   // [path] was wrong, trying to correct it
-  if (`${path}/${navigationUid}` !== navigation?.urlPath) {
+  if (path !== navigation?.urlPath) {
     return {
       redirect: {
-        destination: "/products/" + navigation?.urlPath,
+        destination: mapPageUrl.mapProducts(navigation, filterString),
         permanent: true,
       },
     };
   }
 
-  const mappedFilterOptionList = filterOptionList
-    .filter((item) => item.level === "filter")
-    .map((filter) => {
-      const options = filterOptionList.filter(
-        (item) => item.level === "option" && item.parentUid === filter.uid
-      );
-      return { ...filter, options };
-    });
-
   return {
-    props: {
-      filterIdList,
-      navigation,
-      navigationList,
-      categoryList,
-      filterOptionList: mappedFilterOptionList,
-      productCount,
-      productList,
-    },
+    props: { filterIdList, navigation, navigationList, categoryList, filterOptionList },
   };
 };
 
-export default Home;
+const api = {
+  getNavigation: async (uid: string) => {
+    const { data } = await apolloClient.query<{ navigation: INavigation }>({
+      query: graphqlQueries.NAVIGATION_DEEP,
+      variables: { uid },
+    });
+    return data.navigation || {};
+  },
+  getNavigationList: async () => {
+    const { data } = await apolloClient.query<{ navigationList: INavigation[] }>({
+      query: graphqlQueries.NAVIGATION_LIST_DEEP,
+    });
+    return data.navigationList || [];
+  },
+  getCategoryList: async (navigationUid: string) => {
+    const { data } = await apolloClient.query<{ categoryList: ICategory[] }>({
+      query: graphqlQueries.CATEGORY_LIST,
+      variables: { navigationUid },
+    });
+    return data.categoryList || [];
+  },
+  getFilterOptionList: async (navigationUid: string) => {
+    const { data } = await apolloClient.query<{ filterOptionList: IFilterOption[] }>({
+      query: graphqlQueries.FILTER_OPTION_LIST,
+      variables: { navigationUid },
+    });
+    return data.filterOptionList || [];
+  },
+};
+
+export default Products;

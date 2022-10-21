@@ -10,6 +10,7 @@ module.exports = {
       },
       colors: {
         "gray-main": "#757575",
+        "gray-middle": "#F7F7F7",
         "gray-light": "#cccccc",
       },
       spacing: {

@@ -3,6 +3,7 @@ import { createContext, Dispatch, FC, ReactNode, SetStateAction, useMemo, useSta
 export interface INavigationContextValue {
   navigating: boolean;
   setNavigating: Dispatch<SetStateAction<boolean>>;
+  onNavigate?: (nav: INavigation) => void;
 }
 
 export const NavigationContext = createContext<INavigationContextValue>({
@@ -12,17 +13,19 @@ export const NavigationContext = createContext<INavigationContextValue>({
 
 export interface NavigationProviderProps {
   children: ReactNode;
+  onNavigate?: (nav: INavigation) => void;
 }
 
-export const NavigationProvider: FC<NavigationProviderProps> = ({ children }) => {
+export const NavigationProvider: FC<NavigationProviderProps> = ({ onNavigate, children }) => {
   const [navigating, setNavigating] = useState(false);
 
   const values = useMemo(() => {
     return {
       navigating,
       setNavigating,
+      onNavigate,
     };
-  }, [navigating]);
+  }, [navigating, onNavigate]);
 
   return <NavigationContext.Provider value={values}>{children}</NavigationContext.Provider>;
 };

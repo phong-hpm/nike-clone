@@ -1,23 +1,25 @@
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 
 // components
 import { Checkbox, IconSvg } from "@root/components/commons";
 
 // custom hooks
 import { useResize } from "@root/hooks";
+import { ProductsContext } from "../ProductsContext";
 
 const MAX_OPTIONS = 4;
 
 export interface FilterOptionsProps {
   filterOption: IFilterOption;
-  filterIdList: string[];
 }
 
-const FilterOptions: FC<FilterOptionsProps> = ({ filterIdList, filterOption }) => {
-  const [isExpand, setExpand] = useState(true);
-  const [isMore, setMore] = useState(false);
+const FilterOptions: FC<FilterOptionsProps> = ({ filterOption }) => {
+  const { filterIdList, updateSelectedOptions } = useContext(ProductsContext);
 
   const { setTargetEl, height } = useResize();
+
+  const [isExpand, setExpand] = useState(true);
+  const [isMore, setMore] = useState(false);
 
   const renderSizeOptions = (options: IFilterOption[] = []) => {
     const sortedOptions = options.sort(({ name: prevName }, { name: nextName }) => {
@@ -35,8 +37,10 @@ const FilterOptions: FC<FilterOptionsProps> = ({ filterIdList, filterOption }) =
             className={mapClasses(
               "basis-14 grow flex justify-center items-center",
               "border rounded border-gray-light hover:border-black",
-              "m-1.5 py-1.5 cursor-pointer whitespace-nowrap"
+              "m-1.5 py-1.5 cursor-pointer whitespace-nowrap",
+              filterIdList.includes(option.uid) && "!border-black"
             )}
+            onClick={() => updateSelectedOptions(option.uid)}
           >
             {option.name}
           </div>
@@ -54,13 +58,16 @@ const FilterOptions: FC<FilterOptionsProps> = ({ filterIdList, filterOption }) =
           <div
             key={option.uid}
             className={mapClasses("flex flex-col items-center cursor-pointer min-h-16")}
+            onClick={() => updateSelectedOptions(option.uid)}
           >
             <div
               className={mapClasses(
-                "w-7 h-7 rounded-full",
+                "relative w-7 h-7 rounded-full p-1",
                 `filter-colour-${option.name.toLowerCase()}`
               )}
-            />
+            >
+              {filterIdList.includes(option.uid) && <div className="checkmark" />}
+            </div>
             <p className="text-xs text-center mt-0.5">{option.name.replace(/-/g, " ")}</p>
           </div>
         ))}
@@ -74,7 +81,11 @@ const FilterOptions: FC<FilterOptionsProps> = ({ filterIdList, filterOption }) =
     return options.slice(0, max).map((option) => {
       return (
         <div key={option.uid} className="py-1 hover:text-gray-main">
-          <Checkbox defaultChecked={filterIdList.includes(option.uid)} label={option.name} />
+          <Checkbox
+            checked={filterIdList.includes(option.uid)}
+            label={option.name}
+            onChange={() => updateSelectedOptions(option.uid)}
+          />
         </div>
       );
     });

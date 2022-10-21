@@ -1,4 +1,4 @@
-query ($uid: uuid!) {
+query ($uid: String!) {
   navigation: navigations_by_pk(uid: $uid) {
     uid
     label

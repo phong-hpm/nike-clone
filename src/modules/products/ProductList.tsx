@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { NextPage } from "next";
 import { useLazyQuery } from "@apollo/client";
 
@@ -9,63 +9,61 @@ import { ProductCard } from "@root/components/features";
 import graphqlQueries from "@root/graphqlQueries";
 import { useNavigation } from "@root/hooks";
 import { useRouter } from "next/router";
+import { ProductsContext } from "./ProductsContext";
 
-export interface ProductListProps {
-  productCount: number;
-  filterIdList: string[];
-  initialProductList: IProduct[];
-}
+// constance
+import { PRODUCT_LIMIT, PRODUCT_ORDER_BY, skeletonData } from "@root/constance";
 
-const PRODUCT_LIST = 21;
-
-const orderBy: Record<string, Record<string, string>> = {
-  "price-asc": { current_price: "asc" },
-  "price-desc": { current_price: "desc" },
-  newest: { update_time: "desc" },
-};
-
-const ProductList: NextPage<ProductListProps> = ({
-  productCount,
-  filterIdList,
-  initialProductList,
-}) => {
+const ProductList: NextPage = () => {
   const router = useRouter();
-  // NOTE: [data] will not be reset although we navigating to another page
+  const { productCount, queryConditions } = useContext(ProductsContext);
+  // NOTE: [data] will not be reset although we navigate to another page
   const [_, { data, fetchMore, refetch }] = useLazyQuery<{ productList?: IProduct[] }>(
     graphqlQueries.PRODUCT_LIST,
     {
       variables: {
-        limit: PRODUCT_LIST,
-        offset: PRODUCT_LIST,
-        _and: filterIdList.map((id) => ({ filters: { _regex: id } })),
-        order_by: orderBy[router.query.order as string],
+        limit: PRODUCT_LIMIT,
+        offset: 0,
+        _and: queryConditions,
+        order_by: PRODUCT_ORDER_BY[router.query.order as string],
       },
     }
   );
-  const { navigating } = useNavigation();
+  const { navigating, navigate } = useNavigation();
 
   const stateRef = useRef({ offset: 0, productCount: productCount, fetching: false });
   const spinnerRef = useRef<HTMLDivElement | null>(null);
 
   // after refresh page, [isLoadedMore] always be false
-  const [isLoadedMore, setLoadedMore] = useState(false);
+  const [reloading, setReloading] = useState(true);
   const [canLoadMore, setCanLoadMore] = useState(true);
 
   const displayProductList = useMemo(() => {
-    // if [isLoadedMore] is false, we don't render [data?.productList], because when user navigating
-    // to another page, Component will not be unmounted, so ols [data] still available
-    //   until [refetch] has done
-    // So, we will only display [data?.productList] when [fetchmore] is fired at least 1 time
-    if (!isLoadedMore) return initialProductList;
-    return [...initialProductList, ...(data?.productList || [])];
-  }, [isLoadedMore, initialProductList, data?.productList]);
+    // skeleton
+    if (reloading) return skeletonData.productList;
+    return data?.productList || [];
+  }, [reloading, data?.productList]);
 
-  // after navigate to another page, [initialProductList] will be updated
   useEffect(() => {
-    refetch();
-    setLoadedMore(false);
-    stateRef.current.offset = initialProductList.length;
-  }, [refetch, initialProductList]);
+    if (navigating) setReloading(true);
+  }, [navigating]);
+
+  useEffect(() => {
+    if (!queryConditions.length) return;
+    stateRef.current.fetching = true;
+    setReloading(true);
+
+    console.log("refetch");
+
+    refetch().then(() => {
+      stateRef.current.fetching = false;
+      setReloading(false);
+    });
+  }, [queryConditions, refetch]);
+
+  useEffect(() => {
+    stateRef.current.offset = data?.productList?.length || 0;
+  }, [data?.productList]);
 
   useEffect(() => {
     setCanLoadMore((displayProductList.length || 0) < productCount);
@@ -85,12 +83,13 @@ const ProductList: NextPage<ProductListProps> = ({
           //       without [stateRef.current.fetching], [fetchMore] will be fired multiple time
           stateRef.current.fetching = true;
 
+          console.log("fetchMore");
+
           fetchMore({
-            variables: { offset: stateRef.current.offset, limit: PRODUCT_LIST },
+            variables: { offset: stateRef.current.offset, limit: PRODUCT_LIMIT },
           }).then(() => {
             stateRef.current.fetching = false;
-            stateRef.current.offset += PRODUCT_LIST;
-            setLoadedMore(true);
+            stateRef.current.offset += PRODUCT_LIMIT;
           });
         }
       },
@@ -103,6 +102,10 @@ const ProductList: NextPage<ProductListProps> = ({
 
   return (
     <div>
+      {!reloading && !displayProductList.length && (
+        <p className="font-light text-center text-gray-main mt-10">No data found</p>
+      )}
+
       {/* Product List */}
       <div className="grid grid-cols-3 gap-4">
         {displayProductList.map((product) => (
@@ -110,7 +113,7 @@ const ProductList: NextPage<ProductListProps> = ({
             key={product.uid}
             loading={navigating}
             product={product}
-            onClick={() => router.push("/product-detail/CU4495-010", undefined, { shallow: true })}
+            onClick={() => navigate("/product-detail/CU4495-010", { shallow: true })}
           />
         ))}
       </div>

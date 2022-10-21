@@ -10,10 +10,13 @@ import { ProductCard } from "@root/components/features";
 // modules
 import { ProductDetailContext } from "./ProductDetailProvider";
 
+// custom hooks
+import { useNavigation } from "@root/hooks";
+
 const RelatedProducts = () => {
   const { relatedProducts } = useContext(ProductDetailContext);
 
-  const router = useRouter();
+  const { navigate } = useNavigation();
 
   return (
     <>
@@ -45,9 +48,7 @@ const RelatedProducts = () => {
                 isFlexibleHeight
                 product={product}
                 imageClass="rounded"
-                onClick={() =>
-                  router.push("/product-detail/CU4495-010", undefined, { shallow: true })
-                }
+                onClick={() => navigate("/product-detail/CU4495-010", { shallow: true })}
               />
             </SwiperSlide>
           );

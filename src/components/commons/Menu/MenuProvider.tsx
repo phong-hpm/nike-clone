@@ -35,23 +35,16 @@ export const MenuContext = createContext<MenuContextType>({
 
 export interface MenuProviderProps {
   title: string;
-  defaultValue?: string;
   options: MenuOptionType[];
   onChange: (option: MenuOptionType) => void;
   children: ReactNode;
 }
 
-const MenuProvider: FC<MenuProviderProps> = ({
-  title,
-  options,
-  defaultValue = "",
-  onChange,
-  children,
-}) => {
+const MenuProvider: FC<MenuProviderProps> = ({ title, options, onChange, children }) => {
   const [isShow, setShow] = useState(false);
   const [selectedOption, setSelectedOption] = useState<MenuOptionType>(
     // set [selectedOption] by [defaultValue], will prevent empty value in the first rendering
-    options.find(({ value }) => value === defaultValue) || { value: "", label: "" }
+    options.find((option) => option.value === "") || { value: "", label: "" }
   );
 
   const values = useMemo(
@@ -66,12 +59,6 @@ const MenuProvider: FC<MenuProviderProps> = ({
     }),
     [title, isShow, selectedOption, options, onChange]
   );
-
-  // update [selectedOption] when [defaultValue] was changed
-  useEffect(() => {
-    const option = options.find(({ value }) => value === defaultValue);
-    setSelectedOption(option || { value: "", label: "" });
-  }, [defaultValue, options]);
 
   return <MenuContext.Provider value={values}>{children}</MenuContext.Provider>;
 };

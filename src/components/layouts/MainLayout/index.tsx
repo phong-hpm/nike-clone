@@ -10,11 +10,17 @@ export interface MainLayoutProps {
   title: string;
   navigationList: INavigation[];
   children: ReactNode;
+  onNavigate?: (nav: INavigation) => void;
 }
 
-export const MainLayout: FC<MainLayoutProps> = ({ title, navigationList, children }) => {
+export const MainLayout: FC<MainLayoutProps> = ({
+  title,
+  navigationList,
+  onNavigate,
+  children,
+}) => {
   return (
-    <NavigationProvider>
+    <NavigationProvider onNavigate={onNavigate}>
       <Head>
         <title>{title}. Nike</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />

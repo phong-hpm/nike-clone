@@ -1,12 +1,13 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 
 // components
-import { AutoSquare, ImageCustom } from "@root/components/commons";
+import { ImageCustom } from "@root/components/commons";
 import ProductColorList from "./ProductColorList";
 import ProductPrice from "./ProductPrice";
 
 // custom hooks
 import { useNavigation } from "@root/hooks";
+import { SkeletonCustom } from "@root/components/commons/SkeletonCustom";
 
 const LABELS: Record<string, string> = {
   JUST_IN: "Just In",
@@ -40,12 +41,16 @@ export const ProductCard: FC<ProductCardProps> = ({
   const [mouseEntered, setMouseEntered] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
 
-  const colourCount = product?.productAnotherColors?.length || 1;
+  const colourCount = product?.productAnotherColors?.length || 0;
 
   const label = useMemo(() => {
     if (product.label === "IN_STOCK") return "";
     return LABELS[product.label] || product.label;
   }, [product.label]);
+
+  useEffect(() => {
+    setSelectedImage(product.images?.squarishURL || "");
+  }, [product.images?.squarishURL]);
 
   return (
     <div className="relative">
@@ -61,13 +66,14 @@ export const ProductCard: FC<ProductCardProps> = ({
         onClick={onClick}
       >
         {/* image */}
-        <AutoSquare className="w-full mb-4">
+        <div className="mb-4">
           <ImageCustom
-            className={mapClasses("w-full h-full bg-neutral-100", imageClass)}
+            className={imageClass}
+            ratio={1}
             sizes="33vw"
             src={selectedImage || product.images?.squarishURL}
           />
-        </AutoSquare>
+        </div>
 
         <div className={mapClasses(!isFlexibleHeight && "min-h-[185px]")}>
           {/* thumb: hover */}
@@ -86,11 +92,17 @@ export const ProductCard: FC<ProductCardProps> = ({
           {/* titles */}
           {!mouseEntered && (
             <div className="mb-3">
-              <p className="font-medium">{product.title}</p>
-              <p className="text-gray-main font-light">{product.subTitle}</p>
-              <p className="text-gray-main font-light">{`${colourCount} Colour${
-                colourCount && "s"
-              }`}</p>
+              <p className="font-medium">
+                <SkeletonCustom>{product.title}</SkeletonCustom>
+              </p>
+              <p className="text-gray-main font-light">
+                <SkeletonCustom>{product.subTitle}</SkeletonCustom>
+              </p>
+              <p className="text-gray-main font-light">
+                <SkeletonCustom when={!colourCount}>
+                  {`${colourCount} Colour${colourCount && "s"}`}
+                </SkeletonCustom>
+              </p>
             </div>
           )}
 

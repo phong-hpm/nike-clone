@@ -1,33 +1,74 @@
 import { useContext, useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
+import { ParsedUrlQuery } from "querystring";
 
 // context
 import { NavigationContext } from "@root/components/features";
 
+// from "next/router"
+interface TransitionOptions {
+  shallow?: boolean;
+  locale?: string | false;
+  scroll?: boolean;
+  unstable_skipClientCache?: boolean;
+}
+
+/**
+ * remove all query which are [null], [undefined], [empty], or it is an "Array"
+ * @param {Record<string, string | string[] | undefined>} queries
+ * @returns Record<tring, string>
+ */
+const removeInvalidQuery = (
+  routerQuery: ParsedUrlQuery,
+  queries: Record<string, string | string[] | undefined>
+) => {
+  Object.entries(queries).forEach(([key, val]) => {
+    // if array, it is "slug"
+    if (val) {
+      routerQuery[key] = String(val);
+    } else {
+      delete routerQuery[key];
+    }
+  });
+  return routerQuery;
+};
+
+/**
+ * To update url immediately, without waiting for [getServerSideProps] fetch api,
+ * all navigate function will fire [history.pushState],
+ * [history.pushState]: will update [url] without reload page
+ */
 export const useNavigation = () => {
   const router = useRouter();
-  const { navigating, setNavigating } = useContext(NavigationContext);
+  const { navigating, setNavigating, onNavigate } = useContext(NavigationContext);
 
   const navigate = useCallback(
-    (path: string) => {
-      setNavigating(true);
-      router.push(path);
+    (pathname: string, options?: TransitionOptions) => {
+      const { shallow = true } = options || {};
+      if (!shallow) setNavigating(true);
+      router.push(pathname, undefined, options);
     },
     [setNavigating, router]
   );
 
-  const setQuery = useCallback(
-    (queries: Record<string, string>) => {
-      setNavigating(true);
+  const replace = useCallback(
+    (pathname: string, options?: TransitionOptions) => {
+      const { shallow = true } = options || {};
+      if (!shallow) setNavigating(true);
+      router.replace(pathname, undefined, options);
+    },
+    [setNavigating, router]
+  );
 
-      const mappedQueries = { ...router.query, ...queries };
-      // delete nunable query
-      const filterdQueries = Object.entries(mappedQueries).reduce((result, [key, val]) => {
-        if (val) result[key] = val;
-        return result;
-      }, {} as Record<string, string | string[]>);
+  /**
+   * [navigateQuery] won't add a new URL entry into the history stack.
+   */
+  const replaceQuery = useCallback(
+    (queries: Record<string, string>, options?: TransitionOptions) => {
+      if (!options?.shallow) setNavigating(true);
 
-      router.replace({ ...router, query: filterdQueries });
+      const validQueries = removeInvalidQuery(router.query, queries);
+      router.replace({ ...router, query: validQueries }, undefined, options);
     },
     [setNavigating, router]
   );
@@ -37,5 +78,5 @@ export const useNavigation = () => {
     setNavigating(false);
   }, [router.asPath, setNavigating]);
 
-  return { navigate, navigating, setNavigating, setQuery };
+  return { navigating, setNavigating, replace, navigate, replaceQuery, onNavigate };
 };

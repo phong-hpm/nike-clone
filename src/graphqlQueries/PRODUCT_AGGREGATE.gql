@@ -1,5 +1,5 @@
-query ($whereAnd: [products_bool_exp!]) {
-  productsAggregate: products_aggregate(where: { _and: $whereAnd }) {
+query ($_and: [products_bool_exp!]) {
+  productsAggregate: products_aggregate(where: { _and: $_and }) {
     aggregate {
       count
     }

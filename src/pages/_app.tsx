@@ -6,7 +6,7 @@ import { apolloClient } from "@root/utils";
 
 import "@root/globals";
 import "@root/styles/main.scss";
-import { useEffect } from "react";
+import "react-loading-skeleton/dist/skeleton.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

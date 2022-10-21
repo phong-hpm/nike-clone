@@ -1,5 +1,8 @@
 import { FC } from "react";
 
+// components
+import { SkeletonCustom } from "@root/components/commons/SkeletonCustom";
+
 // constance
 import { CurrencySymbolMap } from "@root/constance";
 
@@ -13,7 +16,7 @@ const ProductPrice: FC<ProductPriceProps> = ({ hideDiscount, isDiscountInline, p
   const discountPercent = Math.ceil((currentPrice / fullPrice) * 100);
 
   return (
-    <>
+    <SkeletonCustom when={!currentPrice}>
       <div className="flex">
         <p className="font-medium">
           {CurrencySymbolMap[currency]}
@@ -33,7 +36,7 @@ const ProductPrice: FC<ProductPriceProps> = ({ hideDiscount, isDiscountInline, p
       {!isDiscountInline && !hideDiscount && discounted && (
         <p className="text-green-600">{discountPercent}% off</p>
       )}
-    </>
+    </SkeletonCustom>
   );
 };
 

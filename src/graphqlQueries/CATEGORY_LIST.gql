@@ -1,4 +1,4 @@
-query ($navigationUid: uuid!) {
+query ($navigationUid: String!) {
   categoryList: categories(
     where: { navigations_categories: { navigation_uid: { _eq: $navigationUid } } }
   ) {

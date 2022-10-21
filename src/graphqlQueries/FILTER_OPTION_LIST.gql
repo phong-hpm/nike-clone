@@ -1,10 +1,14 @@
-query ($navigationUid: uuid!) {
-  filterOptionList: filter_options(
-    where: { navigations_filter_options: { navigation_uid: { _eq: $navigationUid } } }
+query ($navigationUid: String!) {
+  filterOptionList: filters(
+    where: { navigations_filters: { navigation_uid: { _eq: $navigationUid } } }
   ) {
     uid
     name
-    level
-    parentUid: parent_uid
+    options: filter_options(
+      where: { navigations_filter_options: { navigation_uid: { _eq: $navigationUid } } }
+    ) {
+      uid
+      name
+    }
   }
 }

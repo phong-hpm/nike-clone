@@ -1,5 +1,8 @@
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 
+// components
+import { AutoHeight } from "./AutoHeight";
+
 const qualityList = [144, 440, 640, 864, 1280, 1536, 1920];
 
 export interface ImageCustomProps {
@@ -56,31 +59,20 @@ export const ImageCustom: FC<ImageCustomProps> = ({
     return () => observer.unobserve(containerEl);
   }, [srcProp, updateSrc]);
 
-  // handle ratio when image is loading / loaded fail
-  useEffect(() => {
-    const containerEl = containerRef.current;
-    if (!containerEl || !ratio) return;
+  const renderImage = () => {
+    return (
+      <div
+        ref={containerRef}
+        className={mapClasses("w-full h-full bg-gray-middle", containerClassName)}
+      >
+        {!!src && (
+          <img className={className} srcSet={srcSet.join(",")} sizes={sizes} src={src} alt="" />
+        )}
+      </div>
+    );
+  };
 
-    // add ratio
-    containerEl.style.height = `${containerEl.offsetWidth / ratio}px`;
-  }, [ratio]);
+  if (!ratio) return renderImage();
 
-  return (
-    <div ref={containerRef} className={mapClasses("w-full bg-neutral-100", containerClassName)}>
-      {!!src && (
-        <img
-          className={className}
-          srcSet={srcSet.join(",")}
-          sizes={sizes}
-          src={src}
-          alt=""
-          onLoad={(e) => {
-            if (!containerRef.current) return;
-            // remove ratio
-            containerRef.current.style.height = "auto";
-          }}
-        />
-      )}
-    </div>
-  );
+  return <AutoHeight ratio={ratio}>{renderImage()}</AutoHeight>;
 };

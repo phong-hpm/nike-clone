@@ -17,6 +17,7 @@ import ProductDetailProvider from "@root/modules/product-detail/ProductDetailPro
 
 // graphqlQueries
 import graphqlQueries from "@root/graphqlQueries";
+import { useNavigation } from "@root/hooks";
 
 export interface ProductDetailProps {
   navigationList: INavigation[];
@@ -25,17 +26,15 @@ export interface ProductDetailProps {
 
 const ProductDetail: NextPage<ProductDetailProps> = ({ navigationList, productDetail }) => {
   const router = useRouter();
-
-  const [colorId, setColorId] = useState(router.query.id as string);
+  const { replace } = useNavigation();
 
   const selectedProduct = useMemo(
-    () => productDetail.products[colorId],
-    [productDetail.products, colorId]
+    () => productDetail.products[router.query.id as string],
+    [productDetail.products, router.query.id]
   );
 
   const handleChangeColorId = (styleColor: string) => {
-    setColorId(styleColor);
-    router.push(`/product-detail/${styleColor}`, undefined, { shallow: true });
+    replace(`/product-detail/${styleColor}`, { shallow: true });
   };
 
   return (
@@ -77,7 +76,7 @@ export const getServerSideProps: GetServerSideProps = async (req) => {
   const getProductDetail = async () => {
     const { data } = await apolloClient.query<{ productDetail: INavigation[] }>({
       query: graphqlQueries.PRODUCT_DETAIL,
-      variables: { uid: "74d7c24d-f16c-4633-9c96-e4688445abeb" },
+      variables: { productUid: "0Uk3E9DBrx" },
     });
     return data.productDetail || [];
   };

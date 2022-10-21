@@ -1,6 +1,6 @@
 export * from "./IconSvg";
 export * from "./AutoFixed";
-export * from "./AutoSquare";
+export * from "./AutoHeight";
 export * from "./ButtonIcon";
 export * from "./Checkbox";
 export * from "./Menu";
