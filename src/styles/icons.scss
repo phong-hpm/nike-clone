@@ -9,10 +9,40 @@
     position: absolute;
     top: 45%;
     width: 10px;
-    height: 2px;
-    border: 1px solid;
+    height: 0px;
+    border-style: solid;
     border-color: inherit;
+    border-top-width: 2px;
     border-radius: 5px;
+  }
+
+  &.thin {
+    &::before,
+    &::after {
+      border-top-width: 1.5px;
+    }
+  }
+
+  &.normal {
+    &::before,
+    &::after {
+      border-top-width: 2px;
+    }
+  }
+
+  &.thick {
+    &::before,
+    &::after {
+      border-top-width: 3px;
+    }
+
+    &::before {
+      left: 5.5px;
+    }
+
+    &::after {
+      right: 5.5px;
+    }
   }
 
   &::before {

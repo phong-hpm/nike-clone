@@ -5,7 +5,7 @@ import { IconSvg } from "@root/components/commons";
 
 const HeaderSub: FC = () => {
   return (
-    <div className="bg-neutral-100 page-spacing py-[6px]">
+    <div className="hidden lg:block bg-neutral-100 page-spacing py-[6px]">
       <div className="flex justify-between items-center">
         {/* logo */}
         <IconSvg icon="logo-jordan" />

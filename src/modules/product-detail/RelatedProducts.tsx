@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useRouter } from "next/router";
 
 // components
 import { ButtonIcon, IconSvg } from "@root/components/commons";
@@ -46,6 +45,7 @@ const RelatedProducts = () => {
             <SwiperSlide key={product.uid}>
               <ProductCard
                 isFlexibleHeight
+                hasColour={false}
                 product={product}
                 imageClass="rounded"
                 onClick={() => navigate("/product-detail/CU4495-010", { shallow: true })}

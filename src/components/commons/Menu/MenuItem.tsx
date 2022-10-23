@@ -20,7 +20,7 @@ export const MenuItem: FC<MenuItemProps> = ({ value, label, className, ...props 
   return (
     <div
       {...props}
-      className={mapClasses(
+      className={cls(
         "py-[2px] cursor-pointer",
         selectedOption.value === value && "text-gray-main cursor-not-allowed",
         className

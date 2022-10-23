@@ -6,7 +6,7 @@ import { ImageCustom } from "@root/components/commons";
 // modules
 import { ProductDetailContext } from "./ProductDetailProvider";
 
-const SubNodeList = () => {
+const ProductMoreInfo = () => {
   const { detailNodeList } = useContext(ProductDetailContext);
 
   const validNodeList = useMemo(() => {
@@ -15,6 +15,8 @@ const SubNodeList = () => {
       return title || body || landscapeURL;
     });
   }, [detailNodeList]);
+
+  console.log(validNodeList);
 
   return (
     <>
@@ -36,4 +38,4 @@ const SubNodeList = () => {
   );
 };
 
-export default SubNodeList;
+export default ProductMoreInfo;

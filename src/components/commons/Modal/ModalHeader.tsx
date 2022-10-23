@@ -1,26 +1,38 @@
 import { FC, ReactNode } from "react";
 
+// components
+import { ButtonIcon } from "../ButtonIcon";
+
 export interface ModalHeaderProps {
+  isBorder?: boolean;
   onHide?: () => void;
   className?: string;
+  closeBtnClass?: string;
   children?: ReactNode;
 }
 
-export const ModalHeader: FC<ModalHeaderProps> = ({ className, onHide, children }) => {
+export const ModalHeader: FC<ModalHeaderProps> = ({
+  isBorder = true,
+  className,
+  closeBtnClass,
+  onHide,
+  children,
+}) => {
   return (
     <div
-      className={mapClasses(
+      className={cls(
         "relative flex items-center",
-        "w-full min-h-14 px-5 py-4",
-        "border border-transparent border-b-neutral-100",
+        children ? "justify-between" : "justify-end",
+        "w-full pl-5",
+        isBorder && "border border-transparent border-b-neutral-100",
         className
       )}
     >
       {children}
       {onHide && (
-        <button className="absolute top-0 right-0 px-5 py-4" onClick={onHide}>
-          <i className="g72-x-thick" />
-        </button>
+        <ButtonIcon className={cls("m-2", closeBtnClass)} onClick={onHide}>
+          <i className="g72-x-thick w-6 h-6" />
+        </ButtonIcon>
       )}
     </div>
   );

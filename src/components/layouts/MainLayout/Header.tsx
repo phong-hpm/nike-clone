@@ -1,14 +1,32 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 // components
-import { IconSvg, ButtonIcon, AutoFixed } from "@root/components/commons";
+import {
+  IconSvg,
+  ButtonIcon,
+  AutoFixed,
+  Modal,
+  ModalHeader,
+  ModalBody,
+} from "@root/components/commons";
 import Navigation from "./Navigation";
+import useMediaScreen from "@root/hooks/useMediaScreen";
+import NavigationModal from "./Navigation/NavigationModal";
 
 export interface HeaderProps {
   navigationList: INavigation[];
 }
 
 const Header: FC<HeaderProps> = ({ navigationList }) => {
+  const isScreenLG = useMediaScreen("lg");
+
+  const [isShowNavModal, setShowNavModal] = useState(false);
+
+  // auto close modal when screen was changed to be "LG"
+  useEffect(() => {
+    if (isScreenLG) setShowNavModal(false);
+  }, [isScreenLG]);
+
   return (
     <div className="h-15">
       <AutoFixed autoHide>
@@ -22,17 +40,30 @@ const Header: FC<HeaderProps> = ({ navigationList }) => {
               <Navigation navigationList={navigationList} />
             </div>
 
-            <div className="grow-0 basis-[150px] flex justify-end items-center mr-[-6px]">
-              <ButtonIcon className="mr-3">
+            <div className="grow-0 basis-[150px] flex justify-end items-center mr-[-6px] gap-3">
+              <ButtonIcon>
                 <IconSvg icon="search" />
               </ButtonIcon>
-              <ButtonIcon className="mr-3">
+              <ButtonIcon className="hidden lg:!block">
                 <IconSvg icon="favourite" />
               </ButtonIcon>
               <ButtonIcon>
                 <IconSvg icon="cart" />
               </ButtonIcon>
+              <ButtonIcon
+                className="block lg:hidden"
+                disabled={isScreenLG}
+                onClick={() => setShowNavModal(true)}
+              >
+                <IconSvg icon="bars" />
+              </ButtonIcon>
             </div>
+
+            <NavigationModal
+              isShow={isShowNavModal}
+              navigationList={navigationList}
+              onHide={() => setShowNavModal(false)}
+            />
           </div>
         </div>
       </AutoFixed>

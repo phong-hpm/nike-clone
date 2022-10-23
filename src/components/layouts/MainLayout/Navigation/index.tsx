@@ -22,7 +22,7 @@ const Navigation: FC<NavigationProps> = ({ navigationList }) => {
   }, [navigating]);
 
   return (
-    <div className="flex">
+    <div className="hidden lg:flex">
       {navigationList.map((nav) => {
         const isHovered = hoveredUid === nav.uid && !!nav.childrenList?.length;
 
@@ -40,7 +40,7 @@ const Navigation: FC<NavigationProps> = ({ navigationList }) => {
 
             {/* backgdrop */}
             <div
-              className={mapClasses(
+              className={cls(
                 "absolute z-900 top-full left-0 right-0",
                 "h-screen bg-black/[0.5] pointer-events-none hidden",
                 isHovered && "!block"

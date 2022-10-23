@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 
 // utils
@@ -17,6 +17,9 @@ import ProductsProvider from "@root/modules/products/ProductsContext";
 // graphqlQueries
 import graphqlQueries from "@root/graphqlQueries";
 
+// custom hooks
+import useMediaScreen from "@root/hooks/useMediaScreen";
+
 export interface ProductsProps {
   filterIdList: string[];
   navigation: INavigation;
@@ -33,8 +36,11 @@ const Products: NextPage<ProductsProps> = ({
   categoryList,
   filterOptionList,
 }) => {
-  const [isShowFilterBar, setShowFilterBar] = useState(true);
+  const [isShowFilterBar, setShowFilterBar] = useState(false);
+  const [isShowFilterModal, setShowFilterModal] = useState(false);
   const [filterIdList, setFilterIdList] = useState<string[]>(filterIdListProp);
+
+  const isScreenLG = useMediaScreen("lg");
 
   // [handleNavigate] will be fired immediately after user click [NavigationLink]
   const handleNavigate = (navigation: INavigation) => {
@@ -46,6 +52,14 @@ const Products: NextPage<ProductsProps> = ({
     //     [ProductList] will update data when [filterIdList] was changed
     setFilterIdList(navigation.filterIdList);
   };
+
+  // When the screen was changed to be greater or equal than "LG", auto "Show" [Filter]
+  // When the screen was changed to be less than "LG", auto "Hide" [Filter]
+  useEffect(() => {
+    setShowFilterBar(isScreenLG);
+    // "Hide" Modal when the screen was changed to be greater or equal than "LG"
+    if (isScreenLG) setShowFilterModal(false);
+  }, [isScreenLG]);
 
   return (
     <MainLayout
@@ -59,15 +73,29 @@ const Products: NextPage<ProductsProps> = ({
         categoryList={categoryList}
         filterOptionList={filterOptionList}
       >
-        <ProductBreadcrumbs />
+        <div className="mb-3 lg:mb-[-4px]">
+          <ProductBreadcrumbs />
+        </div>
 
-        <ProductHeader onClickFilter={() => setShowFilterBar(!isShowFilterBar)} />
+        <div className="mb-2 lg:mb-5">
+          <ProductHeader
+            onClickFilter={() =>
+              isScreenLG
+                ? setShowFilterBar(!isShowFilterBar)
+                : setShowFilterModal(!isShowFilterModal)
+            }
+          />
+        </div>
 
-        <div className="grow-1 flex">
+        <div className="grow-1 flex flex-col lg:flex-row">
           {/* Filters */}
-          <Filters isShow={isShowFilterBar} />
+          <Filters
+            isShowBar={isShowFilterBar}
+            isShowModal={isShowFilterModal}
+            onHide={() => setShowFilterModal(false)}
+          />
 
-          <div className="page-spacing grow-1 shrink-1 w-full py-4">
+          <div className="page-spacing grow-1 shrink-1 w-full">
             <ProductList />
           </div>
         </div>

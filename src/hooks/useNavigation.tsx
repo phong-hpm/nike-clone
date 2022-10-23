@@ -44,7 +44,7 @@ export const useNavigation = () => {
 
   const navigate = useCallback(
     (pathname: string, options?: TransitionOptions) => {
-      const { shallow = true } = options || {};
+      const { shallow } = options || {};
       if (!shallow) setNavigating(true);
       router.push(pathname, undefined, options);
     },
@@ -53,7 +53,7 @@ export const useNavigation = () => {
 
   const replace = useCallback(
     (pathname: string, options?: TransitionOptions) => {
-      const { shallow = true } = options || {};
+      const { shallow } = options || {};
       if (!shallow) setNavigating(true);
       router.replace(pathname, undefined, options);
     },

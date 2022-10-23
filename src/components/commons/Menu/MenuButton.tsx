@@ -20,13 +20,13 @@ export const MenuButton: FC<MenuButtonProps> = ({ className, onClick, ...props }
   return (
     <div
       {...props}
-      className={mapClasses("flex cursor-pointer select-none", className)}
+      className={cls("flex cursor-pointer select-none", className)}
       onClick={handleClick}
     >
       {title}
       {!!title && !!selectedOption.label && <p className="mr-1">:</p>}
       {!!selectedOption.label && <p className="text-gray-main">{selectedOption.label}</p>}
-      <IconSvg icon="arrow" className={mapClasses("ml-1", isShow ? "arrow-up" : "arrow-down")} />
+      <IconSvg icon="arrow" className={cls("ml-1", isShow ? "arrow-up" : "arrow-down")} />
     </div>
   );
 };

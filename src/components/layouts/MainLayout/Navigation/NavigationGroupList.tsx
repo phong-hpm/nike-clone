@@ -11,7 +11,7 @@ export interface NavigationGroupListProps {
 const NavigationGroupList: FC<NavigationGroupListProps> = ({ isShow, navigationList }) => {
   return (
     <div
-      className={mapClasses(
+      className={cls(
         "absolute z-900 top-full left-0 flex justify-center w-full bg-white",
         isShow && "transition-padding pt-4"
       )}
@@ -24,7 +24,7 @@ const NavigationGroupList: FC<NavigationGroupListProps> = ({ isShow, navigationL
 
               {/* links */}
               <div className="pt-4">
-                {(navGroup.childrenList || []).map((navLink) => (
+                {navGroup.childrenList?.map((navLink) => (
                   <NavigationLink
                     key={navLink.uid}
                     navigation={navLink}

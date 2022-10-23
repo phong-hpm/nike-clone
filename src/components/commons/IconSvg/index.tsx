@@ -9,6 +9,11 @@ import Favourite from "./Favourite";
 import Search from "./Search";
 import Filter from "./Filter";
 import Arrow from "./Arrow";
+import Bars from "./Bars";
+import TimeFilled from "./TimeFilled";
+import Orders from "./Orders";
+import Store from "./Store";
+import Help from "./Help";
 
 const icons = {
   "logo-nike": LogoNike,
@@ -18,6 +23,11 @@ const icons = {
   favourite: Favourite,
   filter: Filter,
   arrow: Arrow,
+  "time-filled": TimeFilled,
+  bars: Bars,
+  help: Help,
+  store: Store,
+  orders: Orders,
 };
 
 export interface IconSvgProps extends SVGProps<SVGSVGElement> {

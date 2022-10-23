@@ -9,9 +9,8 @@ import { apolloClient } from "@root/utils";
 import { MainLayout } from "@root/components/layouts";
 
 // modules
-import MainNode from "@root/modules/product-detail/MainNode";
-import Detail from "@root/modules/product-detail/Detail";
-import SubNodeList from "@root/modules/product-detail/SubNodeList";
+import ProductInfo from "@root/modules/product-detail/ProductInfo";
+import ProductMoreInfo from "@root/modules/product-detail/ProductMoreInfo";
 import RelatedProducts from "@root/modules/product-detail/RelatedProducts";
 import ProductDetailProvider from "@root/modules/product-detail/ProductDetailProvider";
 
@@ -45,22 +44,11 @@ const ProductDetail: NextPage<ProductDetailProps> = ({ navigationList, productDe
     >
       <MainLayout title={selectedProduct.fullTitle} navigationList={navigationList}>
         <div className="page-spacing py-8">
-          <div className="flex mb-20 lg:max-w-7.5xl mx-auto">
-            <MainNode />
-
-            <div className="shrink-0 basis-94">
-              <Detail />
-            </div>
-          </div>
-
-          <div>
-            <SubNodeList />
-          </div>
+          <ProductInfo />
+          <ProductMoreInfo />
         </div>
 
-        <div className="mb-10">
-          <RelatedProducts />
-        </div>
+        <RelatedProducts />
       </MainLayout>
     </ProductDetailProvider>
   );

@@ -17,10 +17,10 @@ export const Checkbox: FC<CheckboxProps> = ({
   ...props
 }) => {
   return (
-    <div className={mapClasses("checkbox-group", groupClassName)}>
-      <div className={mapClasses("checkbox w-5 h-5", checkboxClassName)}>
+    <div className={cls("checkbox-group", groupClassName)}>
+      <div className={cls("checkbox w-5 h-5", checkboxClassName)}>
         <input id={label} type="checkbox" {...props} />
-        <span className={mapClasses("checkmark", checkmarkClassName)} />
+        <span className={cls("checkmark", checkmarkClassName)} />
       </div>
 
       {label && (

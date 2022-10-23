@@ -14,6 +14,9 @@ import { ProductsContext } from "./ProductsContext";
 // constance
 import { PRODUCT_LIMIT, PRODUCT_ORDER_BY, skeletonData } from "@root/constance";
 
+// custom hooks
+import useMediaScreen from "@root/hooks/useMediaScreen";
+
 const ProductList: NextPage = () => {
   const router = useRouter();
   const { productCount, queryConditions } = useContext(ProductsContext);
@@ -29,6 +32,7 @@ const ProductList: NextPage = () => {
       },
     }
   );
+  const isScreenLG = useMediaScreen("lg");
   const { navigating, navigate } = useNavigation();
 
   const stateRef = useRef({ offset: 0, productCount: productCount, fetching: false });
@@ -44,16 +48,28 @@ const ProductList: NextPage = () => {
     return data?.productList || [];
   }, [reloading, data?.productList]);
 
+  // [reloading] always be "True" if page is "navigating"
   useEffect(() => {
     if (navigating) setReloading(true);
   }, [navigating]);
 
+  // update [offset]
   useEffect(() => {
-    if (!queryConditions.length) return;
+    stateRef.current.offset = data?.productList?.length || 0;
+  }, [data?.productList]);
+
+  // update [canLoadMore]
+  useEffect(() => {
+    setCanLoadMore((displayProductList.length || 0) < productCount);
+  }, [displayProductList, productCount]);
+
+  // [refetch] data when [queryConditions] updated
+  useEffect(() => {
+    if (!queryConditions.length || stateRef.current.fetching) return;
     stateRef.current.fetching = true;
     setReloading(true);
 
-    console.log("refetch");
+    console.log("refetch", queryConditions);
 
     refetch().then(() => {
       stateRef.current.fetching = false;
@@ -61,14 +77,7 @@ const ProductList: NextPage = () => {
     });
   }, [queryConditions, refetch]);
 
-  useEffect(() => {
-    stateRef.current.offset = data?.productList?.length || 0;
-  }, [data?.productList]);
-
-  useEffect(() => {
-    setCanLoadMore((displayProductList.length || 0) < productCount);
-  }, [displayProductList, productCount]);
-
+  // load more listener
   useEffect(() => {
     // when no more data to load, stop the observer
     if (!canLoadMore || !spinnerRef.current) return;
@@ -107,12 +116,13 @@ const ProductList: NextPage = () => {
       )}
 
       {/* Product List */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 gap-2 lg:grid-cols-3 lg:gap-4 text-sm lg:text-base">
         {displayProductList.map((product) => (
           <ProductCard
             key={product.uid}
             loading={navigating}
             product={product}
+            isFlexibleHeight={!isScreenLG}
             onClick={() => navigate("/product-detail/CU4495-010", { shallow: true })}
           />
         ))}

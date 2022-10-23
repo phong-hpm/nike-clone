@@ -19,7 +19,7 @@ export interface MenuProps extends Omit<MenuProviderProps, "children"> {
 export const Menu: FC<MenuProps> = ({ className, ...props }) => {
   return (
     <MenuProvider {...props}>
-      <div className={mapClasses("relative", className)}>
+      <div className={cls("relative", className)}>
         <MenuButton />
         <MenuBase />
       </div>

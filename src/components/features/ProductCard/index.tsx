@@ -6,7 +6,6 @@ import ProductColorList from "./ProductColorList";
 import ProductPrice from "./ProductPrice";
 
 // custom hooks
-import { useNavigation } from "@root/hooks";
 import { SkeletonCustom } from "@root/components/commons/SkeletonCustom";
 
 const LABELS: Record<string, string> = {
@@ -24,6 +23,7 @@ const LABELS: Record<string, string> = {
 export interface ProductCardProps {
   loading?: boolean;
   isFlexibleHeight?: boolean;
+  hasColour?: boolean;
   product: IProduct;
   imageClass?: string;
   onClick: () => void;
@@ -32,12 +32,11 @@ export interface ProductCardProps {
 export const ProductCard: FC<ProductCardProps> = ({
   loading,
   isFlexibleHeight,
+  hasColour = true,
   product,
   imageClass,
   onClick,
 }) => {
-  const { navigating } = useNavigation();
-
   const [mouseEntered, setMouseEntered] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
 
@@ -54,11 +53,6 @@ export const ProductCard: FC<ProductCardProps> = ({
 
   return (
     <div className="relative">
-      {/* loading overlay */}
-      {(navigating || loading) && (
-        <div className="absolute z-10 top-0 left-0 w-full h-full bg-white/[0.7]" />
-      )}
-
       <div
         className="flex flex-col cursor-pointer"
         onMouseEnter={() => colourCount > 1 && setMouseEntered(true)}
@@ -75,9 +69,9 @@ export const ProductCard: FC<ProductCardProps> = ({
           />
         </div>
 
-        <div className={mapClasses(!isFlexibleHeight && "min-h-[185px]")}>
+        <div className={cls(!isFlexibleHeight && "min-h-[185px]")}>
           {/* thumb: hover */}
-          <div className={mapClasses(mouseEntered ? "slide-down-margin mb-3" : "mb-0")}>
+          <div className={cls(mouseEntered ? "slide-down-margin mb-3" : "mb-0")}>
             {mouseEntered && (
               <ProductColorList
                 list={product.productAnotherColors || []}
@@ -98,11 +92,13 @@ export const ProductCard: FC<ProductCardProps> = ({
               <p className="text-gray-main font-light">
                 <SkeletonCustom>{product.subTitle}</SkeletonCustom>
               </p>
-              <p className="text-gray-main font-light">
-                <SkeletonCustom when={!colourCount}>
-                  {`${colourCount} Colour${colourCount && "s"}`}
-                </SkeletonCustom>
-              </p>
+              {hasColour && (
+                <p className="text-gray-main font-light">
+                  <SkeletonCustom when={!colourCount}>
+                    {`${colourCount} Colour${colourCount && "s"}`}
+                  </SkeletonCustom>
+                </p>
+              )}
             </div>
           )}
 

@@ -22,7 +22,16 @@ const ProductBreadcrumbs = () => {
     onNavigate?.(nav);
   };
 
-  if (navigation?.level !== "link") return <></>;
+  const isSameFilterIdList = useMemo(() => {
+    if (!groupNav?.filterIdList.length || !navigation?.filterIdList.length) return false;
+
+    return (
+      JSON.stringify(groupNav.filterIdList.sort()) ===
+      JSON.stringify(navigation.filterIdList.sort())
+    );
+  }, [groupNav?.filterIdList, navigation?.filterIdList]);
+
+  if (navigation?.level !== "link" || isSameFilterIdList) return <></>;
 
   return (
     <div className="page-spacing">

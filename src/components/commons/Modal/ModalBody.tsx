@@ -10,7 +10,7 @@ export const ModalBody: FC<ModalBodyProps> = ({ className, children }) => {
   const [setTargetElement] = useScroll();
 
   return (
-    <div ref={setTargetElement} className={mapClasses("w-full px-5", className)}>
+    <div ref={setTargetElement} className={cls("w-full px-5", className)}>
       {children}
     </div>
   );

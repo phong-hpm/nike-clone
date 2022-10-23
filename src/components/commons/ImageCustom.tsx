@@ -61,10 +61,7 @@ export const ImageCustom: FC<ImageCustomProps> = ({
 
   const renderImage = () => {
     return (
-      <div
-        ref={containerRef}
-        className={mapClasses("w-full h-full bg-gray-middle", containerClassName)}
-      >
+      <div ref={containerRef} className={cls("w-full h-full bg-gray-middle", containerClassName)}>
         {!!src && (
           <img className={className} srcSet={srcSet.join(",")} sizes={sizes} src={src} alt="" />
         )}

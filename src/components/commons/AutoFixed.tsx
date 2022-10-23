@@ -11,12 +11,12 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 
-const FIXED_CONTAINER_ID = "fixed-container";
+export const FIXED_CONTAINER_ID = "fixed-container";
 
 const createFixedContainerElement = () => {
   const fixedContainer = document.createElement("div");
   fixedContainer.id = FIXED_CONTAINER_ID;
-  fixedContainer.classList.add("is-fixed", "fixed", "z-100", "top-0", "left-0", "w-full", "h-0");
+  fixedContainer.classList.add("is-fixed", "fixed", "z-700", "top-0", "left-0", "w-full", "h-0");
 
   // add an fixed wrapper element in root DOM
   document.body.append(fixedContainer);

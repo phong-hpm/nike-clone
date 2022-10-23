@@ -21,6 +21,12 @@ video {
   box-sizing: border-box;
 }
 
+.hide-scroll-bar {
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+}
+
 .custom-scroll-bar {
   &::-webkit-scrollbar {
     width: 7px;

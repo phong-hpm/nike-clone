@@ -5,6 +5,13 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      screens: {
+        sm: "640px",
+        md: "768px",
+        lg: "960px",
+        xl: "1280px",
+        "2xl": "1536px",
+      },
       container: {
         center: true,
       },
@@ -41,6 +48,7 @@ module.exports = {
         "7xl": "80rem",
         "7.5xl": "84rem",
         "8xl": "88rem",
+        "3/6": "50%",
         "4/6": "66.666667%",
         "5/6": "83.333333%",
       },
@@ -49,10 +57,10 @@ module.exports = {
         "5/6": "83.333333%",
       },
       zIndex: {
-        1000: "1000", // AutoFixed
+        1000: "1000",
         900: "900", // Navigation
-        800: "800",
-        700: "700",
+        800: "800", // Modal
+        700: "700", // Autofixed
         600: "600",
         500: "500", // Menu
         400: "400",
