@@ -11,6 +11,7 @@ export interface CollapseProps {
   isBorderEnd?: boolean;
   defaultExpand?: boolean;
   label?: ReactNode;
+  icon?: ReactNode;
   className?: string;
   labelClass?: string;
   labelIconClass?: string;
@@ -23,6 +24,7 @@ export const Collapse: FC<CollapseProps> = ({
   isBorderEnd,
   defaultExpand,
   label,
+  icon,
   className,
   labelClass,
   labelIconClass,
@@ -41,10 +43,14 @@ export const Collapse: FC<CollapseProps> = ({
       >
         <div className={cls("grow font-medium select-none", labelClass)}>{label}</div>
         {toggleable && (
-          <IconSvg
-            icon="arrow"
-            className={cls("ml-2", isExpand ? "arrow-up" : "arrow-down", labelIconClass)}
-          />
+          <div className="mx-2">
+            {icon || (
+              <IconSvg
+                icon="arrow"
+                className={cls(isExpand ? "arrow-up" : "arrow-down", labelIconClass)}
+              />
+            )}
+          </div>
         )}
       </div>
 

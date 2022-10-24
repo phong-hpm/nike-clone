@@ -14,6 +14,11 @@ import TimeFilled from "./TimeFilled";
 import Orders from "./Orders";
 import Store from "./Store";
 import Help from "./Help";
+import Location from "./Location";
+import Twitter from "./Twitter";
+import Facebook from "./Facebook";
+import Youtube from "./Youtube";
+import Instagram from "./Instagram";
 
 const icons = {
   "logo-nike": LogoNike,
@@ -28,6 +33,11 @@ const icons = {
   help: Help,
   store: Store,
   orders: Orders,
+  location: Location,
+  twitter: Twitter,
+  facebook: Facebook,
+  youtube: Youtube,
+  instagram: Instagram,
 };
 
 export interface IconSvgProps extends SVGProps<SVGSVGElement> {
