@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 
 // utils
-import { apolloClient, mapPageUrl } from "@root/utils";
+import { apiHandlers, mapPageUrl } from "@root/utils";
 
 // components
 import { MainLayout } from "@root/components/layouts";
@@ -13,9 +13,6 @@ import ProductBreadcrumbs from "@root/modules/products/ProductBreadcrumbs";
 import ProductHeader from "@root/modules/products/ProductHeader";
 import ProductList from "@root/modules/products/ProductList";
 import ProductsProvider from "@root/modules/products/ProductsContext";
-
-// graphqlQueries
-import graphqlQueries from "@root/graphqlQueries";
 
 // custom hooks
 import useMediaScreen from "@root/hooks/useMediaScreen";
@@ -110,10 +107,10 @@ export const getServerSideProps: GetServerSideProps = async (req) => {
   const filterIdList: string[] = filterString.split(",");
 
   const [navigation, navigationList, categoryList, filterOptionList] = await Promise.all([
-    api.getNavigation(navigationUid),
-    api.getNavigationList(),
-    api.getCategoryList(navigationUid),
-    api.getFilterOptionList(navigationUid),
+    apiHandlers.getNavigation(navigationUid),
+    apiHandlers.getNavigationList(),
+    apiHandlers.getCategoryList(navigationUid),
+    apiHandlers.getFilterOptionList(navigationUid),
   ]);
 
   // [path] was wrong, trying to correct it
@@ -129,36 +126,6 @@ export const getServerSideProps: GetServerSideProps = async (req) => {
   return {
     props: { filterIdList, navigation, navigationList, categoryList, filterOptionList },
   };
-};
-
-const api = {
-  getNavigation: async (uid: string) => {
-    const { data } = await apolloClient.query<{ navigation: INavigation }>({
-      query: graphqlQueries.NAVIGATION_DEEP,
-      variables: { uid },
-    });
-    return data.navigation || {};
-  },
-  getNavigationList: async () => {
-    const { data } = await apolloClient.query<{ navigationList: INavigation[] }>({
-      query: graphqlQueries.NAVIGATION_LIST_DEEP,
-    });
-    return data.navigationList || [];
-  },
-  getCategoryList: async (navigationUid: string) => {
-    const { data } = await apolloClient.query<{ categoryList: ICategory[] }>({
-      query: graphqlQueries.CATEGORY_LIST,
-      variables: { navigationUid },
-    });
-    return data.categoryList || [];
-  },
-  getFilterOptionList: async (navigationUid: string) => {
-    const { data } = await apolloClient.query<{ filterOptionList: IFilterOption[] }>({
-      query: graphqlQueries.FILTER_OPTION_LIST,
-      variables: { navigationUid },
-    });
-    return data.filterOptionList || [];
-  },
 };
 
 export default Products;

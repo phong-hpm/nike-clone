@@ -35,7 +35,7 @@ export const MainLayout: FC<MainLayoutProps> = ({
         <div className="h-15 page-spacing mb-3"></div>
 
         <div id="body" className="grow">
-          {/* {children} */}
+          {children}
         </div>
 
         <Footer />

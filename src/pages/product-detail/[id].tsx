@@ -1,9 +1,6 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-
-// utils
-import { apolloClient } from "@root/utils";
 
 // components
 import { MainLayout } from "@root/components/layouts";
@@ -14,9 +11,11 @@ import ProductMoreInfo from "@root/modules/product-detail/ProductMoreInfo";
 import RelatedProducts from "@root/modules/product-detail/RelatedProducts";
 import ProductDetailProvider from "@root/modules/product-detail/ProductDetailProvider";
 
-// graphqlQueries
-import graphqlQueries from "@root/graphqlQueries";
+// custom hooks
 import { useNavigation } from "@root/hooks";
+
+// utils
+import { apiHandlers, mapPageUrl } from "@root/utils";
 
 export interface ProductDetailProps {
   navigationList: INavigation[];
@@ -33,7 +32,7 @@ const ProductDetail: NextPage<ProductDetailProps> = ({ navigationList, productDe
   );
 
   const handleChangeColorId = (styleColor: string) => {
-    replace(`/product-detail/${styleColor}`, { shallow: true });
+    replace(mapPageUrl.mapProductDetail(styleColor), { shallow: true });
   };
 
   return (
@@ -48,38 +47,21 @@ const ProductDetail: NextPage<ProductDetailProps> = ({ navigationList, productDe
           <ProductMoreInfo />
         </div>
 
-        <RelatedProducts />
+        <div className="mb-10">
+          <RelatedProducts />
+        </div>
       </MainLayout>
     </ProductDetailProvider>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async (req) => {
-  const getNavigationList = async () => {
-    const { data } = await apolloClient.query<{ navigationList: INavigation[] }>({
-      query: graphqlQueries.NAVIGATION_LIST_DEEP,
-    });
-    return data.navigationList || [];
-  };
-  const getProductDetail = async () => {
-    const { data } = await apolloClient.query<{ productDetail: INavigation[] }>({
-      query: graphqlQueries.PRODUCT_DETAIL,
-      variables: { productUid: "0Uk3E9DBrx" },
-    });
-    return data.productDetail || [];
-  };
-
   const [navigationList, productDetail] = await Promise.all([
-    getNavigationList(),
-    getProductDetail(),
+    apiHandlers.getNavigationList(),
+    apiHandlers.getProductDetail("0Uk3E9DBrx"),
   ]);
 
-  return {
-    props: {
-      navigationList,
-      productDetail,
-    },
-  };
+  return { props: { navigationList, productDetail } };
 };
 
 export default ProductDetail;

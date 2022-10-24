@@ -9,4 +9,5 @@ export const mapPageUrl = {
 
     return "/products/" + `${navigation?.urlPath}/${navigation.uid}/${filterIdString}`;
   },
+  mapProductDetail: (styleColor: string) => `/product-detail/${styleColor}`,
 };

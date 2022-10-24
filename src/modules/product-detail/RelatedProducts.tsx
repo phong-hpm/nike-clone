@@ -12,6 +12,9 @@ import { ProductDetailContext } from "./ProductDetailProvider";
 // custom hooks
 import { useNavigation } from "@root/hooks";
 
+// utils
+import { mapPageUrl } from "@root/utils";
+
 const RelatedProducts = () => {
   const { relatedProducts } = useContext(ProductDetailContext);
 
@@ -48,7 +51,9 @@ const RelatedProducts = () => {
                 hasColour={false}
                 product={product}
                 imageClass="rounded"
-                onClick={() => navigate("/product-detail/CU4495-010", { shallow: true })}
+                onClick={() =>
+                  navigate(mapPageUrl.mapProductDetail("0Uk3E9DBrx"), { shallow: true })
+                }
               />
             </SwiperSlide>
           );

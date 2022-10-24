@@ -17,6 +17,9 @@ import { PRODUCT_LIMIT, PRODUCT_ORDER_BY, skeletonData } from "@root/constance";
 // custom hooks
 import useMediaScreen from "@root/hooks/useMediaScreen";
 
+// utils
+import { mapPageUrl } from "@root/utils";
+
 const ProductList: NextPage = () => {
   const router = useRouter();
   const { productCount, queryConditions } = useContext(ProductsContext);
@@ -123,7 +126,7 @@ const ProductList: NextPage = () => {
             loading={navigating}
             product={product}
             isFlexibleHeight={!isScreenLG}
-            onClick={() => navigate("/product-detail/CU4495-010", { shallow: true })}
+            onClick={() => navigate(mapPageUrl.mapProductDetail("0Uk3E9DBrx"), { shallow: true })}
           />
         ))}
       </div>
