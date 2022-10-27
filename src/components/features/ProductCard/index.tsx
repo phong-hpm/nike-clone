@@ -21,7 +21,6 @@ const LABELS: Record<string, string> = {
 };
 
 export interface ProductCardProps {
-  loading?: boolean;
   isFlexibleHeight?: boolean;
   hasColour?: boolean;
   product: IProduct;
@@ -30,7 +29,6 @@ export interface ProductCardProps {
 }
 
 export const ProductCard: FC<ProductCardProps> = ({
-  loading,
   isFlexibleHeight,
   hasColour = true,
   product,

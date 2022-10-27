@@ -93,7 +93,7 @@ const Footer = () => {
                 <p
                   className={cls(
                     "mt-2 mb-4 cursor-pointer",
-                    "uppercase font-medium text-sm font-['Nike-TG'] text-white"
+                    "uppercase font-medium text-sm font-nike-tg text-white"
                   )}
                 >
                   {item.label}
@@ -110,7 +110,7 @@ const Footer = () => {
                     <p
                       className={cls(
                         "mt-2 mb-4 cursor-pointer",
-                        "uppercase font-medium text-sm font-['Nike-TG'] text-white"
+                        "uppercase font-medium text-sm font-nike-tg text-white"
                       )}
                     >
                       {item.label}
@@ -129,7 +129,7 @@ const Footer = () => {
                 key={item.label}
                 label={item.label}
                 className="!border-neutral-700"
-                labelClass="!py-2 font-['Nike-TG'] text-sm text-white"
+                labelClass="!py-2 font-nike-tg text-sm text-white"
                 icon={<i className="g72-plus" />}
               >
                 {item.list?.map((link) => (

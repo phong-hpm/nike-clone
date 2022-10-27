@@ -123,10 +123,9 @@ const ProductList: NextPage = () => {
         {displayProductList.map((product) => (
           <ProductCard
             key={product.uid}
-            loading={navigating}
             product={product}
             isFlexibleHeight={!isScreenLG}
-            onClick={() => navigate(mapPageUrl.mapProductDetail("0Uk3E9DBrx"), { shallow: true })}
+            onClick={() => navigate(mapPageUrl.mapProductDetail("CU4495-010"), { shallow: true })}
           />
         ))}
       </div>

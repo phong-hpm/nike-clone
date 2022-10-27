@@ -1,3 +1,4 @@
+import LAYOUT from "./LAYOUT.gql";
 import NAVIGATION_DEEP from "./NAVIGATION_DEEP.gql";
 import NAVIGATION_LIST_DEEP from "./NAVIGATION_LIST_DEEP.gql";
 import CATEGORY_LIST from "./CATEGORY_LIST.gql";
@@ -7,6 +8,7 @@ import PRODUCT_AGGREGATE from "./PRODUCT_AGGREGATE.gql";
 import PRODUCT_DETAIL from "./PRODUCT_DETAIL.gql";
 
 const graphqlQueries = {
+  LAYOUT,
   NAVIGATION_DEEP,
   NAVIGATION_LIST_DEEP,
   CATEGORY_LIST,

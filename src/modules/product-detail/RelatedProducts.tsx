@@ -52,7 +52,7 @@ const RelatedProducts = () => {
                 product={product}
                 imageClass="rounded"
                 onClick={() =>
-                  navigate(mapPageUrl.mapProductDetail("0Uk3E9DBrx"), { shallow: true })
+                  navigate(mapPageUrl.mapProductDetail("CU4495-010"), { shallow: true })
                 }
               />
             </SwiperSlide>

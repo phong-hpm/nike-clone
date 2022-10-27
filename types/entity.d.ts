@@ -2,11 +2,22 @@ declare interface IAggregate {
   aggregate: { count: number };
 }
 
+declare interface IHome {
+  pageData: {
+    layout: string;
+    openGraph: {
+      title: string;
+    };
+  };
+  layout: Record<string, ILayout>;
+  layoutItems: Record<string, ILayoutItem>;
+  cards: Record<string, ILayoutCard>;
+}
 declare interface IProduct {
   uid: string;
   title: string;
   subTitle: string;
-  label: string;
+  label?: string;
   price: {
     currency: string;
     currentPrice: number;

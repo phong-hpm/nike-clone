@@ -8,10 +8,10 @@ import {
   ModalHeader,
   SliderContainer,
   Slider,
+  Button,
 } from "@root/components/commons";
 import NavigationLink from "./NavigationLink";
 import { useRouter } from "next/router";
-import { Button } from "@root/components/commons/Button";
 
 export interface SliderProps {
   activeIndex: number;

@@ -1,6 +1,10 @@
-import { Button } from "@root/components/commons/Button";
-import useMediaScreen from "@root/hooks/useMediaScreen";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
+
+// components
+import { Button } from "@root/components/commons";
+
+// custom hooks
+import useMediaScreen from "@root/hooks/useMediaScreen";
 
 // modules
 import { ProductDetailContext } from "../ProductDetailProvider";

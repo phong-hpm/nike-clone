@@ -1,0 +1,31 @@
+query ($uid: String!) {
+  layout: layouts_by_pk(uid: $uid) {
+    uid
+    pageTitle: page_title
+    gridList: layout_items(order_by: { index: asc }) {
+      uid
+      layout_uid
+      mode
+      detail
+      rowList: layout_items(order_by: { index: asc }) {
+        uid
+        mode
+        detail
+        colList: layout_items(order_by: { index: asc }) {
+          uid
+          mode
+          detail
+          blockList: layout_items(order_by: { index: asc }) {
+            uid
+            mode
+            detail
+            card: layout_card {
+              uid
+              detail
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -4,6 +4,7 @@ import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { AutoHeight } from "./AutoHeight";
 
 const qualityList = [144, 440, 640, 864, 1280, 1536, 1920];
+const NEXT_PUBLIC_IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL || "";
 
 export interface ImageCustomProps {
   src?: string;
@@ -19,34 +20,45 @@ export interface ImageCustomProps {
    * Default: 100vw
    */
   sizes?: string;
+  imageId?: string;
+  lazyLoad?: boolean;
 }
 
 export const ImageCustom: FC<ImageCustomProps> = ({
   src: srcProp = "",
+  imageId,
   ratio,
   className,
   containerClassName,
   sizes = "100vw",
+  lazyLoad = true,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const [src, setSrc] = useState<string>();
   const [srcSet, setSrcSet] = useState<string[]>([]);
 
+  const mapImageSrc = (id: string, imgName: string, quality: number) =>
+    `${NEXT_PUBLIC_IMAGE_URL}/t_prod/w_${quality},c_limit,f_auto,q_auto/${id}/${imgName}`;
+
   // handle mapping hight quality link
   const updateSrc = useCallback(() => {
     if (!srcProp) return;
 
     const paths = srcProp.split("/") || [];
-    const id = paths[paths.length - 2] || "";
+    const id = imageId || paths[paths.length - 2] || "";
     const imgName = paths[paths.length - 1] || "";
 
     setSrcSet(qualityList.map((quality) => `${mapImageSrc(id, imgName, quality)} ${quality}w`));
     setSrc(mapImageSrc(id, imgName, qualityList[0]));
-  }, [srcProp]);
+  }, [imageId, srcProp]);
 
   // lazy load
   useEffect(() => {
+    if (!lazyLoad) {
+      return updateSrc();
+    }
+
     const containerEl = containerRef.current;
     if (!containerEl) return;
 
@@ -57,7 +69,7 @@ export const ImageCustom: FC<ImageCustomProps> = ({
 
     observer.observe(containerEl);
     return () => observer.unobserve(containerEl);
-  }, [srcProp, updateSrc]);
+  }, [lazyLoad, srcProp, updateSrc]);
 
   const renderImage = () => {
     return (

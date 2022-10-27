@@ -4,6 +4,10 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    fontFamily: {
+      "nike-tg": ["nike-tg"],
+      "nike-futura": ["nike-futura"],
+    },
     extend: {
       screens: {
         sm: "640px",

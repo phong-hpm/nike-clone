@@ -1,23 +1,20 @@
 import { FC, useEffect, useState } from "react";
 
 // components
-import {
-  IconSvg,
-  ButtonIcon,
-  AutoFixed,
-  Modal,
-  ModalHeader,
-  ModalBody,
-} from "@root/components/commons";
+import { IconSvg, ButtonIcon, AutoFixed } from "@root/components/commons";
 import Navigation from "./Navigation";
 import useMediaScreen from "@root/hooks/useMediaScreen";
 import NavigationModal from "./Navigation/NavigationModal";
+
+// custom hooks
+import { useNavigation } from "@root/hooks";
 
 export interface HeaderProps {
   navigationList: INavigation[];
 }
 
 const Header: FC<HeaderProps> = ({ navigationList }) => {
+  const { navigate } = useNavigation();
   const isScreenLG = useMediaScreen("lg");
 
   const [isShowNavModal, setShowNavModal] = useState(false);
@@ -33,7 +30,7 @@ const Header: FC<HeaderProps> = ({ navigationList }) => {
         <div className="relative flex items-end transition-height h-15 page-spacing bg-white">
           <div className="flex grow">
             <div className="grow-0 basis-[150px]">
-              <IconSvg icon="logo-nike" />
+              <IconSvg icon="logo-nike" className="cursor-pointer" onClick={() => navigate("/")} />
             </div>
 
             <div className="grow flex justify-center">

@@ -2,6 +2,13 @@ import { apolloClient } from "./apolloClient";
 import graphqlQueries from "@root/graphqlQueries";
 
 export const apiHandlers = {
+  getLayout: async (uid: string) => {
+    const { data } = await apolloClient.query<{ layout: { home: ILayout[] } }>({
+      query: graphqlQueries.LAYOUT,
+      variables: { uid },
+    });
+    return data.layout || { gridList: [] };
+  },
   getNavigation: async (uid: string) => {
     const { data } = await apolloClient.query<{ navigation: INavigation }>({
       query: graphqlQueries.NAVIGATION_DEEP,
