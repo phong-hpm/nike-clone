@@ -1,5 +1,8 @@
 import { FC } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { SwiperSlide } from "swiper/react";
+
+// components
+import { ButtonIcon, CustomSwiper, IconSvg } from "@root/components/commons";
 
 // components
 import LayoutCard from ".";
@@ -10,12 +13,7 @@ export interface LayoutCardFilmStripProps {
 
 const LayoutCardFilmStrip: FC<LayoutCardFilmStripProps> = ({ layoutCardDetail }) => {
   return (
-    <Swiper
-      slidesPerView={1.4}
-      spaceBetween={12}
-      breakpoints={{ 960: { slidesPerView: 3 } }}
-      className="page-spacing out-page-spacing"
-    >
+    <CustomSwiper title={layoutCardDetail.sectionHeadline.title}>
       {(layoutCardDetail?.slides as ILayoutCardDetail[]).map((slide) => {
         return (
           <SwiperSlide key={slide.id}>
@@ -23,7 +21,7 @@ const LayoutCardFilmStrip: FC<LayoutCardFilmStripProps> = ({ layoutCardDetail })
           </SwiperSlide>
         );
       })}
-    </Swiper>
+    </CustomSwiper>
   );
 };
 

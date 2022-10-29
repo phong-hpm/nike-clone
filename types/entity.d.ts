@@ -39,6 +39,7 @@ declare interface INavigation {
   parentUid?: string;
   path: string;
   urlPath: string;
+  hrefPath: string;
   label: string;
   title: string;
   level: "root" | "group" | "link";

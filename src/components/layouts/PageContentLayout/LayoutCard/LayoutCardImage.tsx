@@ -12,23 +12,36 @@ export interface LayoutCardImageProps {
 }
 
 const LayoutCardImage: FC<LayoutCardImageProps> = ({ layoutCardDetail }) => {
-  const { preferredOrientation, assetsIds, assetsAspectRatios } = layoutCardDetail;
+  const { preferredOrientation, assetsIds, assetsAspectRatios, imageHeight } = layoutCardDetail;
 
-  const isScreenLG = useMediaScreen("lg");
   const isScreenMD = useMediaScreen("md");
+  const isScreenSM = useMediaScreen("sm");
 
   const imageOrientation = useMemo(() => {
-    if (isScreenLG) return preferredOrientation?.large;
-    if (isScreenMD) return preferredOrientation?.medium;
+    if (isScreenMD) return preferredOrientation?.large;
+    if (isScreenSM) return preferredOrientation?.medium;
     return preferredOrientation?.small;
-  }, [isScreenLG, isScreenMD, preferredOrientation]);
+  }, [isScreenSM, isScreenMD, preferredOrientation]);
+
+  const ratio = useMemo(() => {
+    if (imageHeight === "maintain" || imageHeight === "medium") return undefined;
+    if (assetsAspectRatios[imageOrientation]) return assetsAspectRatios[imageOrientation];
+
+    return (
+      assetsAspectRatios.squarish || assetsAspectRatios.portrait || assetsAspectRatios.landscape
+    );
+  }, [imageHeight, assetsAspectRatios, imageOrientation]);
 
   return (
     <>
       <ImageCustom
         src={layoutCardDetail.landscapeURL}
         imageId={assetsIds[imageOrientation]}
-        ratio={assetsAspectRatios[imageOrientation]}
+        ratio={ratio}
+        className={cls(
+          imageHeight === "medium" && "object-cover min-h-[500px]",
+          imageHeight === "maintain" && "object-cover min-h-[300px]"
+        )}
       />
 
       <LayoutCardDescriptionLayer layoutCardDetail={layoutCardDetail} />

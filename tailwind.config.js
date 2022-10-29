@@ -10,7 +10,7 @@ module.exports = {
     },
     extend: {
       screens: {
-        sm: "640px",
+        sm: "600px",
         md: "768px",
         lg: "960px",
         xl: "1280px",
@@ -91,7 +91,6 @@ module.exports = {
   },
   plugins: [
     function ({ addVariant }) {
-      addVariant("is-fixed", ".is-fixed &");
       addVariant("is-fixed", ".is-fixed &");
     },
   ],

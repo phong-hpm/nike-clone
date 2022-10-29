@@ -1,9 +1,0 @@
-query {
-  home {
-    uid
-    pageData: page_data
-    layout
-    layoutItems: layout_items
-    cards
-  }
-}

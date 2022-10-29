@@ -1,22 +1,24 @@
 declare interface ILayout {
   uid: string;
   pageTitle: string;
-  gridList: ILayoutItem[];
+  detail: {
+    id: string;
+    items: string[];
+  };
 }
 
 declare interface ILayoutItem {
   uid: string;
   mode: "grid" | "row" | "col" | "block";
   detail: ILayoutItemDetail;
-  // childrens
-  rowList?: ILayoutItem[];
-  colList?: ILayoutItem[];
-  blockList?: ILayoutItem[];
-  card: ILayoutCard;
+  card?: ILayoutCard;
 }
 
 declare interface ILayoutItemDetail {
   id: string;
+  data?: string;
+  items?: string[];
+  mode: "grid" | "row" | "col" | "block";
   attributes: {
     fluid: boolean;
     margin?: {
@@ -26,9 +28,7 @@ declare interface ILayoutItemDetail {
       right?: { mobile: number; desktop: number };
     };
   };
-  mode: "grid" | "row" | "col" | "block";
   display?: { small: boolean; medium: boolean; large: boolean };
-  data?: string;
   span: { small: number; large: number; medium: number };
 }
 
@@ -40,16 +40,21 @@ declare interface ILayoutCard {
 declare interface ILayoutCardDetail {
   id: string;
   containerType:
+    | "local_menu"
+    | "merch_menu"
+    | "section_headline"
     | "snkrs_drops"
     | "external_collection"
-    | "section_headline"
-    | "section_headline"
-    | "filmstrip"
-    | "merch_menu"
     | "video"
     | "image"
-    | "page";
+    | "text"
+    | "page"
+    | "filmstrip"
+    | "dynamic_carousel"
+    | "product_recommender_taxonomy";
   destinationType: "gridwall" | "page" | "url";
+  colorTheme: "dark" | "light";
+  // media
   landscapeURL: string;
   portraitURL: string;
   preferredOrientation: {
@@ -60,7 +65,10 @@ declare interface ILayoutCardDetail {
   assetsIds: { landscape?: string; portrait?: string; squarish?: string };
   assetsAspectRatios: { portrait?: number; landscape?: number; squarish?: number };
   sectionHeadline: { title: string };
-  colorTheme: "dark" | "light";
+  imageHeight: "maintain" | "medium";
+  loop: boolean;
+  autoPlay: boolean;
+  // text
   title: string;
   titleProps: {
     text: string;
@@ -88,11 +96,20 @@ declare interface ILayoutCardDetail {
     id: string;
     actionText: string;
     buttonStyle: "solid_dark" | "solid_light";
+    actionType: "button" | "stacked_cta" | "link";
   }[];
+  // slide
   slides: ILayoutCardDetailSlide[] | ILayoutCardDetail[];
   slidesUpcoming: ILayoutCardDetailSlide[] | ILayoutCard[];
-  loop: boolean;
-  autoPlay: boolean;
+  // menu
+  items: {
+    id: string;
+    label: string;
+    links: {
+      id: string;
+      label: string;
+    }[];
+  }[];
 }
 declare interface ILayoutCardDetailSlide {
   productId: string;

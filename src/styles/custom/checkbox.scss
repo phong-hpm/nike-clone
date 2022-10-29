@@ -88,6 +88,65 @@
     }
   }
 
+  .checkbox-radio {
+    position: relative;
+
+    input {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      z-index: 1;
+      cursor: pointer;
+    }
+
+    .checkmark {
+      position: absolute;
+      top: 0px;
+      left: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        display: block;
+        border: 1.5px solid;
+        border-radius: 50%;
+      }
+
+      &::before {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-color: #cccccc;
+      }
+
+      &::after {
+        display: none;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 50%;
+        height: 50%;
+        background-color: #000;
+      }
+    }
+
+    input:checked {
+      & ~ .checkmark:before {
+        border-color: #000000;
+      }
+      & ~ .checkmark:after {
+        display: block;
+      }
+    }
+  }
+
   label {
     flex-grow: 1;
     padding-left: 6px;

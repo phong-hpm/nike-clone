@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useEffect, useState } from "react";
 
 // components
 import { IconSvg } from "./IconSvg";
@@ -8,6 +8,7 @@ import { useResize } from "@root/hooks";
 
 export interface CollapseProps {
   toggleable?: boolean;
+  noBorder?: boolean;
   isBorderEnd?: boolean;
   defaultExpand?: boolean;
   label?: ReactNode;
@@ -21,8 +22,9 @@ export interface CollapseProps {
 
 export const Collapse: FC<CollapseProps> = ({
   toggleable = true,
+  noBorder,
   isBorderEnd,
-  defaultExpand,
+  defaultExpand = false,
   label,
   icon,
   className,
@@ -35,8 +37,24 @@ export const Collapse: FC<CollapseProps> = ({
 
   const [isExpand, setExpand] = useState(!!defaultExpand);
 
+  // reset [isExpand] after [toggleable] was updated
+  useEffect(() => {
+    if (toggleable) {
+      setExpand(defaultExpand);
+    } else {
+      setExpand(true);
+    }
+  }, [defaultExpand, toggleable]);
+
   return (
-    <div className={cls("border-t border-neutral-200 py-2", isBorderEnd && "border-b", className)}>
+    <div
+      className={cls(
+        "py-2",
+        !noBorder && "border-t border-neutral-200",
+        !noBorder && isBorderEnd && "border-b",
+        className
+      )}
+    >
       <div
         className="flex justify-between items-center cursor-pointer py-1"
         onClick={() => toggleable && setExpand(!isExpand)}

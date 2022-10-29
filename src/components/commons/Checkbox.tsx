@@ -1,6 +1,7 @@
 import { FC, InputHTMLAttributes } from "react";
 
 export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
+  radio?: boolean;
   label?: string;
   groupClassName?: string;
   checkboxClassName?: string;
@@ -9,6 +10,7 @@ export interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
+  radio,
   label,
   groupClassName,
   checkboxClassName,
@@ -18,7 +20,7 @@ export const Checkbox: FC<CheckboxProps> = ({
 }) => {
   return (
     <div className={cls("checkbox-group", groupClassName)}>
-      <div className={cls("checkbox w-5 h-5", checkboxClassName)}>
+      <div className={cls("w-5 h-5", radio ? "checkbox-radio" : "checkbox", checkboxClassName)}>
         <input id={label} type="checkbox" {...props} />
         <span className={cls("checkmark", checkmarkClassName)} />
       </div>

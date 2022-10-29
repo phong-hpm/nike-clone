@@ -3,25 +3,16 @@ import { FC } from "react";
 // components
 import LayoutCard from "../LayoutCard";
 
-const NEXT_PUBLIC_DEBUG_LAYOUT = process.env.NEXT_PUBLIC_DEBUG_LAYOUT;
-
-export interface LayoutItemGridProps {
+export interface LayoutItemBlockProps {
   layoutItem: ILayoutItem;
+  className?: string;
 }
 
-const LayoutItemBlock: FC<LayoutItemGridProps> = ({ layoutItem }) => {
+const LayoutItemBlock: FC<LayoutItemBlockProps> = ({ layoutItem, className }) => {
   return (
-    <>
-      {NEXT_PUBLIC_DEBUG_LAYOUT === "1" && (
-        <h1>
-          {layoutItem.mode} {JSON.stringify(layoutItem.card.uid)}{" "}
-          {JSON.stringify(layoutItem.detail.data)}
-        </h1>
-      )}
-      <div className="layout-block">
-        {layoutItem.card && <LayoutCard layoutCard={layoutItem.card} />}
-      </div>
-    </>
+    <div data-mode="block" className={className}>
+      {layoutItem.card && <LayoutCard layoutCard={layoutItem.card} />}
+    </div>
   );
 };
 

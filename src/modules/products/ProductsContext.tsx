@@ -1,5 +1,3 @@
-import { useNavigation } from "@root/hooks";
-import { mapPageUrl } from "@root/utils";
 import {
   createContext,
   FC,
@@ -10,6 +8,14 @@ import {
   useRef,
   useState,
 } from "react";
+import { useRouter } from "next/router";
+
+// custom hooks
+import { useNavigation } from "@root/hooks";
+
+// utils
+import { mapPageUrl } from "@root/utils";
+import { UrlObject } from "url";
 
 export type FilterConditionType = {
   filters?: {
@@ -58,6 +64,7 @@ const ProductsProvider: FC<ProductsProviderProps> = ({
   filterOptionList,
   children,
 }) => {
+  const router = useRouter();
   const { navigate } = useNavigation();
 
   const keepRef = useRef({
@@ -122,9 +129,16 @@ const ProductsProvider: FC<ProductsProviderProps> = ({
     (newFilterIdList: string[]) => {
       if (!navigation) return;
       setFilterIdList(newFilterIdList);
-      navigate(mapPageUrl.mapProducts(navigation, newFilterIdList), { shallow: true });
+
+      navigate(
+        {
+          pathname: mapPageUrl.mapProducts(navigation, newFilterIdList),
+          query: { order: router.query.order },
+        },
+        { shallow: true }
+      );
     },
-    [navigate, navigation]
+    [navigate, navigation, router]
   );
 
   const updateSelectedCategory = useCallback(

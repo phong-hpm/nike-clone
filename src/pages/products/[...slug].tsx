@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 
 // utils
-import { apiHandlers, mapPageUrl } from "@root/utils";
+import { apiHandlers, getListFilterIdFromString, mapPageUrl } from "@root/utils";
 
 // components
 import { MainLayout } from "@root/components/layouts";
@@ -76,6 +76,7 @@ const Products: NextPage<ProductsProps> = ({
 
         <div className="mb-2 lg:mb-5">
           <ProductHeader
+            isShowFilterBar={isShowFilterBar}
             onClickFilter={() =>
               isScreenLG
                 ? setShowFilterBar(!isShowFilterBar)
@@ -104,7 +105,7 @@ const Products: NextPage<ProductsProps> = ({
 export const getServerSideProps: GetServerSideProps = async (req) => {
   const { slug = [] } = req.query;
   const [path, navigationUid, filterString = ""] = slug as string[];
-  const filterIdList: string[] = filterString.split(",");
+  const filterIdList = getListFilterIdFromString(filterString);
 
   const [navigation, navigationList, categoryList, filterOptionList] = await Promise.all([
     apiHandlers.getNavigation(navigationUid),

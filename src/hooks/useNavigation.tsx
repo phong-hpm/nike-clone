@@ -1,6 +1,7 @@
 import { useContext, useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
+import { UrlObject } from "url";
 
 // context
 import { NavigationContext } from "@root/components/features";
@@ -33,29 +34,22 @@ const removeInvalidQuery = (
   return routerQuery;
 };
 
-/**
- * To update url immediately, without waiting for [getServerSideProps] fetch api,
- * all navigate function will fire [history.pushState],
- * [history.pushState]: will update [url] without reload page
- */
 export const useNavigation = () => {
   const router = useRouter();
   const { navigating, setNavigating, onNavigate } = useContext(NavigationContext);
 
   const navigate = useCallback(
-    (pathname: string, options?: TransitionOptions) => {
-      const { shallow } = options || {};
-      if (!shallow) setNavigating(true);
-      router.push(pathname, undefined, options);
+    (url: string | UrlObject, options?: TransitionOptions) => {
+      if (!options?.shallow) setNavigating(true);
+      router.push(url, undefined, options);
     },
     [setNavigating, router]
   );
 
   const replace = useCallback(
-    (pathname: string, options?: TransitionOptions) => {
-      const { shallow } = options || {};
-      if (!shallow) setNavigating(true);
-      router.replace(pathname, undefined, options);
+    (url: string | UrlObject, options?: TransitionOptions) => {
+      if (!options?.shallow) setNavigating(true);
+      router.replace(url, undefined, options);
     },
     [setNavigating, router]
   );
@@ -74,9 +68,7 @@ export const useNavigation = () => {
   );
 
   // when [router.asPath] was changed, set navigating to be "false"
-  useEffect(() => {
-    setNavigating(false);
-  }, [router.asPath, setNavigating]);
+  useEffect(() => setNavigating(false), [router.asPath, setNavigating]);
 
   return { navigating, setNavigating, replace, navigate, replaceQuery, onNavigate };
 };

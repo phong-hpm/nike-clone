@@ -10,10 +10,16 @@ const CategoryList = () => {
     <div className="flex lg:flex-col gap-8 lg:gap-0 max-h-full overflow-x-auto hide-scroll-bar">
       {categoryList.map(({ uid, name }) => {
         const isSelected = uid === selectedCategory;
+
         return (
           <p
             key={uid}
-            className={cls("py-4 lg:pt-0 cursor-pointer font-medium", isSelected && "underline")}
+            className={cls(
+              "py-4 lg:pt-0",
+              "whitespace-nowrap lg:whitespace-normal",
+              "cursor-pointer font-medium",
+              isSelected && "underline"
+            )}
             onClick={() => updateSelectedCategory(uid)}
           >
             {name}

@@ -8,6 +8,7 @@ export * from "./Menu";
 export * from "./ImageCustom";
 export * from "./Collapse";
 export * from "./Modal";
+export * from "./CustomSwiper";
 export * from "./Modal/ModalHeader";
 export * from "./Modal/ModalBody";
 export * from "./Slider/Slider";

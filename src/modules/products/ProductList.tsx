@@ -72,13 +72,11 @@ const ProductList: NextPage = () => {
     stateRef.current.fetching = true;
     setReloading(true);
 
-    console.log("refetch", queryConditions);
-
     refetch().then(() => {
       stateRef.current.fetching = false;
       setReloading(false);
     });
-  }, [queryConditions, refetch]);
+  }, [queryConditions, router.query.order, refetch]);
 
   // load more listener
   useEffect(() => {

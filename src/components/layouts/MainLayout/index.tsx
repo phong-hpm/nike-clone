@@ -23,7 +23,7 @@ export const MainLayout: FC<MainLayoutProps> = ({
   return (
     <>
       <Head>
-        <title>{`${title}. Nike`}</title>
+        <title>{`${title || ""}. Nike`}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 

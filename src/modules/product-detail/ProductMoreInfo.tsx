@@ -16,8 +16,6 @@ const ProductMoreInfo = () => {
     });
   }, [detailNodeList]);
 
-  console.log(validNodeList);
-
   return (
     <>
       {validNodeList.map((node) => {

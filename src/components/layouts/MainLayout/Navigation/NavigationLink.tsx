@@ -22,23 +22,20 @@ const NavigationLink: FC<NavigationLinkRops> = ({
   const { navigate, onNavigate } = useNavigation();
 
   const handleClick = () => {
-    navigate(mapPageUrl.mapProducts(navigation));
+    if (!navigation.filterIdList.length && !navigation.hrefPath) return;
+    if (!navigation.filterIdList.length) {
+      navigate(mapPageUrl.mapLayout(navigation));
+    } else {
+      navigate(mapPageUrl.mapProducts(navigation));
+    }
+
     onNavigate?.(navigation);
     onClick?.();
   };
 
   return (
-    <p
-      {...props}
-      className={cls(
-        "cursor-pointer font-medium",
-        className,
-        !navigation.filterIdList.length && "text-red-600"
-      )}
-      onClick={handleClick}
-    >
+    <p {...props} className={cls("cursor-pointer font-medium", className)} onClick={handleClick}>
       {navigation.label}
-      {children}
     </p>
   );
 };

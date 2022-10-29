@@ -1,52 +1,50 @@
 import { FC, useMemo } from "react";
 
 // components
-import LayoutItemBlock from "./LayoutItemBlock";
+import LayoutItem from "./LayoutItem";
 
 // custom hooks
 import useMediaScreen from "@root/hooks/useMediaScreen";
 
-const NEXT_PUBLIC_DEBUG_LAYOUT = process.env.NEXT_PUBLIC_DEBUG_LAYOUT;
-
-export interface LayoutItemGridProps {
+export interface LayoutItemColProps {
   layoutItem: ILayoutItem;
   className?: string;
 }
 
-const LayoutItemCol: FC<LayoutItemGridProps> = ({ layoutItem, className }) => {
-  const isScreenLG = useMediaScreen("lg");
+const LayoutItemCol: FC<LayoutItemColProps> = ({ layoutItem, className }) => {
   const isScreenMD = useMediaScreen("md");
+  const isScreenSM = useMediaScreen("sm");
 
   const layoutItemDetail = useMemo(() => layoutItem.detail, [layoutItem]);
 
+  // [span.large]: from 'md'
+  // [span.medium]: from 'sm' to 'md'
+  // [span.small]: to 'sm'
   const currentSpan = useMemo(() => {
-    if (isScreenLG) return layoutItemDetail.span.large;
-    if (isScreenMD) return layoutItemDetail.span.medium;
+    if (isScreenMD) return layoutItemDetail.span.large;
+    if (isScreenSM) return layoutItemDetail.span.medium;
     return layoutItemDetail.span.small;
-  }, [isScreenLG, isScreenMD, layoutItemDetail.span]);
+  }, [isScreenSM, isScreenMD, layoutItemDetail.span]);
+
+  const items = layoutItem.detail?.items || [];
 
   return (
-    <>
-      {NEXT_PUBLIC_DEBUG_LAYOUT === "1" && (
-        // debug
-        <h1>
-          <p>layout: {layoutItem.uid}</p>
-          {layoutItem.mode} {JSON.stringify(layoutItem.blockList?.map(({ uid }) => uid))}{" "}
-          {JSON.stringify(layoutItemDetail.data)}
-        </h1>
-      )}
-      <div
-        className={className}
-        style={{
-          flexBasis: `${(currentSpan / 12) * 100}%`,
-          maxWidth: `${(currentSpan / 12) * 100}%`,
-        }}
-      >
-        {layoutItem.blockList?.map((block) => (
-          <LayoutItemBlock key={block.uid} layoutItem={block} />
-        ))}
-      </div>
-    </>
+    <div
+      data-mode="col"
+      className={cls(items.length > 1 && "my-[-6px]", className)}
+      style={{
+        flexBasis: `${(currentSpan / 12) * 100}%`,
+        maxWidth: `${(currentSpan / 12) * 100}%`,
+      }}
+    >
+      {items.map((layoutItemId) => (
+        <LayoutItem
+          key={layoutItemId}
+          layoutItemId={layoutItemId}
+          className={cls(items.length > 1 && "py-1.5")}
+        />
+      ))}
+    </div>
   );
 };
 

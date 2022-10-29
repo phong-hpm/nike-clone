@@ -26,7 +26,7 @@ const Header: FC<HeaderProps> = ({ navigationList }) => {
 
   return (
     <div className="h-15">
-      <AutoFixed autoHide>
+      <AutoFixed autoHide order={-1}>
         <div className="relative flex items-end transition-height h-15 page-spacing bg-white">
           <div className="flex grow">
             <div className="grow-0 basis-[150px]">
@@ -47,11 +47,7 @@ const Header: FC<HeaderProps> = ({ navigationList }) => {
               <ButtonIcon>
                 <IconSvg icon="cart" />
               </ButtonIcon>
-              <ButtonIcon
-                className="block lg:hidden"
-                disabled={isScreenLG}
-                onClick={() => setShowNavModal(true)}
-              >
+              <ButtonIcon className="block lg:hidden" onClick={() => setShowNavModal(true)}>
                 <IconSvg icon="bars" />
               </ButtonIcon>
             </div>

@@ -10,6 +10,8 @@ export interface ImageCustomProps {
   src?: string;
   className?: string;
   containerClassName?: string;
+  autoHeightClass?: string;
+  autoHeightContentClass?: string;
   /**
    * width / height
    */
@@ -30,6 +32,8 @@ export const ImageCustom: FC<ImageCustomProps> = ({
   ratio,
   className,
   containerClassName,
+  autoHeightClass,
+  autoHeightContentClass,
   sizes = "100vw",
   lazyLoad = true,
 }) => {
@@ -83,5 +87,9 @@ export const ImageCustom: FC<ImageCustomProps> = ({
 
   if (!ratio) return renderImage();
 
-  return <AutoHeight ratio={ratio}>{renderImage()}</AutoHeight>;
+  return (
+    <AutoHeight ratio={ratio} className={autoHeightClass} contentClass={autoHeightContentClass}>
+      {renderImage()}
+    </AutoHeight>
+  );
 };

@@ -16,7 +16,17 @@ export const FIXED_CONTAINER_ID = "fixed-container";
 const createFixedContainerElement = () => {
   const fixedContainer = document.createElement("div");
   fixedContainer.id = FIXED_CONTAINER_ID;
-  fixedContainer.classList.add("is-fixed", "fixed", "z-700", "top-0", "left-0", "w-full", "h-0");
+  fixedContainer.classList.add(
+    "is-fixed",
+    "fixed",
+    "z-700",
+    "top-0",
+    "left-0",
+    "w-full",
+    "h-0",
+    "flex",
+    "flex-col"
+  );
 
   // add an fixed wrapper element in root DOM
   document.body.append(fixedContainer);
@@ -25,10 +35,23 @@ const createFixedContainerElement = () => {
 export interface AutoFixedProps {
   extendTop?: number;
   autoHide?: boolean;
+  className?: string;
+  fixedClassName?: string;
+  /**
+   * {-1}: Header
+   */
+  order: number;
   children: ReactElement;
 }
 
-export const AutoFixed: FC<AutoFixedProps> = ({ extendTop = 0, autoHide, children }) => {
+export const AutoFixed: FC<AutoFixedProps> = ({
+  extendTop = 0,
+  autoHide,
+  className,
+  fixedClassName,
+  order,
+  children,
+}) => {
   const stateRef = useRef({ containerTop: 0, containerHeight: 0, lastWindowScrollY: 0 });
   const containerRef = useRef<HTMLDivElement | null>(null);
   const targetRef = useRef<HTMLElement | null>(null);
@@ -64,7 +87,14 @@ export const AutoFixed: FC<AutoFixedProps> = ({ extendTop = 0, autoHide, childre
       setPortal(undefined);
     } else {
       // move [target] to fixed point
-      setPortal(createPortal(target, fixedContainerEl));
+      setPortal(
+        createPortal(
+          <div className={fixedClassName} style={{ order }}>
+            {target}
+          </div>,
+          fixedContainerEl
+        )
+      );
 
       if (autoHide) {
         targetRef.current.style.position = "relative";
@@ -79,7 +109,7 @@ export const AutoFixed: FC<AutoFixedProps> = ({ extendTop = 0, autoHide, childre
     }
 
     if (mounted) stateRef.current.lastWindowScrollY = scrollY;
-  }, [mounted, extendTop, autoHide, target]);
+  }, [mounted, extendTop, autoHide, target, fixedClassName, order]);
 
   // repairing
   // add an fixed wrapper element into [body] if not existed
@@ -107,5 +137,9 @@ export const AutoFixed: FC<AutoFixedProps> = ({ extendTop = 0, autoHide, childre
     return () => window.removeEventListener("scroll", handleWindowScroll);
   }, [autoHide, target, handleWindowScroll]);
 
-  return <div ref={containerRef}>{portal || target}</div>;
+  return (
+    <div ref={containerRef} className={className}>
+      {portal || target}
+    </div>
+  );
 };

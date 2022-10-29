@@ -2,12 +2,15 @@ import { apolloClient } from "./apolloClient";
 import graphqlQueries from "@root/graphqlQueries";
 
 export const apiHandlers = {
-  getLayout: async (uid: string) => {
-    const { data } = await apolloClient.query<{ layout: { home: ILayout[] } }>({
+  getLayout: async (pageUrlPath: string) => {
+    const { data } = await apolloClient.query<{
+      layouts: ILayout[];
+      layoutItemList: ILayoutItem[];
+    }>({
       query: graphqlQueries.LAYOUT,
-      variables: { uid },
+      variables: { pageUrlPath },
     });
-    return data.layout || { gridList: [] };
+    return { layout: data.layouts?.[0] || {}, layoutItemList: data.layoutItemList || [] };
   },
   getNavigation: async (uid: string) => {
     const { data } = await apolloClient.query<{ navigation: INavigation }>({

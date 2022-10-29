@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const screenSizes = {
-  sm: 640,
+  sm: 600,
   md: 768,
   lg: 960,
   xl: 1280,
