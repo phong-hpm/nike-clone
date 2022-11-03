@@ -8,6 +8,7 @@ import HeaderSub from "./HeaderSub";
 import Footer from "./Footer";
 
 export interface MainLayoutProps {
+  hideBanner?: boolean;
   title: string;
   navigationList: INavigation[];
   children: ReactNode;
@@ -15,6 +16,7 @@ export interface MainLayoutProps {
 }
 
 export const MainLayout: FC<MainLayoutProps> = ({
+  hideBanner,
   title,
   navigationList,
   onNavigate,
@@ -33,7 +35,7 @@ export const MainLayout: FC<MainLayoutProps> = ({
           <Header navigationList={navigationList} />
 
           {/* banner */}
-          <div className="h-15 page-spacing mb-3"></div>
+          {!hideBanner && <div className="h-15 page-spacing mb-3"></div>}
 
           <div id="body" className="grow">
             {children}

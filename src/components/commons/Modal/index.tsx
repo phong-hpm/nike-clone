@@ -130,3 +130,6 @@ export const Modal: FC<ModalProps> = ({
     document.body
   );
 };
+
+export * from "./ModalBody";
+export * from "./ModalHeader";

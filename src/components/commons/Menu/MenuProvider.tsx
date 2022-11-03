@@ -21,7 +21,7 @@ export type MenuContextType = {
   selectedOption: MenuOptionType;
   setSelectedOption: Dispatch<SetStateAction<MenuOptionType>>;
   options: MenuOptionType[];
-  onChange: (option: MenuOptionType) => void;
+  onChange?: (option: MenuOptionType) => void;
 };
 export const MenuContext = createContext<MenuContextType>({
   title: "",
@@ -37,7 +37,7 @@ export interface MenuProviderProps {
   title: string;
   options: MenuOptionType[];
   selectedValue?: string;
-  onChange: (option: MenuOptionType) => void;
+  onChange?: (option: MenuOptionType) => void;
   children: ReactNode;
 }
 

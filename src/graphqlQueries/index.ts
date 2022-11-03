@@ -6,6 +6,8 @@ import FILTER_OPTION_LIST from "./FILTER_OPTION_LIST.gql";
 import PRODUCT_LIST from "./PRODUCT_LIST.gql";
 import PRODUCT_AGGREGATE from "./PRODUCT_AGGREGATE.gql";
 import PRODUCT_DETAIL from "./PRODUCT_DETAIL.gql";
+import RETAILS from "./RETAILS.gql";
+import RETAIL_DETAILS from "./RETAIL_DETAILS.gql";
 
 const graphqlQueries = {
   LAYOUT,
@@ -16,6 +18,8 @@ const graphqlQueries = {
   PRODUCT_LIST,
   PRODUCT_AGGREGATE,
   PRODUCT_DETAIL,
+  RETAILS,
+  RETAIL_DETAILS,
 };
 
 export default graphqlQueries;

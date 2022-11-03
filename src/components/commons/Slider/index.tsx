@@ -42,3 +42,5 @@ export const Slider: FC<SliderProps> = ({
     </div>
   );
 };
+
+export * from "./SliderContainer";

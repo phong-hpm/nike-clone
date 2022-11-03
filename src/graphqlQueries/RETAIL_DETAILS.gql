@@ -1,0 +1,8 @@
+query ($where: retails_bool_exp) {
+  retailList: retails(where: $where) {
+    uid
+    latitude
+    longitude
+    detail
+  }
+}

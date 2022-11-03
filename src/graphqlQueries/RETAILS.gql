@@ -1,0 +1,8 @@
+query {
+  retailList: retails {
+    uid
+    postalCode: postal_code
+    latitude
+    longitude
+  }
+}

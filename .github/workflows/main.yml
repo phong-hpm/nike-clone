@@ -1,0 +1,41 @@
+name: Deploy nike-clone.cf
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  setup:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup nodeJS 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+  install:
+    runs-on: self-hosted
+    needs: setup
+
+    steps:
+      - name: Install node_modules
+        run: yarn
+
+  build:
+    runs-on: self-hosted
+    needs: install
+
+    steps:
+      - name: Build
+        run: npm run build
+
+  start:
+    runs-on: self-hosted
+    needs: build
+
+    steps:
+      - name: publish
+        run: npm run start

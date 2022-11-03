@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 
 // utils
-import { apiHandlers, getListFilterIdFromString, mapPageUrl } from "@root/utils";
+import {
+  apiHandlers,
+  getListFilterIdFromString,
+  mapPageUrl,
+  withServerSidePropDebugger,
+} from "@root/utils";
 
 // components
 import { MainLayout } from "@root/components/layouts";
@@ -102,7 +107,7 @@ const Products: NextPage<ProductsProps> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (req) => {
+export const getServerSideProps: GetServerSideProps = withServerSidePropDebugger(async (req) => {
   const { slug = [] } = req.query;
   const [path, navigationUid, filterString = ""] = slug as string[];
   const filterIdList = getListFilterIdFromString(filterString);
@@ -127,6 +132,6 @@ export const getServerSideProps: GetServerSideProps = async (req) => {
   return {
     props: { filterIdList, navigation, navigationList, categoryList, filterOptionList },
   };
-};
+});
 
 export default Products;

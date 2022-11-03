@@ -1,0 +1,42 @@
+@import "mapbox-gl/dist/mapbox-gl.css";
+
+.mapboxgl-map {
+  .mapboxgl-canvas-container {
+    .mapboxgl-marker {
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+    }
+  }
+
+  .mapboxgl-control-container {
+    .mapboxgl-ctrl {
+      &.mapboxgl-ctrl-group {
+        &:not(:empty) {
+          box-shadow: rgb(17 17 17 / 24%) 0px 4px 12px;
+          border-radius: 8px;
+          overflow: hidden;
+        }
+      }
+
+      .mapboxgl-ctrl-zoom-in {
+        .mapboxgl-ctrl-icon {
+          background-image: url(https://www.nike.com/static/icons/nike-design-system-icons/temp/Standard-UINavigation-Plus-LightBG-24.svg);
+          background-size: 20px 20px;
+        }
+      }
+      .mapboxgl-ctrl-zoom-out {
+        .mapboxgl-ctrl-icon {
+          background-image: url(https://www.nike.com/static/icons/nike-design-system-icons/temp/Standard-UINavigation-Minus-LightBG-24.svg);
+          background-size: 20px 20px;
+        }
+      }
+      .mapboxgl-ctrl-compass {
+        .mapboxgl-ctrl-icon {
+          background-image: url(https://www.nike.com/static/icons/nike-design-system-icons/temp/Standard-Core-Navigation-LightBG-16.svg);
+          background-size: 20px 20px;
+        }
+      }
+    }
+  }
+}

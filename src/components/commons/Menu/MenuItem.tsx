@@ -14,7 +14,7 @@ export const MenuItem: FC<MenuItemProps> = ({ value, label, className, ...props 
     if (selectedOption.value === value) return event.stopPropagation();
 
     setSelectedOption({ value, label });
-    onChange({ value, label });
+    onChange?.({ value, label });
   };
 
   return (

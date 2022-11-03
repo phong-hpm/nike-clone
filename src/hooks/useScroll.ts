@@ -26,9 +26,7 @@ const getTotalSiblingHeights = (containerElement: HTMLElement, targetElement: HT
   return restHeight;
 };
 
-const useScroll = (
-  containerId?: string
-): [Dispatch<SetStateAction<HTMLElement | null>>, boolean] => {
+const useScroll = (containerId?: string) => {
   const [targetElement, setTargetElement] = useState<HTMLElement | null>(null);
   const [isScrolling, setScrolling] = useState(false);
 
@@ -76,7 +74,7 @@ const useScroll = (
     return () => observer.unobserve(containerElement);
   }, [containerId, targetElement?.parentElement, computeHeight]);
 
-  return [setTargetElement, isScrolling];
+  return { targetElement, setTargetElement, isScrolling };
 };
 
 export default useScroll;

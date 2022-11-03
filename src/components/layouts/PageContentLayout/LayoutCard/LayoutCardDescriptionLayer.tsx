@@ -100,21 +100,16 @@ const LayoutCardDescriptionLayer: FC<LayoutCardDescriptionLayerProps> = ({
 
     return (
       <div className="flex gap-2 mt-6">
-        {actionButtons?.map(
-          (action) => (
-            console.log("action.actionStyle", action),
-            (
-              <Button
-                key={action.id}
-                isFull={false}
-                theme={colorTheme}
-                variant={action.actionType === "link" ? "link" : "contain"}
-              >
-                {action.actionText}
-              </Button>
-            )
-          )
-        )}
+        {actionButtons?.map((action) => (
+          <Button
+            key={action.id}
+            isFull={false}
+            theme={colorTheme}
+            variant={action.actionType === "link" ? "link" : "contain"}
+          >
+            {action.actionText}
+          </Button>
+        ))}
       </div>
     );
   }, [actionButtons, colorTheme]);

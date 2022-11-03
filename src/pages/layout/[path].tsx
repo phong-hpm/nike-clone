@@ -4,7 +4,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { MainLayout } from "@root/components/layouts";
 
 // utils
-import { apiHandlers } from "@root/utils";
+import { apiHandlers, withServerSidePropDebugger } from "@root/utils";
 
 // components
 import { PageContentLayout } from "@root/components/layouts";
@@ -28,18 +28,15 @@ const LayoutPage: NextPage<LayoutPageProps> = ({ navigationList, layout, layoutI
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (req) => {
+export const getServerSideProps: GetServerSideProps = withServerSidePropDebugger(async (req) => {
   const { path } = req.query;
 
-  console.log("layout/[path]");
-  console.log("calling api", req.query, `/${path}`);
   const [{ layout, layoutItemList }, navigationList] = await Promise.all([
     apiHandlers.getLayout(`/${path}`),
     apiHandlers.getNavigationList(),
   ]);
-  console.log("done api");
 
   return { props: { navigationList, layout, layoutItemList } };
-};
+});
 
 export default LayoutPage;

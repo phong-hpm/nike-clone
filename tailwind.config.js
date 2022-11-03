@@ -9,6 +9,10 @@ module.exports = {
       "nike-futura": ["nike-futura"],
     },
     extend: {
+      flexGrow: {
+        1: 1,
+        2: 2,
+      },
       screens: {
         sm: "600px",
         md: "768px",
@@ -23,6 +27,9 @@ module.exports = {
         "gray-main": "#757575",
         "gray-middle": "#F7F7F7",
         "gray-light": "#cccccc",
+        error: "#d43f21",
+        accent: "#fa5400",
+        success: "#128a09",
       },
       spacing: {
         15: "3.75rem",

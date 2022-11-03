@@ -1,5 +1,6 @@
 import { apolloClient } from "./apolloClient";
 import graphqlQueries from "@root/graphqlQueries";
+import axios from "axios";
 
 export const apiHandlers = {
   getLayout: async (pageUrlPath: string) => {
@@ -45,5 +46,18 @@ export const apiHandlers = {
       variables: { productUid: productUid },
     });
     return data.productDetail || [];
+  },
+  getRetails: async () => {
+    const { data } = await apolloClient.query<{ retailList: IRetail[] }>({
+      query: graphqlQueries.RETAILS,
+    });
+    return data || { retails: [] };
+  },
+  searchAddress: async (q: string) => {
+    const { data } = await axios.get<{ error: boolean; data: IOpenStreetData[] }>(
+      "api/retails/search-address",
+      { params: { q } }
+    );
+    return data;
   },
 };

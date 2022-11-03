@@ -9,7 +9,7 @@ const screenSizes = {
 };
 
 const useMediaScreen = (screen: "2xl" | "xl" | "lg" | "md" | "sm") => {
-  const [mediaScreen, setMediaScreen] = useState(false);
+  const [mediaScreen, setMediaScreen] = useState<boolean>();
 
   useEffect(() => {
     const updateMediaScreen = () => setMediaScreen(screenSizes[screen] <= window.innerWidth);

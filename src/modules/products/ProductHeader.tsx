@@ -1,5 +1,5 @@
 import { FC, useContext, useEffect } from "react";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 
 // components
@@ -25,10 +25,9 @@ const ProductHeader: FC<ProductHeaderProps> = ({ isShowFilterBar, onClickFilter 
   const router = useRouter();
   const { navigation, queryConditions, setProductCount } = useContext(ProductsContext);
 
-  const { data } = useQuery<{ productsAggregate?: { aggregate?: IAggregate } }>(
-    graphqlQueries.PRODUCT_AGGREGATE,
-    { variables: { _and: queryConditions } }
-  );
+  const [loadProductAggregate, { data }] = useLazyQuery<{
+    productsAggregate?: IAggregate;
+  }>(graphqlQueries.PRODUCT_AGGREGATE, {});
 
   const isScreenLG = useMediaScreen("lg");
   const { replaceQuery, setNavigating } = useNavigation();
@@ -44,6 +43,11 @@ const ProductHeader: FC<ProductHeaderProps> = ({ isShowFilterBar, onClickFilter 
     if (!data?.productsAggregate?.aggregate) return;
     setProductCount(data?.productsAggregate?.aggregate?.count);
   }, [data, setProductCount]);
+
+  useEffect(() => {
+    if (!queryConditions.length) return;
+    loadProductAggregate({ variables: { _and: queryConditions } });
+  }, [queryConditions, loadProductAggregate]);
 
   return (
     <div>

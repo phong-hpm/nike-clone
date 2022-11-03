@@ -30,8 +30,8 @@ const ProductList: NextPage = () => {
       variables: {
         limit: PRODUCT_LIMIT,
         offset: 0,
-        _and: queryConditions,
         order_by: PRODUCT_ORDER_BY[router.query.order as string],
+        _and: queryConditions,
       },
     }
   );
