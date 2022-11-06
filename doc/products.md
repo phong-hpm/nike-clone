@@ -11,7 +11,7 @@ All the most of behaviors were built in the same with [nike.com](https://nike.co
 
 <b>Strongly focus points:</b> handling animations, optimizing performance, structuring data, reusable and maintainable
 
-<!-- [Quick access](https://nike.com/gb) -->
+[Quick access](https://nike-clone.cf/p/men-shoes-all-shoes/qjr7qk76zM/81BXZO1Df5VPPWRR4TVz)
 
 ## Screenshots
 

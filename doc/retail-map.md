@@ -4,7 +4,7 @@
 
 <b>Strongly focus points:</b> optimizing performance
 
-<!-- [Quick access](https://nike.com/gb) -->
+[Quick access](https://nike-clone.cf/retail)
 
 ## Work flows
 

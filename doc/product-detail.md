@@ -12,7 +12,7 @@ Check `Data Structures` for more informations
 
 <b>Strongly focus points:</b> structuring data, reusable and maintainable
 
-<!-- [Quick access](https://nike.com/gb) -->
+[Quick access](https://nike-clone.cf/d/CU4495-010)
 
 ## Screenshots
 

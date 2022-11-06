@@ -10,7 +10,7 @@
 
 Check **_Data Structures_** for more informations
 
-<!-- [Quick access](https://nike.com/gb) -->
+[Quick access](https://nike-clone.cf/men)
 
 ## Data Structures
 

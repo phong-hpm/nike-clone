@@ -1,5 +1,11 @@
 ### Project is in development
 
+[Live demo](https://nike-clone.cf/)
+
+- Click `README` button to check the project's document
+
+<img src='./public/images/documents/screenshot-1.png' style="width: 30%" />
+
 ## Frontend Techicals
 
 - ReactJS (Typescript)
