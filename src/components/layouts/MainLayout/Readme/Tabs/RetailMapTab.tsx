@@ -71,14 +71,14 @@ const RetailMapTab: FC<RetailMapTabProps> = ({ onClose }) => {
             <Text b>Load page:</Text>
             <ul className="list-decimal pl-4">
               <li>
-                load all<Text h>retail's coordinates</Text>
+                Load all<Text h>retail's coordinates</Text>
                 from api (without detail)
               </li>
               <li>
-                filter limitedly the<Text h>closest retails</Text>with user's location
+                Filter limitedly the<Text h>closest retails</Text>with user's location
               </li>
               <li>
-                get the detail of<Text h>closest retails</Text>from api
+                Get the detail of<Text h>closest retails</Text>from api
               </li>
               <li>Display them on the screen</li>
             </ul>
@@ -88,7 +88,7 @@ const RetailMapTab: FC<RetailMapTabProps> = ({ onClose }) => {
             <Text b>Search:</Text>
             <ul className="list-decimal pl-4">
               <li>
-                <span>get place list from</span>
+                <span>Get place list from</span>
                 <Text u>https://nominatim.openstreetmap.org</Text>
                 api, pick the first one as <Text h>search center</Text>
               </li>
@@ -103,7 +103,7 @@ const RetailMapTab: FC<RetailMapTabProps> = ({ onClose }) => {
             <Text b>Select a searched point:</Text>
             <ul className="list-decimal pl-4">
               <li>
-                pick selected point from place list as<Text h>search center</Text>
+                Pick selected point from place list as<Text h>search center</Text>
               </li>
               <li>
                 Get all <Text h>closest retail</Text> with <Text h>search center</Text>

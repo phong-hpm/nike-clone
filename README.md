@@ -1,23 +1,22 @@
-## Project is in development
+### Project is in development
 
-### start project
-
-```
-npm run dev
-```
-
-- load one of these urls:
-- - http://localhost:3000/product-detail/CU4495-010
-- - http://localhost:3000/products/men-clothing-all-clothing/84819dbf-6d6f-42fd-a7fa-569957c3ec14
-
-### Frontend Techicals
+## Frontend Techicals
 
 - ReactJS (Typescript)
 - NextJS
 - Tailwind
+- @Apollo/client
 - Graphql
+- Mapbox
 
-### Server
+## Server
 
 - Hasura
 - Postgresql (running on VPS)
+
+## Features
+
+- [Layout](./doc/layout.md)
+- [Products](./doc/products.md)
+- [Product Detail](./doc/product-detail.md)
+- [Retail Map](./doc/retail-map.md)

@@ -26,11 +26,6 @@ const ProductDetailTab: FC<ProductDetailTabProps> = ({ onClose }) => {
         </p>
 
         <p>
-          <Text h>Layout</Text> allow to manage directly the layout without update source code. The
-          page can has many dinamic layouts but use only one source code
-        </p>
-
-        <p>
           <Text b>Status:</Text> Complete
         </p>
 

@@ -28,7 +28,7 @@ const LayoutTab: FC<LayoutTabProps> = ({ onClose }) => {
           <Text b>Status:</Text> Complete
         </p>
         <p>
-          <Text b>Product layers:</Text> Grid, Row, Column, Block, Card
+          <Text b>Layers:</Text> Grid, Row, Column, Block, Card
         </p>
         <p>
           Check <Text h>Data Structures</Text> for more informations
@@ -123,7 +123,7 @@ const LayoutTab: FC<LayoutTabProps> = ({ onClose }) => {
                 <Text h>Card</Text>'s layout
               </li>
               <li>
-                <Text h>actionButtons</Text>: the list of buttons will be display in
+                <Text h>actionButtons</Text>: the list of buttons will be displayed in
                 <Text h>Card</Text>
               </li>
               <li>
