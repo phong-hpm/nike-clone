@@ -158,7 +158,7 @@ const Footer = () => {
           <p>© 2022 Nike, Inc. All Rights Reserved</p>
         </div>
 
-        <div className="grow shrink basis-0 flex flex-col lg:flex-row gap-8 justify-end flex-wrap">
+        <div className="grow shrink basis-0 flex flex-col lg:flex-row gap-8 justify-end lg:flex-wrap">
           {optionList.map((option) => (
             <p key={option.label} className="hover:text-white cursor-pointer">
               {option.label}

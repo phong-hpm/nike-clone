@@ -53,7 +53,7 @@ const RetailPage: NextPage<RetailPageProps> = ({ retailList, navigationList }) =
           </div>
 
           <div className="basis-[66%] shrink-0 grow-2">
-            <div className={cls(!isScreenLG && selectedTab !== 1 && "invisible")}>
+            <div className={cls(!isScreenLG && selectedTab !== 1 && "invisible !h-0")}>
               <RetailMap />
             </div>
           </div>

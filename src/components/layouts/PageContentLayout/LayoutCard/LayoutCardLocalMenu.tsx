@@ -9,13 +9,8 @@ export interface LayoutCardLocalMenuProps {
 
 const LayoutCardLocalMenu: FC<LayoutCardLocalMenuProps> = ({ layoutCardDetail }) => {
   return (
-    <AutoFixed order={0} fixedClassName="page-spacing bg-white">
-      <div
-        className={cls(
-          "md:flex justify-between items-center flex-wrap",
-          "pb-8 is-fixed:py-2 is-fixed:lg:py-0"
-        )}
-      >
+    <AutoFixed order={0} className="h-20 lg:h-16" fixedClassName="page-spacing bg-white">
+      <div className={cls("lg:flex justify-between items-center flex-wrap")}>
         <p className="font-medium text-xl is-fixed:text-2xl lg:text-2xl is-fixed:lg:text-base">
           {layoutCardDetail.title}
         </p>

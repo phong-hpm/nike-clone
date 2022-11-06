@@ -1,3 +1,12 @@
+@font-face {
+  font-family: "nike-tg";
+  src: url(../assets/fonts/Nike-TG.woff2);
+}
+@font-face {
+  font-family: "nike-futura";
+  src: url(../assets/fonts/Nike-Futura.woff2);
+}
+
 html,
 body {
   padding: 0;
@@ -21,37 +30,7 @@ video {
   box-sizing: border-box;
 }
 
-.hide-scroll-bar {
-  &::-webkit-scrollbar {
-    width: 0px;
-    height: 0px;
-  }
-}
-
-.custom-scroll-bar {
-  &::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
-  }
-
-  /* Track */
-  &::-webkit-scrollbar-track {
-    background: whitesmoke;
-    // border-radius: 4px;
-  }
-
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    background: #72767c;
-    border-radius: 4px;
-  }
-
-  /* Handle on hover */
-  &::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-}
-
+// tailwind
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
@@ -61,9 +40,7 @@ video {
 @import "swiper/css/pagination";
 
 @import "./animations";
-@import "./commons";
 @import "./custom";
+@import "./commons";
 @import "./icons";
-@import "./icons-nike";
 @import "./nike";
-@import "./custom-skeleton";

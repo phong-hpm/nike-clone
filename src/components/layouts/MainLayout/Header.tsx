@@ -30,7 +30,7 @@ const Header: FC<HeaderProps> = ({ navigationList }) => {
         <div className="relative flex items-end transition-height h-15 page-spacing bg-white">
           <div className="flex grow">
             <div className="grow-0 basis-[150px]">
-              <IconSvg icon="logo-nike" className="cursor-pointer" onClick={() => navigate("/")} />
+              <IconSvg icon="logo-nike" className="link" onClick={() => navigate("/")} />
             </div>
 
             <div className="grow flex justify-center">
