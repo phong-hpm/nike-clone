@@ -58,7 +58,7 @@ const Products: NextPage<ProductsProps> = ({
   // When the screen was changed to be greater or equal than "LG", auto "Show" [Filter]
   // When the screen was changed to be less than "LG", auto "Hide" [Filter]
   useEffect(() => {
-    setShowFilterBar(isScreenLG);
+    setShowFilterBar(!!isScreenLG);
     // "Hide" Modal when the screen was changed to be greater or equal than "LG"
     if (isScreenLG) setShowFilterModal(false);
   }, [isScreenLG]);

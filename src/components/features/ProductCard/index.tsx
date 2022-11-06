@@ -42,7 +42,7 @@ export const ProductCard: FC<ProductCardProps> = ({
 
   const label = useMemo(() => {
     if (product.label === "IN_STOCK") return "";
-    return LABELS[product.label] || product.label;
+    return product.label ? LABELS[product.label] : product.label;
   }, [product.label]);
 
   useEffect(() => {
