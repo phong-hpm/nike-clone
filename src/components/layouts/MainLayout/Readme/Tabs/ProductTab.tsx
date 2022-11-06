@@ -35,7 +35,7 @@ const ProductTab: FC<ProductTabProps> = ({ onClose }) => {
           </li>
           <li>
             <Text b>Query products asynchronous:</Text> Products api will be call while NextJS is
-            waiting for getServerSideProps
+            waiting for <Text h>getServerSideProps</Text>
           </li>
         </ul>
 

@@ -38,4 +38,4 @@ jobs:
 
     steps:
       - name: publish
-        run: npm run start
+        run: pm2 restart nike-clone
