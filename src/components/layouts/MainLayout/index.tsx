@@ -6,6 +6,7 @@ import { NavigationProvider } from "@root/components/features";
 import Header from "./Header";
 import HeaderSub from "./HeaderSub";
 import Footer from "./Footer";
+import Readme from "./Readme";
 
 export interface MainLayoutProps {
   hideBanner?: boolean;
@@ -28,6 +29,8 @@ export const MainLayout: FC<MainLayoutProps> = ({
         <title>{`${title || ""}. Nike`}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+
+      <Readme />
 
       <NavigationProvider onNavigate={onNavigate}>
         <div className="flex flex-col min-h-screen">

@@ -9,6 +9,9 @@ module.exports = {
       "nike-futura": ["nike-futura"],
     },
     extend: {
+      boxShadow: {
+        custom: "rgb(0 0 0 / 24%) 0px 4px 12px",
+      },
       flexGrow: {
         1: 1,
         2: 2,
@@ -68,7 +71,7 @@ module.exports = {
         "5/6": "83.333333%",
       },
       zIndex: {
-        1000: "1000",
+        1000: "1000", // ProjectDescription
         900: "900", // Navigation
         800: "800", // Modal
         700: "700", // Autofixed

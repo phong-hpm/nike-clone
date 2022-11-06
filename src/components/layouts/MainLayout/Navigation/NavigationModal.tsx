@@ -49,6 +49,11 @@ const NavigationModal: FC<NavigationModalProps> = ({ isShow, navigationList, onH
     handleNext();
   };
 
+  const handleNavigate = (path: string) => {
+    router.push(path);
+    onHide?.();
+  };
+
   return (
     <Modal
       isShow={isShow}
@@ -58,7 +63,7 @@ const NavigationModal: FC<NavigationModalProps> = ({ isShow, navigationList, onH
       contentClass="w-80"
       afterHide={() => setActiveSlide(0)}
     >
-      <ModalHeader className="px-4" onHide={onHide} />
+      <ModalHeader className="px-4" />
 
       <ModalBody className="!px-0">
         <SliderContainer>
@@ -105,15 +110,18 @@ const NavigationModal: FC<NavigationModalProps> = ({ isShow, navigationList, onH
             </div>
 
             <div>
-              <div className="flex py-1 mb-3">
+              <div className="flex py-1 mb-3 cursor-pointer">
                 <IconSvg icon="orders" />
                 <p className="font-medium ml-3">Orders</p>
               </div>
-              <div className="flex py-1 mb-3">
+              <div
+                className="flex py-1 mb-3 cursor-pointer"
+                onClick={() => handleNavigate("/retail")}
+              >
                 <IconSvg icon="store" />
                 <p className="font-medium ml-3">Find a Store</p>
               </div>
-              <div className="flex py-1">
+              <div className="flex py-1 cursor-pointer">
                 <IconSvg icon="help" />
                 <p className="font-medium ml-3">Help</p>
               </div>

@@ -50,7 +50,7 @@ const RetailPage: NextPage<RetailPageProps> = ({ retailList, navigationList }) =
           <>
             <RetailSearch />
             <Tabs>
-              <TabList className="px-6">
+              <TabList className="px-8">
                 <Tab>Map</Tab>
                 <Tab>List</Tab>
               </TabList>

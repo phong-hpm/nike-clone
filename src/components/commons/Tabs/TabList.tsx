@@ -24,8 +24,8 @@ export const TabList: FC<TabListProps> = ({
   }, [childrenProp]);
 
   return (
-    <div {...props} className={cls("flex", className)}>
-      {children}
+    <div {...props} className={cls("overflow-x-hidden", className)}>
+      <div className="flex mr-[-8px] ml-[-8px]">{children}</div>
     </div>
   );
 };

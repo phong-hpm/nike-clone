@@ -1,8 +1,9 @@
-import React, { FC, ReactNode, useEffect, useRef, useState } from "react";
+import React, { FC, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 // components
 import { FIXED_CONTAINER_ID } from "../AutoFixed";
+import { ModalHeader, ModalHeaderProps } from "./ModalHeader";
 
 enum ANIMATION_STEPS {
   WAITING = "WAITING",
@@ -32,7 +33,7 @@ export const Modal: FC<ModalProps> = ({
   duration = 300,
   animation = "fade",
   position = "center",
-  children,
+  children: childrenProp,
   onHide,
   afterHide,
 }) => {
@@ -41,18 +42,27 @@ export const Modal: FC<ModalProps> = ({
   const [isShow, setShow] = useState(false);
   const [animationStep, setAnimationStep] = useState<ANIMATION_STEPS>(ANIMATION_STEPS.WAITING);
 
+  const children = useMemo(() => {
+    return React.Children.map(childrenProp, (child) => {
+      if (React.isValidElement(child) && child.type === ModalHeader) {
+        // pass [onHide] prop for [ModalHeader]
+        return React.cloneElement(child, { onHide } as ModalHeaderProps);
+      }
+      return child;
+    });
+  }, [onHide, childrenProp]);
+
   // handle removing body's scrollbar when modal is openning
   useEffect(() => {
-    const srollBarWidth = window.innerWidth - document.body.offsetWidth;
-    document.body.style.overflowY = isShow ? "hidden" : "auto";
-    // [overflowY = 'hidden'] will remove [scrollbar], then body clientWidth will be increated
-    // we will add padding-right which will replace for the space of [scrollbar]
-    document.body.style.paddingRight = isShow ? `${srollBarWidth}px` : "0px";
-
     // update fixed-container's padding-right when body [overflowY = 'hidden']
     const fixedContainerEl = document.getElementById(FIXED_CONTAINER_ID);
     if (fixedContainerEl) {
-      fixedContainerEl.style.paddingRight = isShow ? `${srollBarWidth}px` : "0";
+      const srollBarWidth = window.innerWidth - document.body.offsetWidth;
+      // [overflowY = 'hidden'] will remove [scrollbar], then body clientWidth will be increated
+      // we will add padding-right which will replace for the space of [scrollbar]
+      document.body.style.paddingRight = isShow ? `${srollBarWidth}px` : "0px";
+      fixedContainerEl.style.paddingRight = isShow ? `${srollBarWidth}px` : "0px";
+      document.body.style.overflowY = isShow ? "hidden" : "auto";
     }
 
     if (!containerRef.current) return;
@@ -81,6 +91,7 @@ export const Modal: FC<ModalProps> = ({
   const animationClasses =
     animation === "fade"
       ? [
+          "opacity-0",
           animationStep === ANIMATION_STEPS.RUNNING_IN && "fade-in",
           animationStep === ANIMATION_STEPS.RUNNING_OUT && "fade-out",
         ]

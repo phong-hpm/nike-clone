@@ -45,7 +45,7 @@ const ProductDetail = () => {
         <ProductDescription onClickViewDetail={() => setShowModal(true)} />
 
         <Modal isShow={isShowModal} animation="slide-up" onHide={() => setShowModal(false)}>
-          <ModalHeader onHide={() => setShowModal(false)}>
+          <ModalHeader>
             <div className="flex items-center">
               <img className="w-16" src={selectedProduct.firstImageUrl} alt="" />
 

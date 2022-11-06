@@ -41,7 +41,7 @@ const RetailSearch = () => {
     <div className="mb-4 px-8 pt-8">
       <h1 className="mb-9 text-[28px] font-medium lg:text-center">Find a Nike Store</h1>
 
-      <div className="relative">
+      <div className="relative z-10">
         <Input
           endAdornment={
             <div
@@ -64,12 +64,12 @@ const RetailSearch = () => {
 
         <div
           className={cls(
-            "absolute z-10 top-[calc(100%+5px)] left-0 w-full",
+            "absolute z-20 top-[calc(100%+5px)] left-0 w-full",
             "bg-white shadow-2xl rounded overflow-hidden",
             (!focusing || !placeList.length) && "invisible"
           )}
         >
-          <div className={cls("max-h-48 p-3 overflow-auto custom-scroll-bar")}>
+          <div className={cls("max-h-[50vh] p-3 overflow-auto custom-scroll-bar")}>
             {placeList.map((place) => (
               <div
                 key={place.place_id}

@@ -95,8 +95,8 @@ const ProductImageNode = () => {
         );
       })}
 
-      <Modal isFull isShow={isShowModal}>
-        <ModalHeader onHide={() => setShowModal(false)} />
+      <Modal isFull isShow={isShowModal} onHide={() => setShowModal(false)}>
+        <ModalHeader />
 
         <ModalBody className="!p-0">
           {bannerNodeList.map((node) => {
