@@ -1,22 +1,38 @@
-import { createContext, Dispatch, FC, ReactNode, SetStateAction, useMemo, useState } from "react";
+import { createContext, FC, ReactNode, useCallback, useMemo, useState } from "react";
 
 export type TabsContextType = {
   selected: number;
-  setSelected: Dispatch<SetStateAction<number>>;
+  handleChange: (index: number) => void;
 };
 export const TabsContext = createContext<TabsContextType>({
   selected: 0,
-  setSelected: () => {},
+  handleChange: () => {},
 });
 
 export interface TabsProviderProps {
+  selected?: number;
+  onChangeTab?: (index: number) => void;
   children: ReactNode;
 }
 
-const TabsProvider: FC<TabsProviderProps> = ({ children }) => {
+const TabsProvider: FC<TabsProviderProps> = ({ children, selected: selectedProp, onChangeTab }) => {
   const [selected, setSelected] = useState(0);
 
-  const values = useMemo(() => ({ selected, setSelected }), [selected, setSelected]);
+  const handleChange = useCallback(
+    (index: number) => {
+      setSelected(index);
+      onChangeTab?.(index);
+    },
+    [onChangeTab]
+  );
+
+  const values = useMemo(
+    () => ({
+      selected: selectedProp || selectedProp === 0 ? selectedProp : selected,
+      handleChange,
+    }),
+    [selected, selectedProp, handleChange]
+  );
 
   return <TabsContext.Provider value={values}>{children}</TabsContext.Provider>;
 };

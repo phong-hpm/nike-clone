@@ -41,7 +41,7 @@ const RetailSearch = () => {
     <div className="mb-4 px-8 pt-8">
       <h1 className="mb-9 text-[28px] font-medium lg:text-center">Find a Nike Store</h1>
 
-      <div className="relative z-10">
+      <div className="relative">
         <Input
           endAdornment={
             <div
@@ -64,7 +64,7 @@ const RetailSearch = () => {
 
         <div
           className={cls(
-            "absolute z-20 top-[calc(100%+5px)] left-0 w-full",
+            "absolute z-30 top-[calc(100%+5px)] left-0 w-full",
             "bg-white shadow-2xl rounded overflow-hidden",
             (!focusing || !placeList.length) && "invisible"
           )}

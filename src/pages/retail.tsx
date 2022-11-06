@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 
 // components
@@ -25,6 +26,8 @@ export interface RetailPageProps {
 const RetailPage: NextPage<RetailPageProps> = ({ retailList, navigationList }) => {
   const isScreenLG = useMediaScreen("lg");
 
+  const [selectedTab, setSelectedTab] = useState(0);
+
   if (!retailList?.length) return <SomethingWentWrong navigationList={navigationList} />;
 
   // waiting for [useMediaScreen] get window's width
@@ -33,39 +36,28 @@ const RetailPage: NextPage<RetailPageProps> = ({ retailList, navigationList }) =
   return (
     <MainLayout hideBanner title="Find Your Neatest Store" navigationList={navigationList}>
       <RetailProvider retailList={retailList}>
-        {isScreenLG && (
-          <div className="flex">
-            <div className="basis-96 shrink grow-0 h-[80vh]">
-              <RetailSearch />
-              <RetailList />
-            </div>
+        <div className="flex flex-col lg:flex-row">
+          <div className="lg:h-[80vh] lg:basis-96 shrink grow-0">
+            <RetailSearch />
 
-            <div className="basis-[66%] shrink-0 grow-2 h-[80vh]">
+            {!isScreenLG && (
+              <Tabs selected={selectedTab} onChangeTab={setSelectedTab}>
+                <TabList className="px-8">
+                  <Tab>List</Tab>
+                  <Tab>Map</Tab>
+                </TabList>
+              </Tabs>
+            )}
+
+            {(isScreenLG || selectedTab === 0) && <RetailList />}
+          </div>
+
+          <div className="basis-[66%] shrink-0 grow-2">
+            <div className={cls(!isScreenLG && selectedTab !== 1 && "invisible")}>
               <RetailMap />
             </div>
           </div>
-        )}
-
-        {!isScreenLG && (
-          <>
-            <RetailSearch />
-            <Tabs>
-              <TabList className="px-8">
-                <Tab>Map</Tab>
-                <Tab>List</Tab>
-              </TabList>
-
-              <TabPanels>
-                <TabPanel className="w-full h-[80vh]">
-                  <RetailMap />
-                </TabPanel>
-                <TabPanel className="w-full h-[80vh]">
-                  <RetailList />
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </>
-        )}
+        </div>
       </RetailProvider>
     </MainLayout>
   );

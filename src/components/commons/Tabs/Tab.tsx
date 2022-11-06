@@ -8,7 +8,7 @@ export interface TabProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const Tab: FC<TabProps> = ({ index, className, ...props }) => {
-  const { selected, setSelected } = useContext(TabsContext);
+  const { selected, handleChange } = useContext(TabsContext);
 
   const isSelected = selected === index;
 
@@ -20,7 +20,7 @@ export const Tab: FC<TabProps> = ({ index, className, ...props }) => {
         isSelected && "border-b-black !text-black",
         className
       )}
-      onClick={() => setSelected(index || 0)}
+      onClick={() => handleChange(index || 0)}
     />
   );
 };

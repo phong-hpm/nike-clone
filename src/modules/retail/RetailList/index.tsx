@@ -42,7 +42,7 @@ const RetailList = () => {
   return (
     <div
       ref={setTargetElement}
-      className="custom-scroll-bar border-t border-t-neutral-200 !p-0 !m-0"
+      className="custom-scroll-bar border-t border-t-neutral-200 !p-0 !m-0 h-[80vh] lg:h-auto"
     >
       {loading && (
         <div className="flex justify-center py-10">

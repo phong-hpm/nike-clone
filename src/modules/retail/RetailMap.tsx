@@ -29,26 +29,25 @@ const RetailMap = () => {
 
   useEffect(() => {
     if (!selectedRetail) return;
-    mapRef.current?.flyTo({
-      center: [selectedRetail.longitude, selectedRetail.latitude],
-      zoom: 15,
-    });
+    const { longitude, latitude } = selectedRetail;
+    mapRef.current?.flyTo({ center: [longitude, latitude], zoom: 15 });
   }, [mapRef, selectedRetail]);
 
   // jump to the first location by default
   useEffect(() => {
     if (!displayRetails[0]) return;
-    mapRef.current?.jumpTo({ center: [displayRetails[0].longitude, displayRetails[0].latitude] });
+    const { longitude, latitude } = displayRetails[0];
+    mapRef.current?.jumpTo({ center: [longitude, latitude] });
   }, [mapRef, displayRetails]);
 
   return (
-    <div className="relative">
+    <div className="relative h-[80vh]">
       <MapGl
         ref={mapRef}
         initialViewState={MAP_GL.VIEW_STATE}
         mapboxAccessToken={MAP_GL.ACCESS_TOKEN}
         mapStyle={MAP_GL.MAP_STYLE}
-        style={{ height: "80vh" }}
+        style={{ width: "100%", height: "100%" }}
       >
         <NavigationControl position="top-right" showCompass={false} />
         <GeolocateControl position="top-right" />
