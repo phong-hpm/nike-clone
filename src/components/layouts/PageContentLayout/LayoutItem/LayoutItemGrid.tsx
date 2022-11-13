@@ -44,7 +44,7 @@ const LayoutItemGrid: FC<LayoutItemGridProps> = ({ layoutItem, className }) => {
     if (!layoutItemDetail.display?.small) return <></>;
   }
   return (
-    <div data-mode="col" className={className} style={{ ...margin }}>
+    <div data-mode="grid" id={layoutItem.detail.id} className={className} style={{ ...margin }}>
       {layoutItem?.detail?.items?.map((layoutItemId) => (
         <LayoutItem key={layoutItemId} layoutItemId={layoutItemId} />
       ))}

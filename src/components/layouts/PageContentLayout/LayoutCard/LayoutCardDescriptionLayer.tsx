@@ -1,4 +1,5 @@
 import { FC, useMemo } from "react";
+import { useRouter } from "next/router";
 
 // components
 import { Button } from "@root/components/commons";
@@ -22,6 +23,8 @@ const LayoutCardDescriptionLayer: FC<LayoutCardDescriptionLayerProps> = ({
     actionButtons,
   } = layoutCardDetail;
 
+  const router = useRouter();
+
   const textHorizontal = useMemo(() => {
     const { horizontal } = textLocation || {};
     if (horizontal === "start") return `items-start`;
@@ -32,7 +35,7 @@ const LayoutCardDescriptionLayer: FC<LayoutCardDescriptionLayerProps> = ({
   const textVertical = useMemo(() => {
     const { vertical } = textLocation || {};
 
-    if (vertical === "start") return `justify-start py-3 lg:py-6`;
+    if (vertical === "start") return `justify-start py-9`;
 
     let classes = "py-6 lg:py-12";
     if (vertical === "after") return `relative ${classes}`;
@@ -68,8 +71,8 @@ const LayoutCardDescriptionLayer: FC<LayoutCardDescriptionLayerProps> = ({
       <p
         data-font={titleProps?.fontFamily}
         className={cls(
-          "text-2xl",
-          titleProps?.fontFamily === "marketing" && "font-nike-futura font-medium uppercase",
+          "text-xl",
+          titleProps?.fontFamily === "marketing" && "font-nike-futura uppercase",
           titleProps?.fontFamily === "marketing" &&
             (titleProps?.fontSize === "small" ? "text-5xl" : "text-7xl")
         )}
@@ -106,13 +109,14 @@ const LayoutCardDescriptionLayer: FC<LayoutCardDescriptionLayerProps> = ({
             isFull={false}
             theme={colorTheme}
             variant={action.actionType === "link" ? "link" : "contain"}
+            onClick={() => action.hrefPath && router.push(action.hrefPath)}
           >
             {action.actionText}
           </Button>
         ))}
       </div>
     );
-  }, [actionButtons, colorTheme]);
+  }, [router, actionButtons, colorTheme]);
 
   if (!subTitleElement && !titleElement && !bodyElement && !actionButtonElements) return <></>;
 

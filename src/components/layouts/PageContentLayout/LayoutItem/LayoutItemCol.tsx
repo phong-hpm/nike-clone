@@ -26,25 +26,45 @@ const LayoutItemCol: FC<LayoutItemColProps> = ({ layoutItem, className }) => {
     return layoutItemDetail.span.small;
   }, [isScreenSM, isScreenMD, layoutItemDetail.span]);
 
+  // [span.large]: from 'md'
+  // [span.medium]: from 'sm' to 'md'
+  // [span.small]: to 'sm'
+  const offset = useMemo(() => {
+    if (isScreenMD) return layoutItemDetail.offset.large;
+    if (isScreenSM) return layoutItemDetail.offset.medium;
+    return layoutItemDetail.offset.small;
+  }, [isScreenSM, isScreenMD, layoutItemDetail.offset]);
+
+  const spanStyles = {
+    flexBasis: `${(currentSpan / 12) * 100}%`,
+    maxWidth: `${(currentSpan / 12) * 100}%`,
+  };
+
+  const offsetStyles = {
+    flexBasis: `${(offset / 12) * 100}%`,
+    maxWidth: `${(offset / 12) * 100}%`,
+  };
+
   const items = layoutItem.detail?.items || [];
 
   return (
-    <div
-      data-mode="col"
-      className={cls(items.length > 1 && "my-[-6px]", className)}
-      style={{
-        flexBasis: `${(currentSpan / 12) * 100}%`,
-        maxWidth: `${(currentSpan / 12) * 100}%`,
-      }}
-    >
-      {items.map((layoutItemId) => (
-        <LayoutItem
-          key={layoutItemId}
-          layoutItemId={layoutItemId}
-          className={cls(items.length > 1 && "py-1.5")}
-        />
-      ))}
-    </div>
+    <>
+      {!!offset && <div style={offsetStyles} />}
+      <div
+        data-mode="col"
+        id={layoutItemDetail.id}
+        className={cls(items.length > 1 && "my-[-6px]", className)}
+        style={spanStyles}
+      >
+        {items.map((layoutItemId) => (
+          <LayoutItem
+            key={layoutItemId}
+            layoutItemId={layoutItemId}
+            className={cls(items.length > 1 && "py-1.5")}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

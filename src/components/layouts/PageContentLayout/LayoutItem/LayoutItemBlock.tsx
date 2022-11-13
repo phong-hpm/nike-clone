@@ -10,7 +10,7 @@ export interface LayoutItemBlockProps {
 
 const LayoutItemBlock: FC<LayoutItemBlockProps> = ({ layoutItem, className }) => {
   return (
-    <div data-mode="block" className={className}>
+    <div data-mode="block" id={layoutItem.uid} className={className}>
       {layoutItem.card && <LayoutCard layoutCard={layoutItem.card} />}
     </div>
   );

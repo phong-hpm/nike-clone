@@ -7,27 +7,42 @@ import LayoutCardVideo from "./LayoutCardVideo";
 import LayoutCardFilmStrip from "./LayoutCardFilmStrip";
 import LayoutCardSNKRSDrops from "./LayoutCardSNKRSDrops";
 import LayoutCardLocalMenu from "./LayoutCardLocalMenu";
-import LayoutCardFilmDynamicCarousel from "./LayoutCardFilmDynamicCarousel";
 import LayoutCardDescriptionLayer from "./LayoutCardDescriptionLayer";
 import LayoutCardMergeMenu from "./LayoutCardMergeMenu";
 import CardDebugger from "../Debugger/CardDebugger";
+import LayoutCardTitle from "./LayoutCardTitle";
+import LayoutCardDynamicGrid from "./LayoutCardDynamicGrid";
 
 export interface LayoutCardProps {
-  layoutCard: ILayoutCard;
+  layoutCard?: ILayoutCard;
+  layoutCardDetail?: ILayoutCardDetail;
 }
 
-const LayoutCard: FC<LayoutCardProps> = ({ layoutCard }) => {
-  const layoutCardDetail = useMemo(() => layoutCard.detail, [layoutCard]);
+const LayoutCard: FC<LayoutCardProps> = ({
+  layoutCard,
+  layoutCardDetail: layoutCardDetailProp,
+}) => {
+  const layoutCardDetail = useMemo(
+    () => layoutCardDetailProp || layoutCard?.detail,
+    [layoutCard, layoutCardDetailProp]
+  );
+
+  if (!layoutCardDetail) return <></>;
 
   return (
     <>
-      <CardDebugger cardUid={layoutCard.uid} />
+      {!!layoutCard && <CardDebugger cardUid={layoutCard.uid} />}
 
       <div
         data-mode="card"
+        id={layoutCardDetail.id}
         data-container-type={layoutCardDetail.containerType}
         className="relative"
       >
+        {layoutCardDetail.containerType === "title" && (
+          <LayoutCardTitle layoutCardDetail={layoutCardDetail} />
+        )}
+
         {layoutCardDetail.containerType === "local_menu" && (
           <LayoutCardLocalMenu layoutCardDetail={layoutCardDetail} />
         )}
@@ -64,12 +79,13 @@ const LayoutCard: FC<LayoutCardProps> = ({ layoutCard }) => {
           <LayoutCardImage layoutCardDetail={layoutCardDetail} />
         )}
 
-        {layoutCardDetail.containerType === "filmstrip" && (
+        {(layoutCardDetail.containerType === "filmstrip" ||
+          layoutCardDetail.containerType === "dynamic_carousel") && (
           <LayoutCardFilmStrip layoutCardDetail={layoutCardDetail} />
         )}
 
-        {layoutCardDetail.containerType === "dynamic_carousel" && (
-          <LayoutCardFilmDynamicCarousel layoutCardDetail={layoutCardDetail} />
+        {layoutCardDetail.containerType === "dynamic_grid" && (
+          <LayoutCardDynamicGrid layoutCardDetail={layoutCardDetail} />
         )}
       </div>
     </>

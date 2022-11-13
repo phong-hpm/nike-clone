@@ -23,12 +23,14 @@ export interface ProductDetailProps {
 }
 
 const ProductDetail: NextPage<ProductDetailProps> = ({ navigationList, productDetail }) => {
+  console.log(productDetail)
   const router = useRouter();
   const { replace } = useNavigation();
 
   const selectedProduct = useMemo(
-    () => productDetail.products[router.query.id as string],
-    [productDetail.products, router.query.id]
+    () => productDetail.products['CU4495-010'],
+    // () => productDetail.products[router.query.id as string],
+    [productDetail.products]
   );
 
   const handleChangeColorId = (styleColor: string) => {

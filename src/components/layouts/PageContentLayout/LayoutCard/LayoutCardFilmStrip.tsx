@@ -2,7 +2,7 @@ import { FC } from "react";
 import { SwiperSlide } from "swiper/react";
 
 // components
-import { ButtonIcon, CustomSwiper, IconSvg } from "@root/components/commons";
+import { CustomSwiper } from "@root/components/commons";
 
 // components
 import LayoutCard from ".";
@@ -12,9 +12,11 @@ export interface LayoutCardFilmStripProps {
 }
 
 const LayoutCardFilmStrip: FC<LayoutCardFilmStripProps> = ({ layoutCardDetail }) => {
+  const { sectionHeadline, slides } = layoutCardDetail;
+
   return (
-    <CustomSwiper title={layoutCardDetail.sectionHeadline.title}>
-      {(layoutCardDetail?.slides as ILayoutCardDetail[]).map((slide) => {
+    <CustomSwiper title={sectionHeadline.title}>
+      {(slides as ILayoutCardDetail[]).map((slide) => {
         return (
           <SwiperSlide key={slide.id}>
             <LayoutCard key={slide.id} layoutCard={{ uid: slide.id, detail: slide }} />

@@ -14,7 +14,8 @@ const LayoutItemRow: FC<LayoutItemRowProps> = ({ layoutItem, className }) => {
   return (
     <div
       data-mode="row"
-      className={cls("flex flex-wrap", items.length > 1 && "mx-[-6px]", className)}
+      id={layoutItem.detail.id}
+      className={cls("w-full flex flex-wrap", items.length > 1 && "mx-[-6px]", className)}
     >
       {items.map((layoutItemId) => (
         <LayoutItem

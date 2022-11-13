@@ -40,6 +40,20 @@ const RetailMap = () => {
     mapRef.current?.jumpTo({ center: [longitude, latitude] });
   }, [mapRef, displayRetails]);
 
+  if (process.env.NODE_ENV === "development") {
+    return (
+      <div className="flex items-center justify-center h-[80vh] bg-black/[0.2]">
+        <p>Map api works on production only, please check at</p>
+        <a
+          className="ml-1 text-blue-700 underline cursor-pointer"
+          href="https://nike-clone.cf/retail"
+        >
+          Live Demo
+        </a>
+      </div>
+    );
+  }
+
   return (
     <div className="relative h-[80vh]">
       <MapGl

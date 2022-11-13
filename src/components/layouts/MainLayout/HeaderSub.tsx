@@ -32,7 +32,7 @@ const HeaderSub: FC = () => {
             <p className="link text-xs px-3">Join Us</p>
           </Link>
           <div className="bg-black w-[1px]" />
-          <Link href="/retail">
+          <Link href="/">
             <p className="link text-xs pl-3">Sign In</p>
           </Link>
         </div>

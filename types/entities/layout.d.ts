@@ -30,6 +30,7 @@ declare interface ILayoutItemDetail {
   };
   display?: { small: boolean; medium: boolean; large: boolean };
   span: { small: number; large: number; medium: number };
+  offset: { small: number; large: number; medium: number };
 }
 
 declare interface ILayoutCard {
@@ -38,8 +39,10 @@ declare interface ILayoutCard {
 }
 
 declare interface ILayoutCardDetail {
+  featuredCard: ILayoutCardDetail;
   id: string;
   containerType:
+    | "title"
     | "local_menu"
     | "merch_menu"
     | "section_headline"
@@ -51,12 +54,14 @@ declare interface ILayoutCardDetail {
     | "page"
     | "filmstrip"
     | "dynamic_carousel"
+    | "dynamic_grid"
     | "product_recommender_taxonomy";
   destinationType: "gridwall" | "page" | "url";
   colorTheme: "dark" | "light";
   // media
   landscapeURL: string;
   portraitURL: string;
+  hrefPath: string;
   preferredOrientation: {
     small: "squarish" | "landscape" | "portrait";
     large: "squarish" | "landscape" | "portrait";
@@ -68,8 +73,12 @@ declare interface ILayoutCardDetail {
   imageHeight: "maintain" | "medium";
   loop: boolean;
   autoPlay: boolean;
+  bottomMargin: "xl" | "md" | "sm";
   // text
   title: string;
+  glyph: string;
+  glyphSize: "extra_large" | "large" | "medium";
+  subTitle: string;
   titleProps: {
     text: string;
     textColor?: string;
@@ -97,6 +106,7 @@ declare interface ILayoutCardDetail {
     actionText: string;
     buttonStyle: "solid_dark" | "solid_light";
     actionType: "button" | "stacked_cta" | "link";
+    hrefPath?: string;
   }[];
   // slide
   slides: ILayoutCardDetailSlide[] | ILayoutCardDetail[];
@@ -105,6 +115,7 @@ declare interface ILayoutCardDetail {
   items: {
     id: string;
     label: string;
+    hrefPath?: string;
     links: {
       id: string;
       label: string;

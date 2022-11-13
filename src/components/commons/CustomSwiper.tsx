@@ -31,26 +31,28 @@ export const CustomSwiper: FC<CustomSwiperProps> = ({ title, className, children
 
   return (
     <>
-      <div className="flex mb-3 items-center justify-between min-h-12">
-        <h3 className="text-2xl font-medium">{title}</h3>
+      {title && (
+        <div className="flex mb-3 items-center justify-between min-h-12">
+          <h3 className="text-2xl font-medium">{title}</h3>
 
-        {hasNavigation && (
-          <div className="shrink-0 basis-32 flex justify-end">
-            <ButtonIcon
-              id={`swiper-prev-${getId()}`}
-              className="bg-neutral-200 disabled:opacity-25 p-3"
-            >
-              <IconSvg icon="arrow" className="arrow-left" />
-            </ButtonIcon>
-            <ButtonIcon
-              id={`swiper-next-${getId()}`}
-              className="bg-neutral-200 disabled:opacity-25 p-3 ml-3"
-            >
-              <IconSvg icon="arrow" className="arrow-right" />
-            </ButtonIcon>
-          </div>
-        )}
-      </div>
+          {hasNavigation && (
+            <div className="shrink-0 basis-32 flex justify-end">
+              <ButtonIcon
+                id={`swiper-prev-${getId()}`}
+                className="bg-neutral-200 disabled:opacity-25 p-3"
+              >
+                <IconSvg icon="arrow" className="arrow-left" />
+              </ButtonIcon>
+              <ButtonIcon
+                id={`swiper-next-${getId()}`}
+                className="bg-neutral-200 disabled:opacity-25 p-3 ml-3"
+              >
+                <IconSvg icon="arrow" className="arrow-right" />
+              </ButtonIcon>
+            </div>
+          )}
+        </div>
+      )}
 
       <Swiper
         modules={[Navigation]}

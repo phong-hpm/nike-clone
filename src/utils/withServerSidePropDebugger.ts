@@ -48,22 +48,25 @@ export const withServerSidePropDebugger = (callback: GetServerSideProps) => {
 
     const values = await callback(context);
     const props = (values as { props: any }).props;
-    const valSizeList = Object.entries(props).map(([key, val]) => ({
-      key,
-      size: getStringSize(val),
-    }));
-    const time = Math.ceil(Date.now() - startTime);
 
-    console.log(`${context.resolvedUrl}: loaded`);
-    console.group();
-    console.log(`• ${highLight("time")}:`, highLight(time, "time"));
-    console.log(`• ${highLight("props")}:`, highLight(getStringSize(props), "size"));
-    console.group();
-    valSizeList.forEach(({ key, size }) =>
-      console.log(`•  ${highLight(key)}:`, highLight(size, "size"))
-    );
-    console.groupEnd();
-    console.groupEnd();
+    if (props) {
+      const valSizeList = Object.entries(props || {}).map(([key, val]) => ({
+        key,
+        size: getStringSize(val),
+      }));
+      const time = Math.ceil(Date.now() - startTime);
+
+      console.log(`${context.resolvedUrl}: loaded`);
+      console.group();
+      console.log(`• ${highLight("time")}:`, highLight(time, "time"));
+      console.log(`• ${highLight("props")}:`, highLight(getStringSize(props), "size"));
+      console.group();
+      valSizeList.forEach(({ key, size }) =>
+        console.log(`•  ${highLight(key)}:`, highLight(size, "size"))
+      );
+      console.groupEnd();
+      console.groupEnd();
+    }
 
     return values;
   };
