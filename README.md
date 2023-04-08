@@ -1,6 +1,6 @@
 ### Project is in development
 
-[Live demo](https://nike-clone.cf/)
+[Live demo](https://clone-nike-ecommerce.vercel.app/)
 
 - Click `README` button to check the project's document
 
